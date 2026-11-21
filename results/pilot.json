@@ -537,6 +537,240 @@
         "target_assoc_error": 0.13213071176188995
       },
       "seconds": 302.62920808792114
+    },
+    "dp_b1024_e100": {
+      "utility": {
+        "roc_auc": 0.4031610016406563,
+        "pr_auc": 0.11549612638407694,
+        "accuracy": 0.8585631213655974,
+        "fairness": {
+          "gender": {
+            "per_group": {
+              "M": {
+                "n": 5886,
+                "auc": 0.4140376433456488,
+                "pos_rate": 0.0,
+                "tpr": 0.0,
+                "fpr": 0.0
+              },
+              "F": {
+                "n": 4776,
+                "auc": 0.38675590088631895,
+                "pos_rate": 0.0,
+                "tpr": 0.0,
+                "fpr": 0.0
+              }
+            },
+            "auc_gap": 0.02728174245932985,
+            "dp_diff": 0.0,
+            "eo_diff": 0.0
+          },
+          "insurance": {
+            "per_group": {
+              "Medicare": {
+                "n": 5757,
+                "auc": 0.4457801758294645,
+                "pos_rate": 0.0,
+                "tpr": 0.0,
+                "fpr": 0.0
+              },
+              "Private": {
+                "n": 2724,
+                "auc": 0.40911325694754297,
+                "pos_rate": 0.0,
+                "tpr": 0.0,
+                "fpr": 0.0
+              },
+              "Medicaid": {
+                "n": 1752,
+                "auc": 0.46538043683040475,
+                "pos_rate": 0.0,
+                "tpr": 0.0,
+                "fpr": 0.0
+              },
+              "Other": {
+                "n": 282,
+                "auc": 0.45683352080989875,
+                "pos_rate": 0.0,
+                "tpr": 0.0,
+                "fpr": 0.0
+              }
+            },
+            "auc_gap": 0.056267179882861784,
+            "dp_diff": 0.0,
+            "eo_diff": 0.0
+          }
+        }
+      },
+      "fidelity": {
+        "detection_auc": 1.0,
+        "detection_auc_rounded": 1.0,
+        "precision": 0.0006,
+        "recall": 0.9998,
+        "marginal_w1": 8.695688442315147,
+        "marginal_tvd": 0.17479670912226142,
+        "corr_error": 0.08558387384671964,
+        "target_assoc_error": 0.06942489050244072
+      },
+      "seconds": 391.7969617843628,
+      "epsilon": 9.998397372622652,
+      "steps": 2930
+    },
+    "dp_b4096_e100": {
+      "utility": {
+        "roc_auc": 0.4734812121384225,
+        "pr_auc": 0.1298576209709475,
+        "accuracy": 0.8585631213655974,
+        "fairness": {
+          "gender": {
+            "per_group": {
+              "M": {
+                "n": 5886,
+                "auc": 0.4870607117893414,
+                "pos_rate": 0.0,
+                "tpr": 0.0,
+                "fpr": 0.0
+              },
+              "F": {
+                "n": 4776,
+                "auc": 0.46018558699098056,
+                "pos_rate": 0.0,
+                "tpr": 0.0,
+                "fpr": 0.0
+              }
+            },
+            "auc_gap": 0.02687512479836085,
+            "dp_diff": 0.0,
+            "eo_diff": 0.0
+          },
+          "insurance": {
+            "per_group": {
+              "Medicare": {
+                "n": 5757,
+                "auc": 0.45945819797617715,
+                "pos_rate": 0.0,
+                "tpr": 0.0,
+                "fpr": 0.0
+              },
+              "Private": {
+                "n": 2724,
+                "auc": 0.40094037025500284,
+                "pos_rate": 0.0,
+                "tpr": 0.0,
+                "fpr": 0.0
+              },
+              "Medicaid": {
+                "n": 1752,
+                "auc": 0.47601703111066457,
+                "pos_rate": 0.0,
+                "tpr": 0.0,
+                "fpr": 0.0
+              },
+              "Other": {
+                "n": 282,
+                "auc": 0.4291338582677165,
+                "pos_rate": 0.0,
+                "tpr": 0.0,
+                "fpr": 0.0
+              }
+            },
+            "auc_gap": 0.07507666085566173,
+            "dp_diff": 0.0,
+            "eo_diff": 0.0
+          }
+        }
+      },
+      "fidelity": {
+        "detection_auc": 1.0,
+        "detection_auc_rounded": 1.0,
+        "precision": 0.0004,
+        "recall": 1.0,
+        "marginal_w1": 9.202197543775878,
+        "marginal_tvd": 0.2444671606941,
+        "corr_error": 0.16275811320226363,
+        "target_assoc_error": 0.05699692823239745
+      },
+      "seconds": 373.8172538280487,
+      "epsilon": 9.997027549009003,
+      "steps": 733
+    },
+    "dp_b2048_e200": {
+      "utility": {
+        "roc_auc": 0.48752715833810956,
+        "pr_auc": 0.14303292395347472,
+        "accuracy": 0.8585631213655974,
+        "fairness": {
+          "gender": {
+            "per_group": {
+              "M": {
+                "n": 5886,
+                "auc": 0.48163746399838664,
+                "pos_rate": 0.0,
+                "tpr": 0.0,
+                "fpr": 0.0
+              },
+              "F": {
+                "n": 4776,
+                "auc": 0.4966766526388642,
+                "pos_rate": 0.0,
+                "tpr": 0.0,
+                "fpr": 0.0
+              }
+            },
+            "auc_gap": 0.015039188640477541,
+            "dp_diff": 0.0,
+            "eo_diff": 0.0
+          },
+          "insurance": {
+            "per_group": {
+              "Medicare": {
+                "n": 5757,
+                "auc": 0.49610005435030646,
+                "pos_rate": 0.0,
+                "tpr": 0.0,
+                "fpr": 0.0
+              },
+              "Private": {
+                "n": 2724,
+                "auc": 0.4621183165941254,
+                "pos_rate": 0.0,
+                "tpr": 0.0,
+                "fpr": 0.0
+              },
+              "Medicaid": {
+                "n": 1752,
+                "auc": 0.4807081224330876,
+                "pos_rate": 0.0,
+                "tpr": 0.0,
+                "fpr": 0.0
+              },
+              "Other": {
+                "n": 282,
+                "auc": 0.5209505061867266,
+                "pos_rate": 0.0,
+                "tpr": 0.0,
+                "fpr": 0.0
+              }
+            },
+            "auc_gap": 0.05883218959260117,
+            "dp_diff": 0.0,
+            "eo_diff": 0.0
+          }
+        }
+      },
+      "fidelity": {
+        "detection_auc": 1.0,
+        "detection_auc_rounded": 1.0,
+        "precision": 0.0008,
+        "recall": 0.9998,
+        "marginal_w1": 8.866214158552243,
+        "marginal_tvd": 0.18276024417499567,
+        "corr_error": 0.10739676270573202,
+        "target_assoc_error": 0.052738385605671144
+      },
+      "seconds": 731.0085792541504,
+      "epsilon": 9.998072659809486,
+      "steps": 2930
     }
   }
 }

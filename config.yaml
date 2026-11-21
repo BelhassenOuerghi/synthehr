@@ -57,8 +57,8 @@ tabddpm:
   steps: 20000            # non-private; pilot: best mean rank on both tasks
   lr: 1.0e-3
   dp_lr: 2.0e-3
-  dp_expected_batch: 1024
-  dp_epochs: 100
+  dp_expected_batch: 2048 # pilot: best mean rank on both tasks
+  dp_epochs: 200
   noise_multiplicity: 4
   dp_chunk: 512           # rows per per-example-gradient chunk (memory only)
   capacity:               # the ordering (non-commutativity) arm

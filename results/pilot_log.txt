@@ -7,3 +7,7 @@ los dp_b2048_e200: r2=0.026 det=0.999 prec=0.001 rec=0.990 (817s)
 readmission np_5k: roc_auc=0.693 det=0.997 prec=0.018 rec=0.921 (129s)
 readmission np_10k: roc_auc=0.725 det=0.983 prec=0.100 rec=0.899 (178s)
 readmission np_20k: roc_auc=0.733 det=0.958 prec=0.137 rec=0.900 (303s)
+readmission dp_b1024_e100: roc_auc=0.403 det=1.000 prec=0.001 rec=1.000 (392s)
+readmission dp_b4096_e100: roc_auc=0.473 det=1.000 prec=0.000 rec=1.000 (374s)
+readmission dp_b2048_e200: roc_auc=0.488 det=1.000 prec=0.001 rec=1.000 (731s)
+pilot complete
