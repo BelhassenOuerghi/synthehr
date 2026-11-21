@@ -1,0 +1,3 @@
+los np_5k: r2=0.119 det=0.713 prec=0.816 rec=0.877 (80s)
+los np_10k: r2=0.123 det=0.675 prec=0.845 rec=0.876 (101s)
+los np_20k: r2=0.131 det=0.632 prec=0.861 rec=0.880 (553s)
