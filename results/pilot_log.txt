@@ -1,3 +1,8 @@
 los np_5k: r2=0.119 det=0.713 prec=0.816 rec=0.877 (80s)
 los np_10k: r2=0.123 det=0.675 prec=0.845 rec=0.876 (101s)
 los np_20k: r2=0.131 det=0.632 prec=0.861 rec=0.880 (553s)
+los dp_b1024_e100: r2=-3.877 det=1.000 prec=0.000 rec=0.987 (393s)
+los dp_b4096_e100: r2=-0.816 det=1.000 prec=0.000 rec=0.993 (448s)
+los dp_b2048_e200: r2=0.026 det=0.999 prec=0.001 rec=0.990 (817s)
+readmission np_5k: roc_auc=0.693 det=0.997 prec=0.018 rec=0.921 (129s)
+readmission np_10k: roc_auc=0.725 det=0.983 prec=0.100 rec=0.899 (178s)

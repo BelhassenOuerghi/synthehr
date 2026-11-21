@@ -36,6 +36,25 @@ def _cost(task, arm):
     return base * COST["TRTR" if arm == "TRTR" else "pooled"]
 
 
+# Queue order. Within each pool the primary pre-registered arms run first, so
+# that if compute runs short the secondary arms (split-budget runs, the
+# capacity grid) are the ones still queued, never the headline comparisons.
+TIER = {"ddpm": 0, "dpddpm": 0, "dpddpm_patient": 0, "dpctgan": 0,
+        "ctgan": 0, "TRTR": 0}
+
+
+def _tier(arm):
+    if arm in TIER:
+        return TIER[arm]
+    if "_r" in arm:
+        return 1                      # replicates: the noise floor
+    if "_s" in arm[-3:] or "split" in arm:
+        return 2
+    if arm.endswith(("_S", "_L")):
+        return 3
+    return 1
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--seeds", type=int, nargs="*")
@@ -52,7 +71,7 @@ def main():
 
     todo = [(t, s, arm) for s in seeds for t in a.tasks for arm in a.arms
             if not os.path.exists(J.result_path(t, s, arm))]
-    todo.sort(key=lambda x: (-_cost(x[0], x[2]), x[1]))
+    todo.sort(key=lambda x: (_tier(x[2]), -_cost(x[0], x[2]), x[1]))
     running, failed = {}, set()
     print(f"{len(todo)} jobs to run", flush=True)
     t0 = time.time()

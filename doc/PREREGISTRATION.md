@@ -125,7 +125,22 @@ and releases as many rows as the real training set.
 ## Hyperparameters
 
 Fixed by the pilot and frozen in [`config.yaml`](../config.yaml) before the main
-run. See [the pilot section of the paper](research-paper.md#pilot) for the
+run.
+
+**Selection rule (recorded 22 November 2026, after the length-of-stay pilot and
+before any readmission DP setting had finished).** Within each grid (non-private
+training length; DP batch and epochs), the setting with the best mean rank of
+validation utility across the two tasks is chosen, with ties broken by
+length-of-stay R². No setting outside the grid is added after seeing results.
+
+**What the pilot had already shown at that point** (length of stay, validation):
+non-private TabDDPM improves with training length (R² 0.119, 0.123, 0.131 at 5k,
+10k, 20k steps; ceiling 0.178); DP-TabDDPM at ε = 10 collapses at batch 1,024
+(R² −3.88), improves at batch 4,096 (−0.82) and at batch 2,048 with 200 epochs
+(+0.03), and every DP setting has detection AUC ≈ 1.0. A diagnostic run of the same
+private trainer ([`src/diagnose_dp.py`](../src/diagnose_dp.py)) showed that with
+clipping but no noise it reaches R² 0.109, so the collapse is caused by the noise,
+not by the trainer or the clipping. See [the pilot section of the paper](research-paper.md#pilot) for the
 table. Choosing DP hyperparameters on private data is itself a small leak that
 ε does not cover (Papernot & Steinke, 2022). It is disclosed here rather than
 hidden.
