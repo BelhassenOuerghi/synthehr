@@ -33,6 +33,7 @@ KEY = {"los": "r2", "readmission": "roc_auc"}
 TITLE = {"los": "Length of stay (R²)", "readmission": "30-day readmission "
          "(ROC-AUC)"}
 INK, MUTED, GRID = "#1f2328", "#6e7781", "#d0d7de"
+FLOOR = {"los": -1.0}          # R² axis floor; values below are marked
 C = {"real": "#24292f", "ctgan": "#0969da", "ddpm": "#1a7f37",
      "dpctgan": "#cf222e", "dpddpm": "#8250df"}
 
@@ -72,8 +73,19 @@ def fig_ladder(agg):
                 continue
             xs.append(i); ys.append(c["mean"]); es.append(c["half"])
             cs.append(col); ls.append(lab)
-            ax.scatter([i] * len(c["values"]), c["values"], s=12,
-                       color=col, alpha=0.35, zorder=2, linewidths=0)
+            v = np.asarray(c["values"])
+            floor = FLOOR.get(task)
+            shown = v if floor is None else v[v >= floor]
+            ax.scatter([i] * len(shown), shown, s=14, color=col, alpha=0.5,
+                       zorder=2, linewidths=0)
+            if floor is not None and (v < floor).any():
+                # never hide a seed: values below the axis floor are drawn
+                # as a marker on the floor with a count
+                k = int((v < floor).sum())
+                ax.scatter([i], [floor + 0.03], marker="v", s=40, color=col,
+                           zorder=5)
+                ax.text(i + 0.12, floor + 0.03, f"{k} below {floor:g}",
+                        fontsize=7.5, color=MUTED, va="center")
         ax.errorbar(xs, ys, yerr=es, fmt="none", ecolor=INK, capsize=4,
                     lw=1.2, zorder=3)
         ax.scatter(xs, ys, s=46, c=cs, zorder=4, edgecolors="white",
@@ -81,8 +93,7 @@ def fig_ladder(agg):
         ax.set_xticks(xs); ax.set_xticklabels(ls, fontsize=8.5, color=INK)
         ax.set_title(TITLE[task], fontsize=11, color=INK, loc="left")
         if task == "los":
-            lo = min(ys) - max(es) - 0.05
-            ax.set_ylim(max(lo, -1.0), None)
+            ax.set_ylim(FLOOR["los"], None)
             ax.axhline(0, color=MUTED, lw=0.8, ls="--")
         else:
             ax.axhline(0.5, color=MUTED, lw=0.8, ls="--")

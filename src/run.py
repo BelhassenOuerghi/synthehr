@@ -63,14 +63,21 @@ def main():
     ap.add_argument("--cpu", type=int, default=4)
     ap.add_argument("--threads", type=int, default=3)
     ap.add_argument("--mps", type=int, default=2)
+    ap.add_argument("--skip", nargs="*", default=[],
+                    help="task:seed:arm jobs already running elsewhere")
+    ap.add_argument("--occupy", nargs="*", type=int, default=[],
+                    help="PIDs of such jobs; each holds a CPU slot until it "
+                         "exits")
     a = ap.parse_args()
+    skip = {tuple(x.split(":")) for x in a.skip}
     cfg = settings.load()
     seeds = a.seeds or cfg["seeds"]
     logdir = os.path.join(cfg["synthetic_root"], "logs")
     os.makedirs(logdir, exist_ok=True)
 
     todo = [(t, s, arm) for s in seeds for t in a.tasks for arm in a.arms
-            if not os.path.exists(J.result_path(t, s, arm))]
+            if not os.path.exists(J.result_path(t, s, arm))
+            and (t, str(s), arm) not in skip]
     todo.sort(key=lambda x: (_tier(x[2]), -_cost(x[0], x[2]), x[1]))
     running, failed = {}, set()
     print(f"{len(todo)} jobs to run", flush=True)
@@ -95,7 +102,15 @@ def main():
                 print(f"[{(time.time()-t0)/60:6.1f} min] {status}: "
                       f"{job}  ({len(todo)} queued, {len(running)} running)",
                       flush=True)
-        busy = {"cpu": sum(p == "cpu" for _, p, _ in running.values()),
+        def alive(pid):
+            try:
+                os.kill(pid, 0)
+                return True
+            except OSError:
+                return False
+
+        busy = {"cpu": sum(p == "cpu" for _, p, _ in running.values())
+                + sum(alive(pid) for pid in a.occupy),
                 "mps": sum(p == "mps" for _, p, _ in running.values())}
         caps = {"cpu": a.cpu, "mps": a.mps}
         for job in list(todo):
