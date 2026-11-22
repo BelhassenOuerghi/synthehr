@@ -114,7 +114,7 @@ def fig_realism(agg):
     cols = [C["real"], C["ctgan"], C["ddpm"], C["dpctgan"], C["dpddpm"]]
     metrics = [("detection_auc", "Detection AUC (↓, 0.5 = indistinguishable)"),
                ("precision", "Precision (↑, plausibility)"),
-               ("recall", "Recall (↑, coverage)")]
+               ("coverage", "Coverage (↑, diversity; Naeem et al.)")]
     fig, axes = plt.subplots(2, 3, figsize=(12, 6.2))
     for r, task in enumerate(("readmission", "los")):
         T = agg["tasks"].get(task)

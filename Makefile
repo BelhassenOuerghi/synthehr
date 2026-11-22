@@ -18,6 +18,9 @@ run:                ## every arm, every seed; resumable
 run-seed:           ## one seed end to end, e.g. make run-seed SEED=42
 	cd src && $(PY) -u run.py --seeds $(SEED)
 
+coverage:           ## density and coverage (added post hoc) -> results/coverage.json
+	cd src && $(PY) coverage.py
+
 aggregate:          ## CIs and the pre-registered tests -> results/
 	cd src && $(PY) aggregate.py
 

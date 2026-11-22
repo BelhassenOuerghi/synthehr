@@ -110,6 +110,30 @@ def precision_recall(real_train, real, syn, discrete, k=5, n=5000, seed=0):
     return {"precision": manifold_hits(Xr, Xs), "recall": manifold_hits(Xs, Xr)}
 
 
+def density_coverage(real_train, real, syn, discrete, k=5, n=5000, seed=0):
+    """Density and coverage (Naeem et al., 2020). Unlike precision and
+    recall, both use balls around REAL points only, so an over-dispersed
+    synthetic cloud cannot inflate them: coverage is the share of real points
+    whose k-NN ball holds at least one synthetic point; density counts how
+    many real balls each synthetic point falls in, divided by k (about 1 for
+    a perfect generator)."""
+    rng = np.random.default_rng(seed)
+    n = min(n, len(real), len(syn))
+    r = real.iloc[rng.choice(len(real), n, replace=False)]
+    s = syn.iloc[rng.choice(len(syn), n, replace=False)][real.columns]
+    _, Xr, Xs = _encode(real_train, r, s, discrete)
+    radius = NearestNeighbors(n_neighbors=k + 1).fit(Xr).kneighbors(
+        Xr)[0][:, k]
+    inside_count = np.zeros(len(Xs))
+    covered = np.zeros(len(Xr), dtype=bool)
+    for i in range(0, len(Xs), 1000):
+        hit = pairwise_distances(Xs[i:i + 1000], Xr) <= radius[None, :]
+        inside_count[i:i + 1000] = hit.sum(axis=1)
+        covered |= hit.any(axis=0)
+    return {"density": float(inside_count.sum() / (k * len(Xs))),
+            "coverage": float(covered.mean())}
+
+
 def marginals(real_train, real, syn, discrete):
     w1, tvd = [], []
     for c in real.columns:

@@ -181,6 +181,8 @@ def main():
     data = load()
     cfg = settings.load()
     seeds = cfg["seeds"]
+    cov_p = os.path.join(RES, "coverage.json")
+    cov = json.load(open(cov_p)) if os.path.exists(cov_p) else {}
     agg = {"seeds": seeds, "tasks": {}, "primary": [], "secondary": []}
     prim = []
     for task in sorted(data):
@@ -194,6 +196,10 @@ def main():
             for k in FID:
                 A["fidelity"][k] = ci(series(data, task, arm,
                                              ("fidelity", k), seeds))
+            # density and coverage: added post hoc (see src/coverage.py)
+            for k in ("density", "coverage"):
+                A["fidelity"][k] = ci([cov.get(f"{task}/{s}/{arm}", {}).get(k)
+                                       for s in seeds])
             for grp, k in MIA:
                 A["mia"][k] = ci(series(data, task, arm, (grp, k), seeds))
             for k in ("epsilon", "epsilon_add_remove"):
@@ -331,8 +337,9 @@ def table(a):
         u = UNIT[task]
         L += [f"## {task}: utility, realism and privacy", "",
               f"| Arm | {u} | detection AUC ↓ | precision ↑ | recall ↑ | "
-              "target-assoc. err ↓ | DCR attack | TPR@1%FPR | ε | ε_ar |",
-              "|---|---|---|---|---|---|---|---|---|---|"]
+              "coverage ↑ | target-assoc. err ↓ | DCR attack | TPR@1%FPR "
+              "| ε | ε_ar |",
+              "|---|---|---|---|---|---|---|---|---|---|---|"]
         for arm in ORDER:
             A = T["arms"].get(arm)
             if not A:
@@ -342,6 +349,7 @@ def table(a):
                   f"| {f(A['fidelity']['detection_auc'])} "
                   f"| {f(A['fidelity']['precision'])} "
                   f"| {f(A['fidelity']['recall'])} "
+                  f"| {f(A['fidelity'].get('coverage'))} "
                   f"| {f(A['fidelity']['target_assoc_error'])} "
                   f"| {f(A['mia']['attack_auc_dcr'])} "
                   f"| {f(A['mia']['tpr@fpr=0.01'])} "
