@@ -106,7 +106,8 @@ DP-SGD (Abadi et al., 2016) with four deliberate choices.
   the same accountant, so "ε = 10" means the same noise level on every rung and the
   generators are compared at an identical privacy cost. Against add/remove adjacency,
   the adjacency for which the accountant is exact under Poisson sampling, the same
-  runs satisfy a much smaller ε (about 3.5 to 4.4 here), which is also reported.
+  runs satisfy a much smaller ε (4.38 for a DP-TabDDPM run; 3.57 for a DP-CTGAN run,
+  under its fixed-batch approximation), which is also reported.
 
 **Patient-level privacy.** With `unit = "patient"`, a patient's stays are sampled
 together and their gradients summed before clipping, so the guarantee covers a
@@ -125,8 +126,8 @@ fitted on the same rows. Because all K runs touch the same data, their Rényi cu
 add; no parallel-composition discount is claimed (`src/budget.py`). Two regimes:
 
 * **full budget:** each run at ε = 10 on its own, so the pool spends the composed
-  budget. Rényi composition is sub-linear: four runs compose to about ε = 23 for
-  DP-TabDDPM, not 40;
+  budget. Rényi composition is sub-linear: four runs compose to ε = 23.5 for
+  DP-TabDDPM and 22.8 for DP-CTGAN, not 40;
 * **split budget:** a fixed total of ε = 10, each run calibrated so that the four
   compose to exactly that.
 
@@ -147,7 +148,29 @@ the two families are compared like for like.
 The only hyperparameter search ran once, before the main experiment, on seed 42's
 training rows with a patient-disjoint 15% validation split; no test set was touched.
 
-<!-- PILOT TABLE -->
+| Setting | LoS R² | LoS detection | Readm. ROC-AUC | Readm. detection |
+|---|---|---|---|---|
+| real training rows (validation ceiling) | 0.178 | – | 0.772 | – |
+| TabDDPM, 5k steps | 0.119 | 0.713 | 0.693 | 0.997 |
+| TabDDPM, 10k steps | 0.123 | 0.675 | 0.725 | 0.983 |
+| **TabDDPM, 20k steps** | **0.131** | 0.632 | **0.733** | 0.958 |
+| DP-TabDDPM, batch 1,024, 100 epochs | −3.877 | 1.000 | 0.403 | 1.000 |
+| DP-TabDDPM, batch 4,096, 100 epochs | −0.816 | 1.000 | 0.473 | 1.000 |
+| **DP-TabDDPM, batch 2,048, 200 epochs** | **0.026** | 0.999 | **0.488** | 1.000 |
+
+The selection rule (best mean rank across the two tasks) was committed before the
+readmission DP settings had finished, and picked the bold rows. After the length-of-stay
+DP results, a diagnostic run of the same private trainer (`src/diagnose_dp.py`, first
+DP setting) located the collapse:
+
+| Private trainer with | LoS R² | Detection | Precision |
+|---|---|---|---|
+| no clipping, no noise | 0.065 | 0.885 | 0.439 |
+| clipping at C = 1, no noise | 0.109 | 0.714 | 0.852 |
+| clipping and noise (ε = 10) | −3.877 | 1.000 | 0.000 |
+
+The trainer and the clipping are sound; the noise is what destroys the model. (Clipping
+even helps slightly, acting as gradient normalisation.)
 
 ### 3.7 Analysis
 
@@ -170,11 +193,130 @@ effect uses the evidence repository's definition, (t₀.₉₇₅ + t₀.₈₀)
 
 ## 5. Results
 
-<!-- RESULTS -->
+All values are means with 95% t-intervals over seeds 42 to 46. The full tables are in
+[`results/results_table.md`](../results/results_table.md).
+
+### 5.1 Hypothesis verdicts
+
+<!-- PRIMARY TABLE -->
+
+**H1 (realism without privacy): supported.** Non-private TabDDPM beats CTGAN on both
+tasks: readmission ROC-AUC 0.741 ± 0.007 against 0.673 ± 0.019, length-of-stay R²
+0.135 ± 0.005 against 0.017 ± 0.032. It closes 65% and 70% of the gap between CTGAN and
+real data; the 4 × 512 variant (0.751 and 0.155) closes 74% and 82%. Realism measured
+directly agrees on length of stay (detection AUC 0.639 against 1.000; coverage 0.940
+against 0.605, real data 0.965) and partly on readmission, where the medium model is
+still easily detected (0.950) and only the large model approaches the real data
+(detection 0.767, coverage 0.896 against 0.966).
+
+**H2 (realism under privacy): not supported.** At ε = 10 the difference between the
+private generators is within noise on both tasks (readmission 0.516 against 0.492;
+length of stay −0.840 against −0.339). Both are at chance on readmission, both make
+length-of-stay predictions worse than the mean, and every private release is trivially
+detectable (detection AUC 1.000, coverage 0.000 to 0.009). The better generator does
+not survive privacy. Section 3.6's diagnostic places the cause in the noise.
+
+**H3a (pooling at full budget reduces spread): direction supported, not resolved.**
+For DP-TabDDPM on length of stay, the standard deviation falls from 0.525 (twenty single
+runs) to 0.050 (five pools of four) and the mean rises from −0.840 to −0.080, at a
+composed ε of 23.5. The Brown-Forsythe test does not resolve the reduction with five
+pools (p = 0.32). On readmission, where single runs are already at chance, pooling
+changes nothing. DP-CTGAN behaves the same way (length of stay: 1.383 to 0.247,
+p = 0.42).
+
+**H3b (pooling at split budget does not beat one run): supported, and worse.** With a
+fixed ε = 10 shared by four runs, each run is much noisier (noise multiplier 4.28
+against 2.25), and on length of stay the pool is worse than one run (−4.889 against
+−0.840). Predictability is bought with privacy budget, not created.
+
+**H4 (realism and privacy do not commute): supported on length of stay, suggestive on
+readmission.** Without privacy, utility rises with denoiser size on both tasks (S, M, L:
+0.641, 0.741, 0.751 and 0.128, 0.135, 0.155). Under privacy the order reverses (0.538,
+0.516, 0.504 and 0.028, −0.840, −10.195). The difference-in-differences is large on
+length of stay and survives Holm correction; on readmission it is significant only
+before correction.
+
+**H5 (fairness becomes measurable at restored utility): not supported under privacy;
+supported without it.** Every DP-TabDDPM classifier predicts a single class in all 35
+subgroup cells, so the threshold-based fairness metrics are vacuous for every private
+release. The explanation is the label rate (Section 5.3). The large non-private
+generator, whose label rate is close to the real one, gives a classifier whose
+disparities track the real-data model (demographic-parity gap 0.302 ± 0.030 against
+0.309 ± 0.032; AUC gap 0.070 against 0.075). Fair resampling costs nothing measurable
+on either task, as in Stage 2.
+
+**H6 (patient-level privacy costs nothing): supported.** Making the patient the
+privacy unit changes nothing beyond the noise (readmission +0.002, p = 0.96; length of
+stay +0.374, p = 0.39, in the patient-level arm's favour). The per-stay guarantee that
+the risk register carried since Stage 1 can be replaced by a per-patient one for free at
+this budget.
+
+### 5.2 Privacy
+
+Every synthetic release sits at chance against both frozen membership attacks (AUC
+0.497 to 0.503) and at the chance level of the low-false-positive regime (true-positive
+rate at 1% false positives 0.009 to 0.011). The same attacks score 1.000 when the
+"release" is the real training data, so they are capable of detecting a leak; they
+simply find none, with or without privacy. Stage 3's release gate, re-applied to every
+arm ([`results/release_check.md`](../results/release_check.md)), therefore passes every
+release on its empirical criterion and separates them only by the formal one: Stage 1's
+argument that only the formal bound can certify a release holds for the new generator.
+
+### 5.3 The label rate
+
+The downstream classifier weights its classes by the release's own positive rate. A
+release with the wrong rate gives a classifier that, at the 0.5 threshold, predicts one
+class: the medium non-private TabDDPM generates 0.375 ± 0.104 positives against a real
+0.139 and is degenerate in 19 of 35 subgroup cells; the large one generates 0.155 ±
+0.011 and is degenerate in none. ROC-AUC is blind to this, which is why the medium
+model's good AUC coexists with useless thresholded predictions. Label-rate fidelity is
+reported for every arm ([`src/label_rate.py`](../src/label_rate.py)).
+
+### 5.4 Reproduction, and three measurement problems
+
+Re-running Stage 0 and Stage 1's recipes with the evidence repository's seeds did not
+reproduce its numbers bit for bit (readmission ROC-AUC differs by up to 0.043 non-private
+and 0.061 private), because the runs here use two CPU threads where the evidence run
+used twelve: summation order changes and adversarial training amplifies the difference.
+Every comparison in this paper uses this repository's own runs. Two further problems
+were found in the measurement itself and corrected before the analysis: the frozen
+harness imputes each split with its own median, which let a classifier tell real
+training from real test rows (detection AUC 0.956 in two readmission seeds, fixed by
+imputing the test split with training medians for the realism metrics); and improved
+precision/recall rewards over-dispersed private samples with recall near 1, so density
+and coverage were added. Both additions are post hoc, are labelled as such, and change
+no pre-registered utility or privacy test.
 
 ## 6. Discussion
 
-<!-- DISCUSSION -->
+**What the pillar shows.** Realism can be recovered, and substantially: the generator,
+not the data, was the bottleneck that Stage 0 exposed on length of stay. But at the
+programme's release budget, privacy destroys what the better generator recovers, and
+the generator that is most realistic without privacy is the least robust with it. For a
+data controller, that is the practical conclusion: a generator should be chosen and
+tuned under the privacy constraint it will be released with, and at ε = 10 with this
+family of private trainers, the honest release is one whose low utility is disclosed,
+not one that is presented as a realistic stand-in for the data.
+
+**What it does not show.** It does not show that no private generator could do better.
+Marginal-based private synthesisers, private pre-training on public data, or a larger
+budget are all untested here. The ladder tested whether the route it chose recovers
+realism inside its own safeguards, and the answer is that it recovers it outside them.
+
+**What carries forward.** The measurement discipline: a pre-registered design, a noise
+floor measured for every new recipe, controls that can fail (the real-data attack
+control, the real-versus-real realism control), and three problems in the measurement
+itself found because those controls were in place and acted on when they misbehaved.
+
+## 7. Relation to the ladder
+
+| Stage | Question | Pillar 4's contribution |
+|---|---|---|
+| 0, synthesis | How much survives synthesis? | Much more, with a better generator: 74 to 82% of the gap closed |
+| 1, privacy | What does privacy cost? | Everything the better generator recovered; patient-level privacy costs nothing more |
+| 2, fairness | Can representation be repaired? | Fairness becomes measurable only at restored utility, which privacy prevents |
+| 3, compliance | Can evidence be generated? | Re-applied, the gate's empirical check passes every release, private or not; only ε separates them |
+| evidence | Which claims survive noise? | Noise floors for the new recipe; two harness defects disclosed |
 
 ## References
 
