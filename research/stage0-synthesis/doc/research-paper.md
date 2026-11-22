@@ -1,10 +1,8 @@
 # A Conditional-GAN Baseline for Synthetic Electronic Health Records, and a Four-Pillar Evaluation Programme
 
-Belhassen Ouerghi. Professional Engineering Doctorate, University of Hertfordshire.
+Belhassen Ouerghi. Independent research, part of [SynthEHR](../../../README.md).
 
-Working paper. Stage 0 (utility baseline) of the thesis *Advanced Data Generation
-for Healthcare Predictive Modelling: Ensuring Privacy, High Realism, Bias
-Mitigation and Ethical Compliance.*
+Working paper. Stage 0 (utility baseline) of SynthEHR, an independent research programme on synthetic health data.
 
 ---
 
@@ -15,7 +13,7 @@ of electronic health records without exposing the patients behind them. Its
 usefulness is conditional. A synthetic dataset is only worth generating if a model
 trained on it still performs on real data, and only worth releasing if it does not
 leak the individuals it was derived from. This paper establishes the utility
-baseline for a doctoral programme that studies that trade-off end to end. I select
+baseline for a research programme that studies that trade-off end to end. I select
 CTGAN (Conditional Tabular GAN) as the base generator, implement it from first
 principles, and fit it to the real patient-level cohorts underlying three
 previously replicated MIMIC-IV prediction models: ICU length of stay
@@ -24,7 +22,7 @@ previously replicated MIMIC-IV prediction models: ICU length of stay
 train-on-synthetic, test-on-real (TSTR) protocol against a train-on-real,
 test-on-real (TRTR) ceiling. The result is a reference point, namely how much
 predictive signal survives synthesis before any privacy, fairness, ethical or
-realism intervention is applied, against which each of the four thesis pillars is
+realism intervention is applied, against which each of the four pillars is
 subsequently measured. I argue why CTGAN in particular is the right scaffold for
 an incremental programme of this kind, and set out the experimental ladder the
 remaining pillars climb.
@@ -33,14 +31,14 @@ remaining pillars climb.
 
 ## 1. Motivation and scope
 
-The three companion repositories established that routine first-day ICU data
+The three foundation studies established that routine first-day ICU data
 carries real predictive signal on MIMIC-IV. A length-of-stay model reproduces the
 upstream patient-level R² almost exactly, a 30-day failed-discharge classifier
 reaches a ROC-AUC of about 0.78, and daily ICU admissions can be forecast with a
 Generalized-Poisson autoregressive model. Those are models trained and tested on
 real data.
 
-The doctoral question is what happens when the training data is synthetic. If a
+The central question is what happens when the training data is synthetic. If a
 generator can produce a dataset that trains an equally good model, and that can
 later be made provably private, fair, compliant and realistic, then it is that
 dataset, rather than the real one, that a hospital could share or publish. Stage 0
@@ -59,7 +57,7 @@ pillar has been evaluated.
 ## 2. Data
 
 All real data are the derived, de-identified feature matrices produced by the
-three replication repositories from MIMIC-IV v3.1. Raw MIMIC is never re-extracted
+three foundation studies from MIMIC-IV v3.1. Raw MIMIC is never re-extracted
 here.
 
 | Task | Grain | Rows (train / test) | Features | Target |
@@ -108,7 +106,7 @@ are drop-in modifications of CTGAN's critic training loop, which is why they exi
 as CTGAN variants in the literature. A non-adversarial generator would not admit
 this family of guarantees so directly.
 
-**It is the field's reference baseline.** The thesis contributes a
+**It is the field's reference baseline.** The programme contributes a
 privacy-fidelity-fairness benchmark across generator families. CTGAN is the
 single most-cited tabular synthesiser and the default baseline in the
 tabular-synthesis and health-data-synthesis literature. Anchoring Stage 0 on it
@@ -117,7 +115,7 @@ makes every later comparison legible to that literature.
 **It can be implemented licence-clean and fully controlled.** The programme
 requires permissive-licence-only code, and the widely used `sdv` and `ctgan`
 packages are Business-Source Licensed. Because CTGAN's mechanisms are
-well-specified, I re-implemented it from scratch in `src/ctgan.py` under MIT. This
+well-specified, I re-implemented it from scratch in `research/common/ctgan.py` under MIT. This
 additionally makes every mechanism a pillar will touch, such as the conditional
 vector and the critic loss, explicit and editable rather than buried in a
 dependency.
@@ -180,7 +178,7 @@ test set is never seen by the generator, TSTR cannot be inflated by leakage.
 ### 5.1 Headline figures
 
 The authoritative numbers come from the five-seed re-run on patient-disjoint
-splits (companion repository `mimic-synthetic-evidence`), reported as mean plus or
+splits (companion repository `research/evidence`), reported as mean plus or
 minus a 95% confidence interval.
 
 | Task (model) | Metric | TRTR | TSTR |
@@ -252,7 +250,7 @@ interval and is checked against a measured noise floor before it is reported.
 
 ## 6. The four-pillar programme
 
-Stage 0 fixes the generator and the evaluation harness. The thesis contribution is
+Stage 0 fixes the generator and the evaluation harness. The programme's contribution is
 the incremental study that follows. Each pillar is a modification applied on top
 of the previous one, generating a new dataset and re-running the identical
 TSTR/TRTR comparison, so that the utility cost of each safeguard is isolated. The
@@ -268,7 +266,7 @@ five dataset generations are versioned on disk accordingly.
 
 At every stage the same three prediction tasks are re-evaluated, producing a matrix
 of utility, privacy, fairness, compliance and realism across five dataset
-generations. That matrix is the empirical spine of the thesis. Privacy comes first
+generations. That matrix is the empirical spine of the programme. Privacy comes first
 after the baseline because it is the pillar that most constrains utility, and
 because no synthetic EHR should be released before it is applied, which is exactly
 why the Stage-0 data here remains unreleased.
@@ -317,5 +315,5 @@ van Breugel, B., Kyono, T., Berrevoets, J., and van der Schaar, M. (2021).
 Johnson, A., Bulgarelli, L., Pollard, T., et al. (2024). *MIMIC-IV* (v3.1).
 PhysioNet.
 
-Companion replications: `Length-of-Stay-Prediction-Replica`,
-`readmission-prediction-replica`, `bed-demand-prediction-replica`.
+Companion replications: `research/foundations/length-of-stay`,
+`research/foundations/readmission`, `research/foundations/bed-demand`.

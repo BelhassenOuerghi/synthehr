@@ -168,7 +168,7 @@ def _write_table(m):
           f"| TRTR (train real) | {bd['TRTR']['mae']:.3f} | {bd['TRTR']['rmse']:.3f} |",
           f"| TSTR (train synthetic) | {bd['TSTR']['mae']:.3f} | {bd['TSTR']['rmse']:.3f} |",
           f"| Δ MAE (TSTR − TRTR) | {bd['delta_mae_tstr_minus_trtr']:+.3f} | |", ""]
-    L[1:1] = ["", '> Single training run (seed 42) on patient-disjoint splits, kept for provenance. The authoritative numbers are the five-seed means and 95% intervals in [mimic-synthetic-evidence](https://github.com/BelhassenOuerghi/mimic-synthetic-evidence): a single training run is not representative of its recipe.']
+    L[1:1] = ["", '> Single training run (seed 42) on patient-disjoint splits, kept for provenance. The authoritative numbers are the five-seed means and 95% intervals in [research/evidence](../../evidence): a single training run is not representative of its recipe.']
     with open("results/results_table.md", "w") as f:
         f.write("\n".join(L))
 

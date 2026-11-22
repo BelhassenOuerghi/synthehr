@@ -1,21 +1,19 @@
 # Evidence hardening: multi-seed confidence intervals across the synthetic-EHR programme
 
-*An EngD research study. Belhassen Ouerghi, University of Hertfordshire.*
-
-*Programme: [Stage 0, CTGAN baseline](https://github.com/BelhassenOuerghi/mimic-synthetic-ctgan) · [Stage 1, privacy](https://github.com/BelhassenOuerghi/mimic-synthetic-dp-ctgan) · [Stage 2, fairness](https://github.com/BelhassenOuerghi/mimic-synthetic-fair-dp-ctgan) · [Stage 3, compliance](https://github.com/BelhassenOuerghi/mimic-synthetic-ethic-fair-dp-ctgan) · [Stage 4, realism](https://github.com/BelhassenOuerghi/mimic-synthetic-realism) · [Evidence: five seeds, noise floor](https://github.com/BelhassenOuerghi/mimic-synthetic-evidence)*
+*Part of [SynthEHR](../../README.md), an independent research programme by Belhassen Ouerghi. [All research stages](../README.md).*
 
 ## 1. Overview
 
-This repository is the evidence-hardening layer of my four-pillar synthetic-EHR
-programme ([Stage 0](https://github.com/BelhassenOuerghi/mimic-synthetic-ctgan),
-[Stage 1](https://github.com/BelhassenOuerghi/mimic-synthetic-dp-ctgan),
-[Stage 2](https://github.com/BelhassenOuerghi/mimic-synthetic-fair-dp-ctgan),
-[Stage 3](https://github.com/BelhassenOuerghi/mimic-synthetic-ethic-fair-dp-ctgan),
-[Stage 4](https://github.com/BelhassenOuerghi/mimic-synthetic-realism)).
-It exists to answer the question every examiner asks and no single-seed study can:
+This folder is the evidence-hardening layer of my four-pillar synthetic-EHR
+programme ([Stage 0](../stage0-synthesis),
+[Stage 1](../stage1-privacy),
+[Stage 2](../stage2-fairness),
+[Stage 3](../stage3-compliance),
+[Stage 4](../stage4-realism)).
+It exists to answer the question every careful reader asks and no single-seed study can:
 which of these findings are real, and which are run-to-run noise?
 
-It does two things the stage repositories could not do for themselves. It corrects a
+It does two things the individual stages could not do for themselves. It corrects a
 data-leakage defect found in the readmission split and re-runs every stage on
 patient-disjoint splits. And it replaces every headline single-seed number with a mean
 and a 95% confidence interval over five seeds, applying a paired significance test
@@ -94,7 +92,7 @@ make aggregate PY=$PY   # means, confidence intervals and paired tests
 The run is resumable by design: each seed writes its results on completion and is
 skipped if present, so a crash late in the run costs one seed rather than the whole
 thing. All settings live in [`config.yaml`](config.yaml), and the source files are
-vendored unchanged from the stage repositories, so that the only differences from the
+shared unchanged with the stages (`research/common/`), so that the only differences from the
 published stage results are the corrected split and the seed.
 
 ## 5. Results
@@ -195,10 +193,15 @@ that could refuse.
   privacy-utility frontier rather than a headline number, and is treated accordingly.
 * **Patient-level privacy adjacency is open for the CTGAN stages.** The splits are now
   patient-disjoint, but the Stage 1-2 guarantee remains per-stay. Pillar 4
-  ([`mimic-synthetic-realism`](https://github.com/BelhassenOuerghi/mimic-synthetic-realism))
+  ([`research/stage4-realism`](../stage4-realism))
   implements per-patient Poisson sampling and clipping for its diffusion generator and
   measures what the patient-level guarantee costs.
 * **One dataset.** Generalisation is the job of the planned second-dataset validation.
+* **Known issue: one uncharged count release in the DP-CTGAN arms.** Every DP arm
+  here is built on Stage 2's `FairDPCTGAN`, which makes a second noisy release of the
+  category counts that the accountant does not charge (see
+  [Stage 2](../stage2-fairness/README.md#8-limitations)). The true ε is 9.9922 rather
+  than 9.9902, still within 10.
 * **Known issue, found in Pillar 4: each split is imputed with its own median.**
   `clean_numeric` fills missing values in the training and test splits separately. On
   readmission, `albumin_min` is 72% missing, and in seeds 43 and 46 the two medians

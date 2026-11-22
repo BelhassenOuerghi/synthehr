@@ -9,8 +9,7 @@ Compiled {{GEN_DATE}}, with figures injected from the evaluation metrics.*
 critic is trained under DP-SGD, with fair conditional sampling layered on top. Bed
 demand uses a differentially private Poisson-AR counterpart. Privacy budgets:
 {{EPS_READM}} for readmission and {{EPS_LOS}} for length of stay, both at a delta of
-{{DELTA}}, with a noise multiplier of {{SIGMA_TAB}}. Author: EngD candidate,
-University of Hertfordshire.
+{{DELTA}}, with a noise multiplier of {{SIGMA_TAB}}. Author: Belhassen Ouerghi.
 
 ## Intended use
 

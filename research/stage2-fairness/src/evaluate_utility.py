@@ -228,7 +228,7 @@ def _write_table(m, cfg):
         L += [f"| {t} | {r['attack_auc_dcr']:.3f} "
               f"| {r['attack_auc_knn_classifier']:.3f} "
               f"| {r['near_duplicate_share@0.1']:.3f} |"]
-    L[1:1] = ["", '> Single training run (seed 42) on patient-disjoint splits, kept for provenance. The authoritative numbers are the five-seed means and 95% intervals in [mimic-synthetic-evidence](https://github.com/BelhassenOuerghi/mimic-synthetic-evidence): a single training run is not representative of its recipe.']
+    L[1:1] = ["", '> Single training run (seed 42) on patient-disjoint splits, kept for provenance. The authoritative numbers are the five-seed means and 95% intervals in [research/evidence](../../evidence): a single training run is not representative of its recipe.']
     with open("results/results_table.md", "w") as f:
         f.write("\n".join(L) + "\n")
 

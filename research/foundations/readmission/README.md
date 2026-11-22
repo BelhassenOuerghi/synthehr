@@ -1,10 +1,10 @@
 # Replicating 30-day ICU Readmission Prediction on MIMIC-IV
 
-*An EngD replication study. Belhassen Ouerghi, University of Hertfordshire.*
+*A replication study in [SynthEHR](../../../README.md), an independent research programme by Belhassen Ouerghi.*
 
 ## 1. Overview
 
-This repository is my independent replication of a published machine-learning
+This folder is my independent replication of a published machine-learning
 experiment: predicting whether a patient discharged from an intensive care unit
 (ICU) will be **readmitted to the ICU within 30 days**. The original work is
 Yaron Blinder's Udacity Machine Learning Engineer capstone (2019), which trained
@@ -204,7 +204,7 @@ A note on the two "0.778"s in this programme. The ± 0.004 above is the spread o
 cross-validation folds that shuffle at the stay level (see Section 12). The synthetic-EHR
 repositories that build on this cohort report a real-data ceiling of 0.778 ± 0.007, which
 is a different statistic: a 95% interval over five patient-disjoint train/test splits
-([`mimic-synthetic-evidence`](https://github.com/BelhassenOuerghi/mimic-synthetic-evidence)).
+([`research/evidence`](../../evidence)).
 That they agree is reassuring, but they are not the same number measured twice.
 
 Key metrics for this replication (N = 87,041 stays, positive rate 13.9%):
@@ -276,7 +276,7 @@ utilisation history discriminate a failed-discharge outcome at a ROC-AUC of roug
 ## 11. Reproducibility
 
 ```bash
-# Environment: the shared EngD replication venv (duckdb, pandas, scikit-learn,
+# Environment: a Python environment with (duckdb, pandas, scikit-learn,
 # xgboost, matplotlib, seaborn, scipy, pyyaml). See requirements.txt.
 
 make cohort      # cohort + labels only, prints the summary

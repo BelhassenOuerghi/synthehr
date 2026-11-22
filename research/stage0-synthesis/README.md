@@ -1,18 +1,16 @@
 # Synthetic EHR with CTGAN: a utility baseline for a four-pillar programme
 
-*An EngD research study. Belhassen Ouerghi, University of Hertfordshire.*
-
-*Programme: [Stage 0, CTGAN baseline](https://github.com/BelhassenOuerghi/mimic-synthetic-ctgan) · [Stage 1, privacy](https://github.com/BelhassenOuerghi/mimic-synthetic-dp-ctgan) · [Stage 2, fairness](https://github.com/BelhassenOuerghi/mimic-synthetic-fair-dp-ctgan) · [Stage 3, compliance](https://github.com/BelhassenOuerghi/mimic-synthetic-ethic-fair-dp-ctgan) · [Stage 4, realism](https://github.com/BelhassenOuerghi/mimic-synthetic-realism) · [Evidence: five seeds, noise floor](https://github.com/BelhassenOuerghi/mimic-synthetic-evidence)*
+*Part of [SynthEHR](../../README.md), an independent research programme by Belhassen Ouerghi. [All research stages](../README.md).*
 
 ## 1. Overview
 
-This repository is the first stage of my doctoral work on synthetic electronic
-health records. The three companion repositories
-([length of stay](https://github.com/BelhassenOuerghi/Length-of-Stay-Prediction-Replica),
-[readmission](https://github.com/BelhassenOuerghi/readmission-prediction-replica),
-[bed demand](https://github.com/BelhassenOuerghi/bed-demand-prediction-replica))
+This folder is the first stage of my research on synthetic electronic
+health records. The three foundation studies
+([length of stay](../foundations/length-of-stay),
+[readmission](../foundations/readmission),
+[bed demand](../foundations/bed-demand))
 train and evaluate prediction models on real MIMIC-IV data. This one asks the
-doctoral question: what happens when the training data is synthetic?
+central question: what happens when the training data is synthetic?
 
 I select CTGAN (Conditional Tabular GAN) as the base generator, implement it from
 scratch under an MIT licence, fit it to the real patient-level cohorts behind
@@ -20,7 +18,7 @@ those three tasks, and measure how much predictive signal survives synthesis. Th
 measurement uses the standard train-on-synthetic, test-on-real (TSTR) protocol
 against a train-on-real, test-on-real (TRTR) ceiling. The number this establishes
 is the utility of synthetic EHR *before* any privacy, fairness, ethics or realism
-intervention, and it is the reference point against which each of the four thesis
+intervention, and it is the reference point against which each of the four
 pillars is later measured. Section 7 sets out that ladder. This is Stage 0.
 
 ## 2. Why synthetic data, and why this study
@@ -30,11 +28,11 @@ risk. Synthetic data promises to decouple the two, by releasing a generated
 dataset while keeping the patients private. The promise is conditional. A
 synthetic dataset is only worth generating if a model trained on it still works
 on real patients, and only worth releasing if it does not leak the people it was
-derived from. My thesis studies that trade-off end to end across four pillars:
+derived from. My research studies that trade-off end to end across four pillars:
 privacy, bias mitigation, ethical and regulatory compliance, and realism.
 Everything begins with an honest measurement of raw utility, because every
 safeguard added later can only cost utility. That baseline is what this
-repository delivers.
+stage delivers.
 
 ## 3. The chosen technique: CTGAN, and why
 
@@ -55,10 +53,10 @@ select CTGAN (Xu et al., NeurIPS 2019) for five reasons, argued in full in
    privacy attaches cleanly as DP-SGD on the critic, or as a PATE ensemble, and
    both are drop-in modifications of CTGAN's training loop.
 4. It is the field's reference baseline, which the cross-family benchmark in the
-   thesis requires.
+   programme requires.
 5. It can be kept licence-clean. The `sdv` and `ctgan` packages are
    Business-Source Licensed and excluded from this programme, so CTGAN is
-   re-implemented from scratch in [`src/ctgan.py`](src/ctgan.py) under MIT. A
+   re-implemented from scratch in [`research/common/ctgan.py`](../common/ctgan.py) under MIT. A
    side benefit is that every mechanism a later pillar will touch is explicit and
    editable rather than buried in a dependency.
 
@@ -76,7 +74,7 @@ as a scope decision, and note a dedicated time-series synthesiser as future work
 ## 4. Data
 
 All real data are the derived, de-identified feature matrices built by the three
-replication repositories from MIMIC-IV v3.1. Raw MIMIC is never touched here.
+foundation studies from MIMIC-IV v3.1. Raw MIMIC is never touched here.
 
 | Task | Grain | Rows (train / test) | Features | Target |
 |---|---|---|---|---|
@@ -90,7 +88,7 @@ patient-disjoint (see Section 6.2).
 
 ## 5. Method
 
-* **Generator** (`src/ctgan.py`). A faithful CTGAN: per-column variational
+* **Generator** (`research/common/ctgan.py`). A faithful CTGAN: per-column variational
   Gaussian-mixture normalisation, a conditional generator with
   training-by-sampling (categories drawn in proportion to log-frequency), a
   WGAN-GP critic with gradient penalty and PacGAN packing, and the conditional
@@ -98,7 +96,7 @@ patient-disjoint (see Section 6.2).
   split to respect a CPU budget, then sampled up to the full training-set size,
   so that real and synthetic training sets are equal in size. Hyper-parameters
   live in [`config.yaml`](config.yaml).
-* **Temporal counterpart** (`src/beddemand_gen.py`). A Poisson-AR process fitted
+* **Temporal counterpart** (`research/common/beddemand_gen.py`). A Poisson-AR process fitted
   to the real training span and sampled to a synthetic trajectory of equal
   length.
 * **Evaluation** (`src/evaluate_utility.py`). TSTR against TRTR, with an
@@ -113,7 +111,7 @@ patient-disjoint (see Section 6.2).
 
 The authoritative numbers come from the five-seed re-run on patient-disjoint
 splits, reported in
-[`mimic-synthetic-evidence`](https://github.com/BelhassenOuerghi/mimic-synthetic-evidence).
+[`research/evidence`](../evidence).
 They are given as mean plus or minus a 95% confidence interval.
 
 | Task (downstream model) | Metric | TRTR (train real) | TSTR (train synthetic) |
@@ -221,7 +219,7 @@ been applied.
 ## 8. Reproducibility
 
 ```bash
-# Shared EngD virtualenv (torch, scikit-learn, pandas, numpy, xgboost,
+# A Python environment (torch, scikit-learn, pandas, numpy, xgboost,
 # matplotlib, pyyaml). CTGAN is implemented in-repo, with no SDV dependency.
 PY=python3   # any Python with requirements.txt installed
 
@@ -236,8 +234,8 @@ make plots    PY=$PY   # fidelity and utility figures
   figures) takes one to two hours on a laptop at the committed settings of 200
   epochs and a 30,000-row fitting subsample. The per-epoch loss trajectory is
   written to `results/train_log.txt`.
-* The real feature matrices must exist in the three sibling repositories, whose
-  `make` targets build them from credentialed MIMIC-IV. This repository consumes
+* The real feature matrices must exist in the three foundation studies, whose
+  `make` targets build them from credentialed MIMIC-IV. This stage consumes
   them read-only.
 
 ## 9. Limitations

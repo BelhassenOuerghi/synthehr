@@ -1,20 +1,18 @@
 # Differentially-private synthetic EHR with DP-CTGAN: Pillar 1 of a four-pillar programme
 
-*An EngD research study. Belhassen Ouerghi, University of Hertfordshire.*
-
-*Programme: [Stage 0, CTGAN baseline](https://github.com/BelhassenOuerghi/mimic-synthetic-ctgan) · [Stage 1, privacy](https://github.com/BelhassenOuerghi/mimic-synthetic-dp-ctgan) · [Stage 2, fairness](https://github.com/BelhassenOuerghi/mimic-synthetic-fair-dp-ctgan) · [Stage 3, compliance](https://github.com/BelhassenOuerghi/mimic-synthetic-ethic-fair-dp-ctgan) · [Stage 4, realism](https://github.com/BelhassenOuerghi/mimic-synthetic-realism) · [Evidence: five seeds, noise floor](https://github.com/BelhassenOuerghi/mimic-synthetic-evidence)*
+*Part of [SynthEHR](../../README.md), an independent research programme by Belhassen Ouerghi. [All research stages](../README.md).*
 
 ## 1. Overview
 
-This repository is Pillar 1, the privacy pillar, of my doctoral programme on
+This folder is Pillar 1, the privacy pillar, of my research programme on
 synthetic electronic health records. Stage 0
-([`mimic-synthetic-ctgan`](https://github.com/BelhassenOuerghi/mimic-synthetic-ctgan))
+([`research/stage0-synthesis`](../stage0-synthesis))
 established how much predictive utility survives synthesis by a non-private CTGAN,
 measured by train-on-synthetic, test-on-real (TSTR) against a train-on-real (TRTR)
 ceiling on three MIMIC-IV prediction tasks
-([length of stay](https://github.com/BelhassenOuerghi/Length-of-Stay-Prediction-Replica),
-[readmission](https://github.com/BelhassenOuerghi/readmission-prediction-replica),
-[bed demand](https://github.com/BelhassenOuerghi/bed-demand-prediction-replica)).
+([length of stay](../foundations/length-of-stay),
+[readmission](../foundations/readmission),
+[bed demand](../foundations/bed-demand)).
 
 This stage asks the question that decides whether synthetic EHR can be released at
 all. What does a formal differential-privacy guarantee cost in utility, and does it
@@ -58,8 +56,8 @@ outline it rests on five points.
    sample it will ever emit, by the post-processing property of differential
    privacy. One mechanism yields a whole-pipeline guarantee.
 2. It is a modification rather than a re-platforming. DP-SGD drops into the
-   from-scratch Stage-0 training loop, which we own; `src/dp_ctgan.py` subclasses
-   `src/ctgan.py`. The architecture, conditional mechanism and evaluation harness
+   from-scratch Stage-0 training loop, which we own; `research/common/dp_ctgan.py` subclasses
+   `research/common/ctgan.py`. The architecture, conditional mechanism and evaluation harness
    stay fixed, so the measured utility difference is attributable to the privacy
    mechanism alone, which is the whole point of an incremental ladder.
 3. The guarantee is accounted end to end. Every real-data statistic the training
@@ -79,7 +77,7 @@ outline it rests on five points.
 5. The temporal task receives the same treatment. Bed demand is a single count
    series whose Stage-0 generator is a Poisson-AR model, so its DP counterpart is
    the same model fitted by DP gradient ascent with per-day clipping
-   (`src/dp_beddemand.py`). One mechanism family per data modality, each with an
+   (`research/common/dp_beddemand.py`). One mechanism family per data modality, each with an
    explicit budget.
 
 DP-SGD is not free. Clipping biases and noise blurs exactly the rare, informative
@@ -89,7 +87,7 @@ not a reason to avoid it; it is the trade-off this stage exists to measure.
 ## 4. Data
 
 Identical to Stage 0: the derived, de-identified feature matrices built by the
-three replication repositories from MIMIC-IV v3.1. Raw MIMIC is never touched,
+three foundation studies from MIMIC-IV v3.1. Raw MIMIC is never touched,
 nothing is re-extracted, and no data is committed. Real test sets are withheld
 from synthesis entirely, and splits are patient-disjoint.
 
@@ -101,23 +99,23 @@ from synthesis entirely, and splits are patient-disjoint.
 
 ## 5. Method
 
-* **Generator** (`src/dp_ctgan.py`). The Stage-0 CTGAN with a DP-SGD critic:
+* **Generator** (`research/common/dp_ctgan.py`). The Stage-0 CTGAN with a DP-SGD critic:
   per-PacGAN-group clipping (replace-one sensitivity of twice the clipping norm),
   Gaussian noise, and fixed-size batches accounted at the corresponding sampling
   rate. Conditional category frequencies are released through their own accounted
   Gaussian mechanism, and real rows are self-conditioned. The noise multiplier is
   calibrated by bisection to hit each target budget exactly at the configured step
   count.
-* **Accountant** (`src/privacy_accountant.py`). Integer-order Rényi differential
+* **Accountant** (`research/common/privacy_accountant.py`). Integer-order Rényi differential
   privacy for the sampled Gaussian mechanism, composed over steps and converted to
   an epsilon-delta pair. Self-contained numpy, MIT licensed.
-* **Temporal counterpart** (`src/dp_beddemand.py`). DP full-batch gradient ascent
+* **Temporal counterpart** (`research/common/dp_beddemand.py`). DP full-batch gradient ascent
   on the Stage-0 Poisson-AR likelihood, with per-day sensitivity.
 * **Utility** (`src/evaluate_utility.py`). The exact Stage-0 TSTR/TRTR protocol,
   with the same models and the same real test sets, swept over the budget grid, and
   with the Stage-0 non-private result reported alongside as the unbounded-budget
   reference.
-* **Privacy evaluation** (`src/membership_inference.py`). Two black-box attacks: a
+* **Privacy evaluation** (`research/common/membership_inference.py`). Two black-box attacks: a
   distance-to-closest-record attack, and a k-nearest-neighbour-feature logistic
   classifier. Real training rows serve as members and real test rows as
   non-members, and near-duplicate copy statistics are reported alongside. An attack
@@ -127,7 +125,7 @@ from synthesis entirely, and splits are patient-disjoint.
 
 The authoritative figures come from the five-seed re-run on patient-disjoint
 splits, reported in
-[`mimic-synthetic-evidence`](https://github.com/BelhassenOuerghi/mimic-synthetic-evidence)
+[`research/evidence`](../evidence)
 as mean plus or minus a 95% confidence interval. Single-seed numbers across the
 full budget grid remain in [`results/`](results/) for provenance.
 
@@ -215,9 +213,9 @@ make plots    PY=$PY   # privacy-utility frontier figure
 ```
 
 Budgets, paths and hyper-parameters live in [`config.yaml`](config.yaml), seeds are
-fixed, and the architecture matches Stage 0 exactly. `src/ctgan.py`, `src/data.py`
-and `src/beddemand_gen.py` are vendored unchanged from the Stage-0 repository, so
-that the difference between the two repositories is exactly the privacy mechanism.
+fixed, and the architecture matches Stage 0 exactly. `research/common/ctgan.py`, `research/common/data.py`
+and `research/common/beddemand_gen.py` are shared unchanged with Stage 0, so that the
+difference between the two stages is exactly the privacy mechanism.
 Microbatched DP-SGD costs roughly an order of magnitude more compute per critic
 step than Stage-0 training, so a full grid run takes several hours on CPU.
 

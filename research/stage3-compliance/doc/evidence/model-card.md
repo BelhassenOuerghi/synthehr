@@ -9,8 +9,7 @@ Fair-DP-CTGAN (fair conditional generation on a DP-SGD critic; RDP-accounted). A
 critic is trained under DP-SGD, with fair conditional sampling layered on top. Bed
 demand uses a differentially private Poisson-AR counterpart. Privacy budgets:
 9.99 for readmission and 9.99 for length of stay, both at a delta of
-1e-5, with a noise multiplier of 1.01. Author: EngD candidate,
-University of Hertfordshire.
+1e-5, with a noise multiplier of 1.01. Author: Belhassen Ouerghi.
 
 ## Intended use
 

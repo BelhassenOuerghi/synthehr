@@ -1,16 +1,14 @@
 # Fair synthetic EHR under differential privacy: Pillar 2 of a four-pillar programme
 
-*An EngD research study. Belhassen Ouerghi, University of Hertfordshire.*
-
-*Programme: [Stage 0, CTGAN baseline](https://github.com/BelhassenOuerghi/mimic-synthetic-ctgan) · [Stage 1, privacy](https://github.com/BelhassenOuerghi/mimic-synthetic-dp-ctgan) · [Stage 2, fairness](https://github.com/BelhassenOuerghi/mimic-synthetic-fair-dp-ctgan) · [Stage 3, compliance](https://github.com/BelhassenOuerghi/mimic-synthetic-ethic-fair-dp-ctgan) · [Stage 4, realism](https://github.com/BelhassenOuerghi/mimic-synthetic-realism) · [Evidence: five seeds, noise floor](https://github.com/BelhassenOuerghi/mimic-synthetic-evidence)*
+*Part of [SynthEHR](../../README.md), an independent research programme by Belhassen Ouerghi. [All research stages](../README.md).*
 
 ## 1. Overview
 
-This repository is Pillar 2, the bias-mitigation pillar, of my doctoral programme
+This folder is Pillar 2, the bias-mitigation pillar, of my research programme
 on synthetic electronic health records. Stage 0
-([`mimic-synthetic-ctgan`](https://github.com/BelhassenOuerghi/mimic-synthetic-ctgan))
+([`research/stage0-synthesis`](../stage0-synthesis))
 measured the raw utility cost of synthesis. Stage 1
-([`mimic-synthetic-dp-ctgan`](https://github.com/BelhassenOuerghi/mimic-synthetic-dp-ctgan))
+([`research/stage1-privacy`](../stage1-privacy))
 added a formal differential-privacy guarantee and measured its price. This stage
 asks the fairness question that differential privacy itself sharpens: can the
 subgroup disparities a synthetic release carries, in representation and in
@@ -51,7 +49,7 @@ at 15.5% and other categories at 2.5%.
 Stage 0 selected CTGAN partly because its conditional mechanism is the natural
 fairness hook, and Stage 1 gave the conditional frequencies their own accounted
 release. This stage draws on both. There are two arms, differing in where they
-intervene (`src/fair_dp_ctgan.py`).
+intervene (`research/common/fair_dp_ctgan.py`).
 
 **Fair sampling** (`fairsample`) intervenes at generation time. The trained
 generator honours its conditional vector, because the conditional cross-entropy
@@ -108,7 +106,7 @@ Six arms per tabular task are scored on the same real test set: `TRTR`, the
 non-private Stage-0 release, the DP-unmitigated Stage-1 release, this stage's fresh
 `dpbaseline` control, `fairsample` and `fairtrain`.
 
-Fairness metrics (`src/fairness_metrics.py`) are all computed on the real test set:
+Fairness metrics (`research/common/fairness_metrics.py`) are all computed on the real test set:
 per-subgroup AUC and RMSE and their maximum-minus-minimum gaps, the
 demographic-parity difference, the equalized-odds difference (Hardt et al., 2016),
 the mean-signed-error gap, and representation shares against the real population.
@@ -124,7 +122,7 @@ therefore interpreted only jointly with utility, and never on its own.
 ## 6. Results
 
 The authoritative figures are the five-seed means with 95% confidence intervals from
-[`mimic-synthetic-evidence`](https://github.com/BelhassenOuerghi/mimic-synthetic-evidence).
+[`research/evidence`](../evidence).
 Single-seed numbers remain in [`results/`](results/) for provenance. This section
 reports a substantial correction to the first version of this study.
 
@@ -249,11 +247,18 @@ make plots    PY=$PY   # fairness-utility and representation figures
 
 Budgets, sensitive columns and support floors live in [`config.yaml`](config.yaml);
 architecture and seeds match Stages 0 and 1. The shared source files are vendored
-unchanged from the Stage-1 repository, so the difference between the two
-repositories is exactly the fairness mechanism.
+unchanged from Stage 1, so the difference between the two
+stages is exactly the fairness mechanism.
 
 ## 8. Limitations
 
+* **Known issue, found while packaging the tool: one uncharged count release.**
+  `FairDPCTGAN` derives the subgroup shares used for fair sampling from a second,
+  freshly noised release of the category counts, although its comment says they are
+  recovered from the accounted release. Every DP-CTGAN arm built on it therefore made
+  two count releases while the accountant charged one. Recomputed with both, ε is
+  9.9922 instead of 9.9902: still within the budget of 10, so no stated guarantee
+  changes. The `synthehr` package derives both from the single accounted release.
 * **Marginal, not intersectional.** Conditioning rotates through one sensitive
   column at a time and balances each marginal. Joint balancing across gender and
   insurance is future work.

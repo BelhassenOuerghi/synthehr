@@ -1,19 +1,17 @@
 # A compliance framework for synthetic-EHR release: Pillar 3 of a four-pillar programme
 
-*An EngD research study. Belhassen Ouerghi, University of Hertfordshire.*
-
-*Programme: [Stage 0, CTGAN baseline](https://github.com/BelhassenOuerghi/mimic-synthetic-ctgan) · [Stage 1, privacy](https://github.com/BelhassenOuerghi/mimic-synthetic-dp-ctgan) · [Stage 2, fairness](https://github.com/BelhassenOuerghi/mimic-synthetic-fair-dp-ctgan) · [Stage 3, compliance](https://github.com/BelhassenOuerghi/mimic-synthetic-ethic-fair-dp-ctgan) · [Stage 4, realism](https://github.com/BelhassenOuerghi/mimic-synthetic-realism) · [Evidence: five seeds, noise floor](https://github.com/BelhassenOuerghi/mimic-synthetic-evidence)*
+*Part of [SynthEHR](../../README.md), an independent research programme by Belhassen Ouerghi. [All research stages](../README.md).*
 
 ## 1. Overview
 
-This repository is Pillar 3, the ethics and compliance pillar, of my doctoral
+This folder is Pillar 3, the ethics and compliance pillar, of my research
 programme on synthetic electronic health records. Stages 0 to 2 built and measured
 the artefact: a CTGAN baseline
-([`mimic-synthetic-ctgan`](https://github.com/BelhassenOuerghi/mimic-synthetic-ctgan)),
+([`research/stage0-synthesis`](../stage0-synthesis)),
 a differentially private generator
-([`mimic-synthetic-dp-ctgan`](https://github.com/BelhassenOuerghi/mimic-synthetic-dp-ctgan)),
+([`research/stage1-privacy`](../stage1-privacy)),
 and a fairness-mitigated one
-([`mimic-synthetic-fair-dp-ctgan`](https://github.com/BelhassenOuerghi/mimic-synthetic-fair-dp-ctgan)).
+([`research/stage2-fairness`](../stage2-fairness)).
 This stage answers the question a data controller actually has to answer: what
 evidence makes such a release defensibly compliant, and can that evidence be produced
 automatically rather than written by hand?

@@ -1,8 +1,8 @@
 # Compliance as a Build Product: an Executable Evidence Framework and Release Gate for Synthetic Electronic Health Records
 
-Belhassen Ouerghi. Professional Engineering Doctorate, University of Hertfordshire.
+Belhassen Ouerghi. Independent research, part of [SynthEHR](../../../README.md).
 
-Working paper. Stage 3 (ethics and compliance pillar) of the thesis *Advanced Data
+Working paper. Stage 3 (ethics and compliance pillar) of the programme *Advanced Data
 Generation for Healthcare Predictive Modelling: Ensuring Privacy, High Realism, Bias
 Mitigation and Ethical Compliance.*
 
@@ -149,7 +149,7 @@ is scientifically weak: readmission discrimination near chance, and a negative
 length-of-stay R².
 
 A synthetic dataset can be perfectly compliant and useless. That sentence is this
-stage's contribution to the thesis argument as much as the tooling is. A compliance
+stage's contribution to the programme's argument as much as the tooling is. A compliance
 framework reporting only privacy and fairness would certify this release and say nothing
 about its worthlessness. A framework that forces joint disclosure of utility makes the
 trade-off visible, and hands the problem to the realism pillar, where it belongs.

@@ -23,14 +23,14 @@ noise multiplier of {{SIGMA_TAB}}), and a single Gaussian-mechanism release of
 discrete-category counts. Both are composed in a Rényi differential privacy
 accountant. The sensitive attributes processed are: {{SENSITIVE}}.
 
-**Context and purpose.** A doctoral research programme evaluating whether synthetic
+**Context and purpose.** An independent research programme evaluating whether synthetic
 EHR can support hospital predictive modelling for length of stay, 30-day readmission
 and bed demand, while bounding re-identification risk, mitigating subgroup bias, and
 remaining auditable.
 
 ## Step 2. Consultation
 
-Internally, the supervisory team is consulted on an ongoing basis. Externally, a
+Internally, the author reviews this evidence before any promotion. Externally, a
 practitioner and governance review of this evidence package is a standing open human
 gate, recorded in the release decision; the framework blocks external release until
 it is signed. Consultation with data subjects is not feasible, since the underlying

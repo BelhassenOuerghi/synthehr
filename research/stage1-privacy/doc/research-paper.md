@@ -1,10 +1,8 @@
 # Differentially-Private Synthetic Electronic Health Records: the Privacy Pillar of a Four-Pillar Programme
 
-Belhassen Ouerghi. Professional Engineering Doctorate, University of Hertfordshire.
+Belhassen Ouerghi. Independent research, part of [SynthEHR](../../../README.md).
 
-Working paper. Stage 1 (privacy pillar) of the thesis *Advanced Data Generation for
-Healthcare Predictive Modelling: Ensuring Privacy, High Realism, Bias Mitigation
-and Ethical Compliance.*
+Working paper. Stage 1 (privacy pillar) of SynthEHR, an independent research programme on synthetic health data.
 
 ---
 
@@ -51,7 +49,7 @@ utility, and its cost must be on the table before bias mitigation, which will
 reallocate utility across subgroups, is layered on top; otherwise the two effects
 become unattributable. Furthermore, DP noise is known to fall hardest on minority
 subgroups, so the fairness questions of Pillar 2 are only well posed given a fixed
-privacy budget. The ladder's order encodes the causal chain the thesis intends to
+privacy budget. The ladder's order encodes the causal chain the programme intends to
 measure.
 
 ## 2. Threat model
@@ -117,7 +115,7 @@ Each critic step is a sampled Gaussian mechanism. I implement the integer-order
 Rényi bound of Mironov, Talwar and Zhang (2019), compose linearly over steps, add
 the frequency-release term, and convert to an epsilon-delta pair by the standard
 minimisation over orders. The implementation is numpy-only and MIT licensed
-(`src/privacy_accountant.py`). The noise multiplier is calibrated by bisection so
+(`research/common/privacy_accountant.py`). The noise multiplier is calibrated by bisection so
 that the total spend meets each target budget exactly at the configured step count,
 and the spent budget is recomputed from actual steps during training and reported
 per epoch. Fixed-size batches drawn without replacement are accounted as Poisson
@@ -188,7 +186,7 @@ statistics are low-dimensional, is nearly budget-insensitive at practical settin
 ## 5. Results
 
 Authoritative figures are the five-seed means with 95% confidence intervals from
-the companion repository `mimic-synthetic-evidence`. Accounting was audited: every
+the companion repository `research/evidence`. Accounting was audited: every
 dataset spent within 0.01 of its target budget.
 
 | Task | Metric | TRTR | Non-private | DP at release budget |

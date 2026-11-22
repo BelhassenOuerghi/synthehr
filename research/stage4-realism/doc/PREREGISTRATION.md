@@ -76,7 +76,7 @@ seeds), and per-patient clipping bounds those patients' combined influence.
 |---|---|---|
 | reference | `TRTR` | the real training data itself: utility ceiling, real-vs-real realism control, and positive control for the attacks |
 | CTGAN | `ctgan` | Stage 0 recipe (non-private) |
-| | `dpctgan` | Stage 1 recipe at ε = 10; reproduces the evidence repository's `stage1` |
+| | `dpctgan` | Stage 1 recipe at ε = 10; reproduces the evidence layer's `stage1` |
 | | `dpctgan_r1..r3` | independent replicates (same fitting rows, new model seed) |
 | | `dpctgan_s1..s4` | four runs at the split budget |
 | | `dpctgan_ens4`, `dpctgan_ens4split` | pooled releases (full and split budget) |
@@ -86,7 +86,7 @@ seeds), and per-patient clipping bounds those patients' combined influence.
 | | `dpddpm_r1..r3`, `dpddpm_s1..s4`, ensembles, `dpddpm_rake` | as for CTGAN |
 | | `dpddpm_patient` | DP at ε = 10 with the patient as the privacy unit |
 
-Seeds 42 to 46, the same as the evidence repository, so every split is the
+Seeds 42 to 46, the same as the evidence layer, so every split is the
 same patient-disjoint split and every comparison with Stages 0-2 is paired.
 Every generator is fitted on the frozen harness's 30,000-row fitting sample
 and releases as many rows as the real training set.

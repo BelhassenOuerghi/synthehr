@@ -1,6 +1,6 @@
 # Utility results: TRTR vs TSTR (real test set)
 
-> Single training run (seed 42) on patient-disjoint splits, kept for provenance. The authoritative numbers are the five-seed means and 95% intervals in [mimic-synthetic-evidence](https://github.com/BelhassenOuerghi/mimic-synthetic-evidence): a single training run is not representative of its recipe.
+> Single training run (seed 42) on patient-disjoint splits, kept for provenance. The authoritative numbers are the five-seed means and 95% intervals in [research/evidence](../../evidence): a single training run is not representative of its recipe.
 
 ## Length of Stay (regression): RandomForest
 

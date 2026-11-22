@@ -1,6 +1,6 @@
 # Forecasting daily ICU bed demand: a replication of Lee et al. (2021) on MIMIC-IV
 
-*Belhassen Ouerghi. EngD research replication study.*
+*A replication study in [SynthEHR](../../../README.md), an independent research programme by Belhassen Ouerghi.*
 
 This repository contains my replication of the single-hospital count-forecasting
 experiment of Lee, Lymperopoulos, Cohen, Wong and Hughes (2021), adapted to the
@@ -307,7 +307,7 @@ GGP (Gaussian-process latent) variant or the multi-site hierarchical model.
 MLE-vs-posterior gap; add the GGP variant; build an over-dispersed MIMIC-derived
 target (e.g. weekly counts within a single careunit, or admissions of a
 condition cohort with genuine bursts) to exercise the λ > 0 regime; and pursue
-the EngD-relevant question of what calibrated under-dispersion is worth
+the question that matters here of what calibrated under-dispersion is worth
 operationally, since narrower intervals mean fewer beds held in reserve at equal risk.
 
 ## 8. Data use, ethics and what is (not) in this repository

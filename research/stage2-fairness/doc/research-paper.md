@@ -1,10 +1,8 @@
 # Fair Synthetic Electronic Health Records at a Fixed Privacy Budget: the Bias Pillar of a Four-Pillar Programme
 
-Belhassen Ouerghi. Professional Engineering Doctorate, University of Hertfordshire.
+Belhassen Ouerghi. Independent research, part of [SynthEHR](../../../README.md).
 
-Working paper. Stage 2 (bias pillar) of the thesis *Advanced Data Generation for
-Healthcare Predictive Modelling: Ensuring Privacy, High Realism, Bias Mitigation and
-Ethical Compliance.*
+Working paper. Stage 2 (bias pillar) of SynthEHR, an independent research programme on synthetic health data.
 
 ---
 
@@ -128,7 +126,7 @@ anything.
 ## 4. Results
 
 Authoritative figures are five-seed means with 95% confidence intervals from the
-companion repository `mimic-synthetic-evidence`. All arms spent within 0.01 of the
+companion repository `research/evidence`. All arms spent within 0.01 of the
 target budget.
 
 ### 4.1 The noise floor

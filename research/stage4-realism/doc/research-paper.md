@@ -1,6 +1,6 @@
 # Realism Under Privacy: the Fourth Pillar of a Synthetic-EHR Programme
 
-*Belhassen Ouerghi, EngD, University of Hertfordshire.*
+*Part of [SynthEHR](../../../README.md), an independent research programme by Belhassen Ouerghi.*
 
 *Sections 1 to 4 were written before the main experiment's results existed; Sections 5
 onwards report them. The pre-registration is [`PREREGISTRATION.md`](PREREGISTRATION.md).*
@@ -34,7 +34,7 @@ reproducibility; it corrects the first for its realism metrics and discloses bot
 
 The first three pillars of this programme added one safeguard at a time to a
 synthetic-EHR generator and measured what each cost. The measurements, hardened over
-five seeds and patient-disjoint splits in the evidence repository, left two problems.
+five seeds and patient-disjoint splits in the evidence layer, left two problems.
 
 The first is that synthesis itself destroys most of the signal before any safeguard
 is applied. Trained on real data, a random forest explains 18.6% of the variance in
@@ -81,10 +81,10 @@ Everything that measured Stages 0 to 2 is vendored unchanged (`src/VENDORED.sha2
 records the hashes; `make verify-vendored` checks them): the loaders, the patient-
 disjoint splits, the 30,000-row fitting sample, the downstream models (XGBoost for
 readmission, a random forest for length of stay), the membership-inference attacks
-and the fairness metrics. Seeds 42 to 46 are the evidence repository's, so every
+and the fairness metrics. Seeds 42 to 46 are the evidence layer's, so every
 split is identical and every comparison with the earlier stages is paired. The first
 DP-CTGAN run of each seed uses Stage 1's recipe and seed exactly, which reproduces
-the evidence repository's numbers and checks that nothing drifted.
+the evidence layer's numbers and checks that nothing drifted.
 
 ### 3.2 TabDDPM
 
@@ -199,7 +199,7 @@ As pre-registered: paired t-tests across the five seeds for each primary compari
 Holm-adjusted across the family; every effect is compared with its family's noise
 floor, the mean absolute difference between independent replicates of the same
 recipe; spread is compared with the Brown-Forsythe test; the minimum detectable paired
-effect uses the evidence repository's definition, (t₀.₉₇₅ + t₀.₈₀) · sd(d) / √n.
+effect uses the evidence layer's definition, (t₀.₉₇₅ + t₀.₈₀) · sd(d) / √n.
 
 ## 4. Threats to validity, stated in advance
 
@@ -314,7 +314,7 @@ reported for every arm ([`src/label_rate.py`](../src/label_rate.py)).
 
 ### 5.4 Reproduction, and three measurement problems
 
-Re-running Stage 0 and Stage 1's recipes with the evidence repository's seeds did not
+Re-running Stage 0 and Stage 1's recipes with the evidence layer's seeds did not
 reproduce its numbers bit for bit (readmission ROC-AUC differs by up to 0.043 non-private
 and 0.061 private), because the runs here use two CPU threads where the evidence run
 used twelve: summation order changes and adversarial training amplifies the difference.

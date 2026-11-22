@@ -1,10 +1,10 @@
 # Replicating an ICU Length-of-Stay Prediction Model on MIMIC-IV
 
-*An EngD replication study. Belhassen Ouerghi, University of Hertfordshire.*
+*A replication study in [SynthEHR](../../../README.md), an independent research programme by Belhassen Ouerghi.*
 
 ## 1. Overview
 
-This repository is my independent replication of a published machine-learning
+This folder is my independent replication of a published machine-learning
 experiment: predicting a patient's **intensive-care length of stay (LOS)** at
 the moment of ICU admission. The original work is the data-driven ICU-LOS model
 of **Peres et al. (2022)**, published as the R `SLOS` package and the
@@ -228,6 +228,12 @@ Held-out test set: **14,037 ICU stays (9,786 patients)**. Full table in
   funnel-style view:
   ![SLOS by unit](results/plots/slos_by_unit.png)
 
+Small-cell suppression: units with fewer than 10 test stays are not shown in the
+per-unit table or figure (two units, 4 stays in total, are withheld), and the hexbin
+plot omits bins with fewer than 10 stays. Summary statistics, including the unit-level
+R² and overall SLOS, are computed on every unit and are unchanged. An earlier version
+of this study published the small units; it was corrected before public release.
+
 ## 10. Agreement and divergence vs upstream
 
 I read this as a successful conceptual replication, in that the same method on
@@ -328,4 +334,4 @@ decision-making.
 *Reference:* Johnson, A., Bulgarelli, L., Pollard, T., et al. *MIMIC-IV* (version
 3.1). PhysioNet (2024). Upstream: Peres, I. T., et al. (2022),
 [igor-peres/ICU-Length-of-Stay-Prediction](https://github.com/igor-peres/ICU-Length-of-Stay-Prediction).
-Replication study by the author (EngD, University of Hertfordshire).
+Replication study by Belhassen Ouerghi.

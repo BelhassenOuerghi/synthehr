@@ -1,12 +1,10 @@
 # Realism under privacy: Pillar 4 of a synthetic-EHR programme
 
-*An EngD research study. Belhassen Ouerghi, University of Hertfordshire.*
-
-*Programme: [Stage 0, CTGAN baseline](https://github.com/BelhassenOuerghi/mimic-synthetic-ctgan) · [Stage 1, privacy](https://github.com/BelhassenOuerghi/mimic-synthetic-dp-ctgan) · [Stage 2, fairness](https://github.com/BelhassenOuerghi/mimic-synthetic-fair-dp-ctgan) · [Stage 3, compliance](https://github.com/BelhassenOuerghi/mimic-synthetic-ethic-fair-dp-ctgan) · [Stage 4, realism](https://github.com/BelhassenOuerghi/mimic-synthetic-realism) · [Evidence: five seeds, noise floor](https://github.com/BelhassenOuerghi/mimic-synthetic-evidence)*
+*Part of [SynthEHR](../../README.md), an independent research programme by Belhassen Ouerghi. [All research stages](../README.md).*
 
 ## 1. Overview
 
-This repository is the last pillar of my synthetic electronic-health-record
+This folder is the last pillar of my synthetic electronic-health-record
 programme. The first three pillars added one safeguard at a time to a synthetic-data
 generator (differential privacy, fair sampling, a compliance release gate) and measured
 what each one cost. The answer was sobering: privacy and synthesis together destroyed
@@ -46,21 +44,21 @@ hidden.
 
 ## 2. The programme in one table
 
-| Stage | Repository | Question | What it found |
+| Stage | Folder | Question | What it found |
 |---|---|---|---|
-| 0 | [`mimic-synthetic-ctgan`](https://github.com/BelhassenOuerghi/mimic-synthetic-ctgan) | How much predictive signal survives synthesis? | Less than hoped: readmission ROC-AUC 0.778 → 0.690; length-of-stay R² 0.186 → 0.009 |
-| 1 | [`mimic-synthetic-dp-ctgan`](https://github.com/BelhassenOuerghi/mimic-synthetic-dp-ctgan) | What does a formal privacy guarantee cost? | Differential privacy makes the generator unpredictable; attacks sit at chance even without privacy, so only the formal bound can certify a release |
-| 2 | [`mimic-synthetic-fair-dp-ctgan`](https://github.com/BelhassenOuerghi/mimic-synthetic-fair-dp-ctgan) | Can subgroup representation be repaired for free? | Fair sampling costs no extra ε; its utility cost is below the noise floor; DP makes representation unstable rather than biased in a fixed direction |
-| 3 | [`mimic-synthetic-ethic-fair-dp-ctgan`](https://github.com/BelhassenOuerghi/mimic-synthetic-ethic-fair-dp-ctgan) | Can compliance evidence be generated rather than written? | An evidence compiler and a release gate that can fail; a compliant release can be useless |
-| 4 | this repository | Can realism be recovered inside the safeguards? | Yes without privacy (a from-scratch diffusion model closes most of the gap); no at ε = 10; realism and privacy do not commute |
-| – | [`mimic-synthetic-evidence`](https://github.com/BelhassenOuerghi/mimic-synthetic-evidence) | Which findings survive seed noise? | A measured noise floor; two claims retracted |
+| 0 | [`research/stage0-synthesis`](../stage0-synthesis) | How much predictive signal survives synthesis? | Less than hoped: readmission ROC-AUC 0.778 → 0.690; length-of-stay R² 0.186 → 0.009 |
+| 1 | [`research/stage1-privacy`](../stage1-privacy) | What does a formal privacy guarantee cost? | Differential privacy makes the generator unpredictable; attacks sit at chance even without privacy, so only the formal bound can certify a release |
+| 2 | [`research/stage2-fairness`](../stage2-fairness) | Can subgroup representation be repaired for free? | Fair sampling costs no extra ε; its utility cost is below the noise floor; DP makes representation unstable rather than biased in a fixed direction |
+| 3 | [`research/stage3-compliance`](../stage3-compliance) | Can compliance evidence be generated rather than written? | An evidence compiler and a release gate that can fail; a compliant release can be useless |
+| 4 | this folder | Can realism be recovered inside the safeguards? | Yes without privacy (a from-scratch diffusion model closes most of the gap); no at ε = 10; realism and privacy do not commute |
+| – | [`research/evidence`](../evidence) | Which findings survive seed noise? | A measured noise floor; two claims retracted |
 
 ## 3. Why realism is the last pillar
 
 The safeguards of Stages 1 to 3 define what may be released; realism is optimised
 inside that region, not before it. Starting from the strongest generator available
 would have made this pillar unfalsifiable, because there would have been nothing
-to recover. And the evidence repository showed two different problems for realism
+to recover. And the evidence layer showed two different problems for realism
 to attack. On length of stay, synthesis itself destroyed the signal before privacy
 was applied, so the bottleneck is the generator. On readmission, the privacy layer
 did most of the damage. A realism intervention that only touched one of the two
@@ -87,15 +85,15 @@ could not have fixed both.
 ## 5. Data
 
 The derived, model-ready feature matrices of the two tabular replication studies
-([length of stay](https://github.com/BelhassenOuerghi/Length-of-Stay-Prediction-Replica),
-[readmission](https://github.com/BelhassenOuerghi/readmission-prediction-replica)) on MIMIC-IV
-v3.1, with the evidence repository's patient-disjoint splits and seeds. Each generator
+([length of stay](../foundations/length-of-stay),
+[readmission](../foundations/readmission)) on MIMIC-IV
+v3.1, with the evidence layer's patient-disjoint splits and seeds. Each generator
 is fitted on a 30,000-row sample of the training split and releases as many rows as
 the training split holds (79,693 for length of stay; about 69,700 for readmission,
 varying slightly with the seed). The length-of-stay split is the replication study's
 fixed patient-level split, so for that task the seeds vary the fitting sample and the
 model randomness only; the readmission split is redrawn, patient-disjoint, per seed. Bed demand needs no realism recovery: its DP generator already forecasts as well as
-the real series (evidence repository, MAE 1.460 against 1.475), so it is not re-run here.
+the real series (evidence layer, MAE 1.460 against 1.475), so it is not re-run here.
 
 ## 6. Method
 
@@ -238,7 +236,7 @@ measurable on either task.
    rows from real test rows with detection AUC 0.956. Realism is now measured against
    the test split imputed with the training medians (control: 0.505 to 0.520 on every
    seed of both tasks). Utility stays on the frozen split, identically for every arm, so it remains
-   comparable with Stages 0 to 2. Disclosed in the evidence repository too.
+   comparable with Stages 0 to 2. Disclosed in the evidence layer too.
 2. **A seed is not a reproducibility guarantee.** Re-running Stage 0 and Stage 1's
    recipes with the same seeds on two threads, instead of twelve, changed the results
    (readmission ROC-AUC by up to 0.043 non-private and 0.061 private), because thread
@@ -246,7 +244,7 @@ measurable on either task.
    The private difference is within DP-CTGAN's measured noise floor (minimum detectable
    effect 0.114); the largest non-private one (0.043, seed 42) is about 2.7 times the
    non-private spread across seeds, so it is not negligible. That is why every
-   comparison here uses this repository's own CTGAN runs: all arms share one
+   comparison here uses this stage's own CTGAN runs: all arms share one
    environment.
 3. **Precision and recall flatter over-dispersed private samples.** Private releases
    score recall close to 1.0 with precision close to 0, because a very spread-out
@@ -257,7 +255,7 @@ measurable on either task.
 ### 7.7 The whole ladder in one matrix
 
 Utility, realism, privacy, fairness and compliance for one representative release per
-rung, five seeds each. Stage 2's row is from the evidence repository (its realism was
+rung, five seeds each. Stage 2's row is from the evidence layer (its realism was
 not re-measured here); Stage 3 promotes Stage 2's data unchanged.
 
 | Rung | Release | ε | Readm. AUC | LoS R² | Detection ↓ (readm./LoS) | Attack AUC | Fairness measurable? | Stage 3 gate |
@@ -294,13 +292,17 @@ make aggregate        # intervals and the pre-registered tests -> results/
 make plots            # figures -> results/plots/
 ```
 
-Paths in [`config.yaml`](config.yaml) are relative to this repository; set
+Paths in [`config.yaml`](config.yaml) are relative to this folder; set
 `SYNTHEHR_REPOS_ROOT` and `SYNTHEHR_SYNTH_ROOT` to point elsewhere. Synthetic datasets are
 written outside the repository. Per-arm, per-seed results are committed under
 `results/arms/` so every number in this README can be traced to a file.
 
 ## 9. Limitations
 
+* **The DP-CTGAN arms' ε is 9.992, not 9.990.** They are built on Stage 2's
+  `FairDPCTGAN`, which makes one noisy count release that the accountant does not
+  charge ([Stage 2](../stage2-fairness/README.md#8-limitations)). Still within 10; the
+  DP-TabDDPM arms are unaffected.
 * **One budget.** Everything private here is at ε = 10 in Stage 1's convention (about
   4.4 under add/remove adjacency). A larger budget, or a generator designed for privacy
   from the start, such as the marginal-based methods that lead differential-privacy

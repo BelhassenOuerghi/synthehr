@@ -7,7 +7,7 @@
 
 Produced to test whether synthetic EHR can support ICU predictive modelling without
 exposing patients. It is the compliance-vetted dataset generation of a four-pillar
-doctoral programme, created by the author (EngD, University of Hertfordshire).
+research programme, created by the author, Belhassen Ouerghi.
 
 ## Composition
 
