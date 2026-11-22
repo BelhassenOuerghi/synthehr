@@ -1,0 +1,82 @@
+{
+  "task": "los",
+  "seed": 46,
+  "arm": "dpddpm_s2",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 12.654683374080603,
+    "mae": 12.130032129699533,
+    "r2": -8.654087924495897,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 13.583315425490596,
+            "mean_error": 12.838146659161579
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 11.391492311914947,
+            "mean_error": 10.627196102603989
+          }
+        },
+        "rmse_gap": 2.1918231135756496,
+        "bias_gap": 2.2109505565575898
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.4984328359375,
+    "attack_auc_knn_classifier": 0.49121918750000004,
+    "syn_to_train_dcr_median": 54.85023498535156,
+    "syn_to_train_dcr_q05": 42.2434268951416,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.4984328359375,
+    "tpr@fpr=0.01": 0.010125,
+    "tpr@fpr=0.001": 0.000875
+  },
+  "fidelity": {
+    "detection_auc": 1.0,
+    "detection_auc_rounded": 1.0,
+    "precision": 0.0,
+    "recall": 1.0,
+    "marginal_w1": 8.494527743802884,
+    "marginal_tvd": 0.4161088773142117,
+    "corr_error": 0.12347292566562278,
+    "target_assoc_error": 0.08189368111397034
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.3227510571819357
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.6772489428180644
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 4.63002678661883,
+    "epsilon_add_remove": 2.1801877615111023,
+    "runs": [
+      {
+        "q": 0.06826666666666667,
+        "sigma": 4.284051513671875,
+        "steps": 2930,
+        "sigma_hist": null
+      }
+    ],
+    "epsilon_add_remove_exact": 2.1801877615111023
+  },
+  "fit_seconds": 717.1071040630341,
+  "device": "mps",
+  "wall_seconds": 763.5968270301819
+}

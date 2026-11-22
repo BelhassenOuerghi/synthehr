@@ -1,0 +1,81 @@
+{
+  "task": "los",
+  "seed": 43,
+  "arm": "dpctgan_r3",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 4.353318635400774,
+    "mae": 3.2339900447260006,
+    "r2": -0.14248260113995093,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 4.336105549271471,
+            "mean_error": 0.6461380402141955
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 4.374682294500525,
+            "mean_error": 1.4366407428302426
+          }
+        },
+        "rmse_gap": 0.03857674522905441,
+        "bias_gap": 0.790502702616047
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.49642906249999996,
+    "attack_auc_knn_classifier": 0.5097244375,
+    "syn_to_train_dcr_median": 4.426930904388428,
+    "syn_to_train_dcr_q05": 3.5252232551574707,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.49642906249999996,
+    "tpr@fpr=0.01": 0.00975,
+    "tpr@fpr=0.001": 0.0015
+  },
+  "fidelity": {
+    "detection_auc": 0.99999985,
+    "detection_auc_rounded": 0.9999991500000001,
+    "precision": 0.1218,
+    "recall": 0.0132,
+    "marginal_w1": 0.7334427885810619,
+    "marginal_tvd": 0.2169407636654037,
+    "corr_error": 0.20126551032138837,
+    "target_assoc_error": 0.2170123618251692
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.31838429975029175
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.6816157002497083
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 9.990228903788106,
+    "epsilon_add_remove": 3.574713534752357,
+    "runs": [
+      {
+        "q": 0.016666666666666666,
+        "sigma": 1.0060852050781248,
+        "steps": 6000,
+        "sigma_hist": 32.0
+      }
+    ]
+  },
+  "fit_seconds": 2325.7857658863068,
+  "device": "cpu",
+  "wall_seconds": 2399.6729259490967
+}

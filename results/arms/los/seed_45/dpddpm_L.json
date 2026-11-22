@@ -1,0 +1,82 @@
+{
+  "task": "los",
+  "seed": 45,
+  "arm": "dpddpm_L",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 15.725853546016683,
+    "mae": 15.069842898883063,
+    "r2": -13.90860940345039,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 15.794307407123556,
+            "mean_error": 15.024446938294272
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 15.640096737721306,
+            "mean_error": 14.91690289958897
+          }
+        },
+        "rmse_gap": 0.15421066940225003,
+        "bias_gap": 0.10754403870530105
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.5065823828125,
+    "attack_auc_knn_classifier": 0.5106709375,
+    "syn_to_train_dcr_median": 49.54969024658203,
+    "syn_to_train_dcr_q05": 35.10594806671143,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.5065823828125,
+    "tpr@fpr=0.01": 0.00925,
+    "tpr@fpr=0.001": 0.001125
+  },
+  "fidelity": {
+    "detection_auc": 1.0,
+    "detection_auc_rounded": 1.0,
+    "precision": 0.0,
+    "recall": 0.9996,
+    "marginal_w1": 7.702555669721993,
+    "marginal_tvd": 0.4154098661085021,
+    "corr_error": 0.14932342024118028,
+    "target_assoc_error": 0.1558091959934496
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.8440389996611999
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.15596100033880014
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 9.998072659809486,
+    "epsilon_add_remove": 4.384612178140965,
+    "runs": [
+      {
+        "q": 0.06826666666666667,
+        "sigma": 2.2471893310546873,
+        "steps": 2930,
+        "sigma_hist": null
+      }
+    ],
+    "epsilon_add_remove_exact": 4.384612178140965
+  },
+  "fit_seconds": 2571.1733849048615,
+  "device": "mps",
+  "wall_seconds": 2644.5718851089478
+}

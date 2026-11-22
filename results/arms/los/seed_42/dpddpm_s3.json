@@ -1,0 +1,82 @@
+{
+  "task": "los",
+  "seed": 42,
+  "arm": "dpddpm_s3",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 12.39763850210495,
+    "mae": 11.942285623821306,
+    "r2": -8.265878915043483,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 12.414691592653975,
+            "mean_error": 11.645478717417484
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 12.376346551005785,
+            "mean_error": 11.678892963224381
+          }
+        },
+        "rmse_gap": 0.0383450416481903,
+        "bias_gap": 0.033414245806897114
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.49849174218750003,
+    "attack_auc_knn_classifier": 0.4944589375,
+    "syn_to_train_dcr_median": 47.75510215759277,
+    "syn_to_train_dcr_q05": 30.519336223602295,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.49849174218750003,
+    "tpr@fpr=0.01": 0.009125,
+    "tpr@fpr=0.001": 0.00125
+  },
+  "fidelity": {
+    "detection_auc": 1.0,
+    "detection_auc_rounded": 1.0,
+    "precision": 0.0,
+    "recall": 0.8372,
+    "marginal_w1": 8.083385111540872,
+    "marginal_tvd": 0.21282648422493508,
+    "corr_error": 0.12603571108081285,
+    "target_assoc_error": 0.1567676264543619
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.4699158018897519
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.5300841981102481
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 4.63002678661883,
+    "epsilon_add_remove": 2.1801877615111023,
+    "runs": [
+      {
+        "q": 0.06826666666666667,
+        "sigma": 4.284051513671875,
+        "steps": 2930,
+        "sigma_hist": null
+      }
+    ],
+    "epsilon_add_remove_exact": 2.1801877615111023
+  },
+  "fit_seconds": 739.0541381835938,
+  "device": "mps",
+  "wall_seconds": 790.531261920929
+}

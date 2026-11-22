@@ -182,7 +182,7 @@ def fig_ensembling(agg):
             x += 0.6
         ax.set_xticks([t[0] for t in ticks])
         ax.set_xticklabels([t[1] for t in ticks], fontsize=7.5, color=INK)
-        ax.set_title(TITLE[task], fontsize=11, color=INK, loc="left")
+        ax.set_title(TITLE[task], fontsize=11, color=INK, loc="left", pad=20)
         _style(ax)
     fig.suptitle("Does pooling independently trained DP generators buy back "
                  "predictability? (every dot is one release; bar = mean)",

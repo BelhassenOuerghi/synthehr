@@ -1,0 +1,103 @@
+{
+  "task": "los",
+  "seed": 46,
+  "arm": "dpctgan_ens4",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 4.285753795835589,
+    "mae": 3.139408191984413,
+    "r2": -0.10729444194260984,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 4.27385511632864,
+            "mean_error": 0.34840864038992103
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 4.300541051250463,
+            "mean_error": 1.1567218748458559
+          }
+        },
+        "rmse_gap": 0.02668593492182314,
+        "bias_gap": 0.8083132344559348
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.4954223203125,
+    "attack_auc_knn_classifier": 0.5032735625,
+    "syn_to_train_dcr_median": 5.260308504104614,
+    "syn_to_train_dcr_q05": 3.916802775859833,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.4954223203125,
+    "tpr@fpr=0.01": 0.008375,
+    "tpr@fpr=0.001": 0.00125
+  },
+  "fidelity": {
+    "detection_auc": 0.9999999500000001,
+    "detection_auc_rounded": 0.9999998999999999,
+    "precision": 0.0934,
+    "recall": 0.0364,
+    "marginal_w1": 0.5896462021073549,
+    "marginal_tvd": 0.12856702417068566,
+    "corr_error": 0.2832349800240423,
+    "target_assoc_error": 0.2226741676958745
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.33388126937121204
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.666118730628788
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 22.752172498514607,
+    "epsilon_add_remove": 7.618597169333457,
+    "runs": [
+      {
+        "q": 0.016666666666666666,
+        "sigma": 1.0060852050781248,
+        "steps": 6000,
+        "sigma_hist": 32.0
+      },
+      {
+        "q": 0.016666666666666666,
+        "sigma": 1.0060852050781248,
+        "steps": 6000,
+        "sigma_hist": 32.0
+      },
+      {
+        "q": 0.016666666666666666,
+        "sigma": 1.0060852050781248,
+        "steps": 6000,
+        "sigma_hist": 32.0
+      },
+      {
+        "q": 0.016666666666666666,
+        "sigma": 1.0060852050781248,
+        "steps": 6000,
+        "sigma_hist": 32.0
+      }
+    ]
+  },
+  "components": [
+    "dpctgan",
+    "dpctgan_r1",
+    "dpctgan_r2",
+    "dpctgan_r3"
+  ],
+  "wall_seconds": 91.8687732219696
+}

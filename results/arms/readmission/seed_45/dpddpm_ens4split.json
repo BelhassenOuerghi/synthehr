@@ -1,0 +1,176 @@
+{
+  "task": "readmission",
+  "seed": 45,
+  "arm": "dpddpm_ens4split",
+  "n_train": 69537,
+  "n_test": 17504,
+  "n_fit": 30000,
+  "utility": {
+    "roc_auc": 0.5487169712199907,
+    "pr_auc": 0.1540052968692742,
+    "accuracy": 0.8631741316270567,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 9630,
+            "auc": 0.5533660929685866,
+            "pos_rate": 0.0,
+            "tpr": 0.0,
+            "fpr": 0.0
+          },
+          "F": {
+            "n": 7874,
+            "auc": 0.5427553821715407,
+            "pos_rate": 0.0,
+            "tpr": 0.0,
+            "fpr": 0.0
+          }
+        },
+        "auc_gap": 0.010610710797045897,
+        "dp_diff": 0.0,
+        "eo_diff": 0.0
+      },
+      "insurance": {
+        "per_group": {
+          "Medicare": {
+            "n": 9508,
+            "auc": 0.5597309799320215,
+            "pos_rate": 0.0,
+            "tpr": 0.0,
+            "fpr": 0.0
+          },
+          "Private": {
+            "n": 4618,
+            "auc": 0.5279414716838043,
+            "pos_rate": 0.0,
+            "tpr": 0.0,
+            "fpr": 0.0
+          },
+          "Medicaid": {
+            "n": 2674,
+            "auc": 0.5195032364720127,
+            "pos_rate": 0.0,
+            "tpr": 0.0,
+            "fpr": 0.0
+          },
+          "Other": {
+            "n": 441,
+            "auc": 0.5865258384055377,
+            "pos_rate": 0.0,
+            "tpr": 0.0,
+            "fpr": 0.0
+          },
+          "None": {
+            "n": 262,
+            "auc": 0.5907757496740548,
+            "pos_rate": 0.0,
+            "tpr": 0.0,
+            "fpr": 0.0
+          }
+        },
+        "auc_gap": 0.07127251320204209,
+        "dp_diff": 0.0,
+        "eo_diff": 0.0
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.4953181484375,
+    "attack_auc_knn_classifier": 0.4982865,
+    "syn_to_train_dcr_median": 108.61601638793945,
+    "syn_to_train_dcr_q05": 71.93420524597168,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.4953181484375,
+    "tpr@fpr=0.01": 0.011125,
+    "tpr@fpr=0.001": 0.000625
+  },
+  "fidelity": {
+    "detection_auc": 0.99999995,
+    "detection_auc_rounded": 0.99999995,
+    "precision": 0.0,
+    "recall": 1.0,
+    "marginal_w1": 9.584842658198184,
+    "marginal_tvd": 0.14399273702853446,
+    "corr_error": 0.07751837417459216,
+    "target_assoc_error": 0.0885439759598456
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4373211383867581,
+        "dataset": 0.45476508908926183
+      },
+      "M": {
+        "real": 0.5626788616132419,
+        "dataset": 0.5452349109107382
+      }
+    },
+    "insurance": {
+      "Medicaid": {
+        "real": 0.15317025468455642,
+        "dataset": 0.08536462602643197
+      },
+      "Medicare": {
+        "real": 0.5410932309418007,
+        "dataset": 0.6666522858334412
+      },
+      "No charge": {
+        "real": 0.00010066583257833959,
+        "dataset": 0.0006039949954700375
+      },
+      "None": {
+        "real": 0.013733695730330616,
+        "dataset": 0.01908336569020809
+      },
+      "Other": {
+        "real": 0.02505141147878108,
+        "dataset": 0.0019270316522139292
+      },
+      "Private": {
+        "real": 0.2668507413319528,
+        "dataset": 0.2263686958022348
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 9.998649646818274,
+    "epsilon_add_remove": 4.552112590602097,
+    "runs": [
+      {
+        "q": 0.06826666666666667,
+        "sigma": 4.284051513671875,
+        "steps": 2930,
+        "sigma_hist": null
+      },
+      {
+        "q": 0.06826666666666667,
+        "sigma": 4.284051513671875,
+        "steps": 2930,
+        "sigma_hist": null
+      },
+      {
+        "q": 0.06826666666666667,
+        "sigma": 4.284051513671875,
+        "steps": 2930,
+        "sigma_hist": null
+      },
+      {
+        "q": 0.06826666666666667,
+        "sigma": 4.284051513671875,
+        "steps": 2930,
+        "sigma_hist": null
+      }
+    ]
+  },
+  "components": [
+    "dpddpm_s1",
+    "dpddpm_s2",
+    "dpddpm_s3",
+    "dpddpm_s4"
+  ],
+  "wall_seconds": 21.883370399475098
+}

@@ -1,0 +1,82 @@
+{
+  "task": "los",
+  "seed": 42,
+  "arm": "dpddpm_s4",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 6.255876959714259,
+    "mae": 5.743018733620866,
+    "r2": -1.3593103883854152,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 6.4285671844969565,
+            "mean_error": 4.717652514054746
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 6.03367711383881,
+            "mean_error": 4.390981223377034
+          }
+        },
+        "rmse_gap": 0.3948900706581462,
+        "bias_gap": 0.3266712906777114
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.5024314609375,
+    "attack_auc_knn_classifier": 0.507276125,
+    "syn_to_train_dcr_median": 47.83920860290527,
+    "syn_to_train_dcr_q05": 24.45459499359131,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.5024314609375,
+    "tpr@fpr=0.01": 0.009,
+    "tpr@fpr=0.001": 0.001625
+  },
+  "fidelity": {
+    "detection_auc": 1.0,
+    "detection_auc_rounded": 1.0,
+    "precision": 0.0,
+    "recall": 0.9984,
+    "marginal_w1": 7.867233343536675,
+    "marginal_tvd": 0.2994805366882486,
+    "corr_error": 0.12951218172744786,
+    "target_assoc_error": 0.07310656193979859
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.44261101978843814
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.5573889802115619
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 4.63002678661883,
+    "epsilon_add_remove": 2.1801877615111023,
+    "runs": [
+      {
+        "q": 0.06826666666666667,
+        "sigma": 4.284051513671875,
+        "steps": 2930,
+        "sigma_hist": null
+      }
+    ],
+    "epsilon_add_remove_exact": 2.1801877615111023
+  },
+  "fit_seconds": 739.9357719421387,
+  "device": "mps",
+  "wall_seconds": 790.6131439208984
+}

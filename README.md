@@ -157,7 +157,24 @@ so the attacks are capable of detecting a leak.
 
 ### 7.2 The pre-registered tests
 
-<!-- PRIMARY TABLE -->
+Fourteen comparisons fixed in advance, paired t-tests across five seeds, Holm-adjusted
+across all fourteen. Δ is the first arm minus the second, in ROC-AUC (readmission) or R²
+(length of stay). The noise floor is the mean absolute difference between independent
+replicates of the private recipe involved; it is defined only for private recipes.
+
+| Hypothesis | Comparison | Readmission Δ (p, Holm p) | Length of stay Δ (p, Holm p) | Verdict |
+|---|---|---|---|---|
+| H1 | TabDDPM − CTGAN | +0.068 (0.0002, **0.003**) | +0.118 (0.0004, **0.005**) | **supported on both tasks** |
+| H2 | DP-TabDDPM − DP-CTGAN | +0.024 (0.43, 1.0) | −0.501 (0.28, 1.0) | not supported: within noise |
+| H3b | split-budget pool − single run, TabDDPM | −0.001 (0.96, 1.0) | −4.049 (0.031, 0.31) | pool no better; worse on LoS before correction |
+| H3b | split-budget pool − single run, CTGAN | −0.001 (0.96, 1.0) | −0.417 (0.25, 1.0) | pool no better |
+| H4 | (L − S) without DP − (L − S) with DP | +0.144 (0.007, 0.078) | +10.250 (0.002, **0.023**) | **supported on LoS**; suggestive on readmission |
+| H5 | fair resampling − none, TabDDPM | +0.017 (0.32, 1.0) | +0.469 (0.16, 1.0) | no measurable cost |
+| H6 | patient-level − stay-level DP | +0.002 (0.96, 1.0) | +0.374 (0.39, 1.0) | no measurable cost |
+
+Noise floors (mean absolute difference between replicates): readmission 0.049 (DP-CTGAN)
+and 0.059 (DP-TabDDPM) ROC-AUC; length of stay 0.942 and 0.712 R². H3a (spread) is a
+Brown-Forsythe test, reported in Section 7.4.
 
 ### 7.3 Realism and privacy do not commute
 
@@ -237,6 +254,28 @@ measurable on either task.
    al., 2020), which use balls around real rows only, were added after this was seen;
    they put the same releases at coverage 0.000.
 
+### 7.7 The whole ladder in one matrix
+
+Utility, realism, privacy, fairness and compliance for one representative release per
+rung, five seeds each. Stage 2's row is from the evidence repository (its realism was
+not re-measured here); Stage 3 promotes Stage 2's data unchanged.
+
+| Rung | Release | ε | Readm. AUC | LoS R² | Detection ↓ (readm./LoS) | Attack AUC | Fairness measurable? | Stage 3 gate |
+|---|---|---|---|---|---|---|---|---|
+| 0 | CTGAN | ∞ | 0.673 | 0.017 | 1.000 / 1.000 | 0.50 | yes (0 of 35 cells degenerate) | refused: no formal bound |
+| 1 | DP-CTGAN | 10 | 0.492 | −0.339 | 1.000 / 1.000 | 0.50 | partly (1 of 35) | promoted |
+| 2 | DP-CTGAN, fair sampling | 10 | 0.484 | −0.728 | – | 0.50 | vacuous (Stage 2) | promoted |
+| 3 | Stage 2's data, gated | 10 | 0.484 | −0.728 | – | 0.50 | vacuous | promoted; external release on HOLD |
+| 4 | TabDDPM, 4 × 512 | ∞ | 0.751 | 0.155 | 0.767 / 0.599 | 0.50 | yes, tracks the real model | refused: no formal bound |
+| 4 | DP-TabDDPM, 2 × 128 | 10 | 0.538 | 0.028 | 1.000 / 0.990 | 0.50 | no (35 of 35) | promoted |
+| 4 | DP-TabDDPM, patient-level | 10 | 0.518 | −0.466 | 1.000 / 1.000 | 0.50 | no (35 of 35) | promoted |
+
+Read down the columns and the programme's argument is visible. Every release passes
+the gate's empirical check, so the gate's decision rests entirely on ε. The releases it
+promotes are the ones with no realism and little utility, and the realistic ones are
+refused. The gate is doing its job; the matrix shows what its job cannot see.
+([`results/release_check.md`](results/release_check.md) has every arm.)
+
 Two implementation faults were caught by unit tests before any experiment ran: the
 weight average used for sampling needed a warm-up, and Apple's GPU backend needed
 fixed tensor shapes to avoid recompiling every step. Both are described in the paper.
@@ -250,6 +289,7 @@ make test             # unit tests on fabricated data, no MIMIC needed
 make verify-vendored  # the frozen Stage 0-2 harness is byte-identical
 make pilot            # the one hyperparameter search (seed 42 training rows only)
 make run              # every arm and seed; resumable, one subprocess per arm
+make realism          # realism vs a train-median-imputed test split; label rates
 make aggregate        # intervals and the pre-registered tests -> results/
 make plots            # figures -> results/plots/
 ```

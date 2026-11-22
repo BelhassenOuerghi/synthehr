@@ -1,0 +1,82 @@
+{
+  "task": "los",
+  "seed": 43,
+  "arm": "dpddpm_s2",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 14.774830267170438,
+    "mae": 14.249199893186013,
+    "r2": -12.159933172790195,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 13.242686864168192,
+            "mean_error": 12.566371386432815
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 16.486658138506808,
+            "mean_error": 15.997125471932662
+          }
+        },
+        "rmse_gap": 3.243971274338616,
+        "bias_gap": 3.4307540854998475
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.5018453359375,
+    "attack_auc_knn_classifier": 0.5083805625,
+    "syn_to_train_dcr_median": 53.95908164978027,
+    "syn_to_train_dcr_q05": 26.307958602905273,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.5018453359375,
+    "tpr@fpr=0.01": 0.011375,
+    "tpr@fpr=0.001": 0.001625
+  },
+  "fidelity": {
+    "detection_auc": 1.0,
+    "detection_auc_rounded": 1.0,
+    "precision": 0.0,
+    "recall": 0.9986,
+    "marginal_w1": 7.534777408309305,
+    "marginal_tvd": 0.39997988493233844,
+    "corr_error": 0.14102452495380488,
+    "target_assoc_error": 0.10687601853101647
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.7556121616704102
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.2443878383295898
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 4.63002678661883,
+    "epsilon_add_remove": 2.1801877615111023,
+    "runs": [
+      {
+        "q": 0.06826666666666667,
+        "sigma": 4.284051513671875,
+        "steps": 2930,
+        "sigma_hist": null
+      }
+    ],
+    "epsilon_add_remove_exact": 2.1801877615111023
+  },
+  "fit_seconds": 727.4308617115021,
+  "device": "mps",
+  "wall_seconds": 782.6427171230316
+}

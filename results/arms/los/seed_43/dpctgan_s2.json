@@ -1,0 +1,81 @@
+{
+  "task": "los",
+  "seed": 43,
+  "arm": "dpctgan_s2",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 4.205267716822925,
+    "mae": 2.4643063983948346,
+    "r2": -0.06609518389650337,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 4.322236815104521,
+            "mean_error": -0.9543566274135894
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 4.054726987790607,
+            "mean_error": -0.7177568582359685
+          }
+        },
+        "rmse_gap": 0.2675098273139138,
+        "bias_gap": 0.23659976917762093
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.49233839062499996,
+    "attack_auc_knn_classifier": 0.5069423125,
+    "syn_to_train_dcr_median": 4.874841690063477,
+    "syn_to_train_dcr_q05": 4.094404578208923,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.49233839062499996,
+    "tpr@fpr=0.01": 0.00825,
+    "tpr@fpr=0.001": 0.00075
+  },
+  "fidelity": {
+    "detection_auc": 0.9999999500000001,
+    "detection_auc_rounded": 0.9999999500000001,
+    "precision": 0.2028,
+    "recall": 0.0094,
+    "marginal_w1": 0.9375414159096119,
+    "marginal_tvd": 0.15778079309511014,
+    "corr_error": 0.14465590916820195,
+    "target_assoc_error": 0.0955935782490942
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.4450453615750442
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.5549546384249557
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 4.652836552949081,
+    "epsilon_add_remove": 2.0469154822115136,
+    "runs": [
+      {
+        "q": 0.016666666666666666,
+        "sigma": 1.6354881286621095,
+        "steps": 6000,
+        "sigma_hist": 32.0
+      }
+    ]
+  },
+  "fit_seconds": 2297.6817739009857,
+  "device": "cpu",
+  "wall_seconds": 2521.362559080124
+}

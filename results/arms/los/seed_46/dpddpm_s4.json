@@ -1,0 +1,82 @@
+{
+  "task": "los",
+  "seed": 46,
+  "arm": "dpddpm_s4",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 4.623982107077968,
+    "mae": 3.209627588376751,
+    "r2": -0.2889645486959178,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 4.695889117625226,
+            "mean_error": 0.6954492967661352
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 4.532742867249873,
+            "mean_error": 0.7755126770963844
+          }
+        },
+        "rmse_gap": 0.16314625037535357,
+        "bias_gap": 0.08006338033024918
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.49612609375,
+    "attack_auc_knn_classifier": 0.5076714999999999,
+    "syn_to_train_dcr_median": 44.97689437866211,
+    "syn_to_train_dcr_q05": 25.99298095703125,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.49612609375,
+    "tpr@fpr=0.01": 0.009875,
+    "tpr@fpr=0.001": 0.00025
+  },
+  "fidelity": {
+    "detection_auc": 1.0,
+    "detection_auc_rounded": 1.0,
+    "precision": 0.0,
+    "recall": 0.9974,
+    "marginal_w1": 7.26559650608826,
+    "marginal_tvd": 0.1795044794507922,
+    "corr_error": 0.20097714173572134,
+    "target_assoc_error": 0.2651677014301523
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.4788249909025887
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.5211750090974113
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 4.63002678661883,
+    "epsilon_add_remove": 2.1801877615111023,
+    "runs": [
+      {
+        "q": 0.06826666666666667,
+        "sigma": 4.284051513671875,
+        "steps": 2930,
+        "sigma_hist": null
+      }
+    ],
+    "epsilon_add_remove_exact": 2.1801877615111023
+  },
+  "fit_seconds": 710.1581299304962,
+  "device": "mps",
+  "wall_seconds": 756.8494489192963
+}

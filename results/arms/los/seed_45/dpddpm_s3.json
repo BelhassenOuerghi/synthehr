@@ -1,0 +1,82 @@
+{
+  "task": "los",
+  "seed": 45,
+  "arm": "dpddpm_s3",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 9.625459246184876,
+    "mae": 9.193049735707476,
+    "r2": -4.585365552358744,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 9.544678295257306,
+            "mean_error": 8.55876333066172
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 9.725224327700193,
+            "mean_error": 8.850073938146243
+          }
+        },
+        "rmse_gap": 0.18054603244288714,
+        "bias_gap": 0.2913106074845242
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.50794865625,
+    "attack_auc_knn_classifier": 0.505598625,
+    "syn_to_train_dcr_median": 56.85874557495117,
+    "syn_to_train_dcr_q05": 23.74387493133545,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.50794865625,
+    "tpr@fpr=0.01": 0.013,
+    "tpr@fpr=0.001": 0.003125
+  },
+  "fidelity": {
+    "detection_auc": 0.99999995,
+    "detection_auc_rounded": 0.99999995,
+    "precision": 0.0,
+    "recall": 0.9942,
+    "marginal_w1": 7.766423241670314,
+    "marginal_tvd": 0.2946848589284752,
+    "corr_error": 0.17125902564493073,
+    "target_assoc_error": 0.16561387936770575
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.5402607506305447
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.45973924936945526
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 4.63002678661883,
+    "epsilon_add_remove": 2.1801877615111023,
+    "runs": [
+      {
+        "q": 0.06826666666666667,
+        "sigma": 4.284051513671875,
+        "steps": 2930,
+        "sigma_hist": null
+      }
+    ],
+    "epsilon_add_remove_exact": 2.1801877615111023
+  },
+  "fit_seconds": 719.150768995285,
+  "device": "mps",
+  "wall_seconds": 793.5498900413513
+}

@@ -1,0 +1,81 @@
+{
+  "task": "los",
+  "seed": 43,
+  "arm": "dpctgan_r2",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 4.227813060667933,
+    "mae": 2.452525674669578,
+    "r2": -0.07755695699085363,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 4.325041804516893,
+            "mean_error": -0.9329297221397819
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 4.103378988319702,
+            "mean_error": -0.9650680574628764
+          }
+        },
+        "rmse_gap": 0.22166281619719097,
+        "bias_gap": 0.03213833532309451
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.49476233593749996,
+    "attack_auc_knn_classifier": 0.49483075,
+    "syn_to_train_dcr_median": 5.4498302936553955,
+    "syn_to_train_dcr_q05": 4.504756188392639,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.49476233593749996,
+    "tpr@fpr=0.01": 0.01,
+    "tpr@fpr=0.001": 0.001375
+  },
+  "fidelity": {
+    "detection_auc": 0.99999965,
+    "detection_auc_rounded": 0.9999994999999998,
+    "precision": 0.055,
+    "recall": 0.0054,
+    "marginal_w1": 0.8992405577070168,
+    "marginal_tvd": 0.19023215697002702,
+    "corr_error": 0.16717033214813184,
+    "target_assoc_error": 0.18968530850203769
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.6436826321006864
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.3563173678993136
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 9.990228903788106,
+    "epsilon_add_remove": 3.574713534752357,
+    "runs": [
+      {
+        "q": 0.016666666666666666,
+        "sigma": 1.0060852050781248,
+        "steps": 6000,
+        "sigma_hist": 32.0
+      }
+    ]
+  },
+  "fit_seconds": 2379.884069919586,
+  "device": "cpu",
+  "wall_seconds": 2498.5039188861847
+}

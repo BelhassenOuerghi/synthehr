@@ -1,0 +1,82 @@
+{
+  "task": "los",
+  "seed": 45,
+  "arm": "dpddpm_s4",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 6.169678499169502,
+    "mae": 5.17666011639939,
+    "r2": -1.2947413966547754,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 6.289373391282691,
+            "mean_error": 3.5289534815232777
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 6.017128801546571,
+            "mean_error": 3.669099826224421
+          }
+        },
+        "rmse_gap": 0.2722445897361201,
+        "bias_gap": 0.1401463447011433
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.506741078125,
+    "attack_auc_knn_classifier": 0.5033296875,
+    "syn_to_train_dcr_median": 45.93217849731445,
+    "syn_to_train_dcr_q05": 31.18606414794922,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.506741078125,
+    "tpr@fpr=0.01": 0.010125,
+    "tpr@fpr=0.001": 0.0005
+  },
+  "fidelity": {
+    "detection_auc": 1.0,
+    "detection_auc_rounded": 1.0,
+    "precision": 0.0,
+    "recall": 0.9994,
+    "marginal_w1": 7.8014575629378085,
+    "marginal_tvd": 0.3571392291962819,
+    "corr_error": 0.16667092166595265,
+    "target_assoc_error": 0.08629481377017371
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.1493104789630206
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.8506895210369794
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 4.63002678661883,
+    "epsilon_add_remove": 2.1801877615111023,
+    "runs": [
+      {
+        "q": 0.06826666666666667,
+        "sigma": 4.284051513671875,
+        "steps": 2930,
+        "sigma_hist": null
+      }
+    ],
+    "epsilon_add_remove_exact": 2.1801877615111023
+  },
+  "fit_seconds": 717.332300901413,
+  "device": "mps",
+  "wall_seconds": 797.1801900863647
+}

@@ -2,12 +2,33 @@
 
 *Belhassen Ouerghi, EngD, University of Hertfordshire.*
 
-*Draft. Sections 1 to 4 were written before the main experiment's results existed;
-Sections 5 onwards report them.*
+*Sections 1 to 4 were written before the main experiment's results existed; Sections 5
+onwards report them. The pre-registration is [`PREREGISTRATION.md`](PREREGISTRATION.md).*
 
 ## Abstract
 
-<!-- ABSTRACT: written last, from Section 5 -->
+The first three pillars of this programme showed that synthesis with CTGAN and
+differential privacy at ε = 10 together destroy almost all the predictive value of
+MIMIC-IV feature data for 30-day readmission and ICU length of stay. This pillar asks
+whether that value can be recovered inside the same safeguards. I implement TabDDPM
+from scratch with a differentially private trainer (true Poisson subsampling,
+per-example gradients, noise multiplicity, and an optional patient-level guarantee)
+and compare it with the programme's CTGAN and DP-CTGAN in a pre-registered study: 30
+arms per task, five seeds on patient-disjoint splits, independent replicates for a
+noise floor, Holm-adjusted paired tests, and realism measured directly against held-out
+real rows. Without privacy, TabDDPM recovers most of what CTGAN lost (readmission
+ROC-AUC 0.741 against 0.673, length-of-stay R² 0.135 against 0.017; both survive
+correction; the largest model closes 74% and 82% of the gap to real data). At ε = 10 it
+does not survive: private TabDDPM is indistinguishable from private CTGAN, at chance on
+readmission and below the mean on length of stay, and a diagnostic run attributes the
+collapse to the noise rather than the trainer. Model capacity interacts with privacy:
+the size that is best without privacy is worst with it (significant on length of stay),
+so realism and privacy do not commute. Pooling four private generators reduces
+run-to-run spread tenfold only when the budget grows to ε ≈ 23, a patient-level
+guarantee costs nothing measurable, and every release, private or not, sits at chance
+against membership attacks. The study also found two defects in the programme's
+frozen evaluation harness, per-split median imputation and thread-count-dependent
+reproducibility; it corrects the first for its realism metrics and discloses both.
 
 ## 1. Motivation: the safeguards took the utility away
 
@@ -198,7 +219,24 @@ All values are means with 95% t-intervals over seeds 42 to 46. The full tables a
 
 ### 5.1 Hypothesis verdicts
 
-<!-- PRIMARY TABLE -->
+Fourteen comparisons fixed in advance, paired t-tests across five seeds, Holm-adjusted
+across all fourteen. Δ is the first arm minus the second, in ROC-AUC (readmission) or R²
+(length of stay). The noise floor is the mean absolute difference between independent
+replicates of the private recipe involved; it is defined only for private recipes.
+
+| Hypothesis | Comparison | Readmission Δ (p, Holm p) | Length of stay Δ (p, Holm p) | Verdict |
+|---|---|---|---|---|
+| H1 | TabDDPM − CTGAN | +0.068 (0.0002, **0.003**) | +0.118 (0.0004, **0.005**) | **supported on both tasks** |
+| H2 | DP-TabDDPM − DP-CTGAN | +0.024 (0.43, 1.0) | −0.501 (0.28, 1.0) | not supported: within noise |
+| H3b | split-budget pool − single run, TabDDPM | −0.001 (0.96, 1.0) | −4.049 (0.031, 0.31) | pool no better; worse on LoS before correction |
+| H3b | split-budget pool − single run, CTGAN | −0.001 (0.96, 1.0) | −0.417 (0.25, 1.0) | pool no better |
+| H4 | (L − S) without DP − (L − S) with DP | +0.144 (0.007, 0.078) | +10.250 (0.002, **0.023**) | **supported on LoS**; suggestive on readmission |
+| H5 | fair resampling − none, TabDDPM | +0.017 (0.32, 1.0) | +0.469 (0.16, 1.0) | no measurable cost |
+| H6 | patient-level − stay-level DP | +0.002 (0.96, 1.0) | +0.374 (0.39, 1.0) | no measurable cost |
+
+Noise floors (mean absolute difference between replicates): readmission 0.049 (DP-CTGAN)
+and 0.059 (DP-TabDDPM) ROC-AUC; length of stay 0.942 and 0.712 R². H3a (spread) is a
+Brown-Forsythe test, reported in below.
 
 **H1 (realism without privacy): supported.** Non-private TabDDPM beats CTGAN on both
 tasks: readmission ROC-AUC 0.741 ± 0.007 against 0.673 ± 0.019, length-of-stay R²
@@ -227,14 +265,16 @@ p = 0.42).
 **H3b (pooling at split budget does not beat one run): supported, and worse.** With a
 fixed ε = 10 shared by four runs, each run is much noisier (noise multiplier 4.28
 against 2.25), and on length of stay the pool is worse than one run (−4.889 against
-−0.840). Predictability is bought with privacy budget, not created.
+−0.840; p = 0.031 before correction, 0.31 after). For DP-CTGAN the split pool is no
+better either (−0.756 against −0.339, within noise). Predictability is bought with
+privacy budget, not created.
 
 **H4 (realism and privacy do not commute): supported on length of stay, suggestive on
 readmission.** Without privacy, utility rises with denoiser size on both tasks (S, M, L:
 0.641, 0.741, 0.751 and 0.128, 0.135, 0.155). Under privacy the order reverses (0.538,
 0.516, 0.504 and 0.028, −0.840, −10.195). The difference-in-differences is large on
-length of stay and survives Holm correction; on readmission it is significant only
-before correction.
+length of stay and survives Holm correction (p = 0.002, Holm p = 0.023); on
+readmission it is significant only before correction (p = 0.007, Holm p = 0.078).
 
 **H5 (fairness becomes measurable at restored utility): not supported under privacy;
 supported without it.** Every DP-TabDDPM classifier predicts a single class in all 35

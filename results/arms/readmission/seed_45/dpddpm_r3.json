@@ -1,0 +1,155 @@
+{
+  "task": "readmission",
+  "seed": 45,
+  "arm": "dpddpm_r3",
+  "n_train": 69537,
+  "n_test": 17504,
+  "n_fit": 30000,
+  "utility": {
+    "roc_auc": 0.51788541193562,
+    "pr_auc": 0.14711208547736543,
+    "accuracy": 0.8631741316270567,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 9630,
+            "auc": 0.5251502251448918,
+            "pos_rate": 0.0,
+            "tpr": 0.0,
+            "fpr": 0.0
+          },
+          "F": {
+            "n": 7874,
+            "auc": 0.5058000707787362,
+            "pos_rate": 0.0,
+            "tpr": 0.0,
+            "fpr": 0.0
+          }
+        },
+        "auc_gap": 0.019350154366155614,
+        "dp_diff": 0.0,
+        "eo_diff": 0.0
+      },
+      "insurance": {
+        "per_group": {
+          "Medicare": {
+            "n": 9508,
+            "auc": 0.5406984864475479,
+            "pos_rate": 0.0,
+            "tpr": 0.0,
+            "fpr": 0.0
+          },
+          "Private": {
+            "n": 4618,
+            "auc": 0.515646677670466,
+            "pos_rate": 0.0,
+            "tpr": 0.0,
+            "fpr": 0.0
+          },
+          "Medicaid": {
+            "n": 2674,
+            "auc": 0.5089832471826394,
+            "pos_rate": 0.0,
+            "tpr": 0.0,
+            "fpr": 0.0
+          },
+          "Other": {
+            "n": 441,
+            "auc": 0.5713390619405657,
+            "pos_rate": 0.0,
+            "tpr": 0.0,
+            "fpr": 0.0
+          },
+          "None": {
+            "n": 262,
+            "auc": 0.5600554106910038,
+            "pos_rate": 0.0,
+            "tpr": 0.0,
+            "fpr": 0.0
+          }
+        },
+        "auc_gap": 0.06235581475792629,
+        "dp_diff": 0.0,
+        "eo_diff": 0.0
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.502105109375,
+    "attack_auc_knn_classifier": 0.5090185625,
+    "syn_to_train_dcr_median": 105.90853500366211,
+    "syn_to_train_dcr_q05": 76.15576629638672,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.502105109375,
+    "tpr@fpr=0.01": 0.008625,
+    "tpr@fpr=0.001": 0.0005
+  },
+  "fidelity": {
+    "detection_auc": 0.9999998,
+    "detection_auc_rounded": 0.9999998,
+    "precision": 0.0,
+    "recall": 1.0,
+    "marginal_w1": 9.284562477003195,
+    "marginal_tvd": 0.21680878140605056,
+    "corr_error": 0.10345103658949831,
+    "target_assoc_error": 0.05579899782673852
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4373211383867581,
+        "dataset": 0.5154953478004516
+      },
+      "M": {
+        "real": 0.5626788616132419,
+        "dataset": 0.48450465219954847
+      }
+    },
+    "insurance": {
+      "Medicaid": {
+        "real": 0.15317025468455642,
+        "dataset": 0.23463767490688411
+      },
+      "Medicare": {
+        "real": 0.5410932309418007,
+        "dataset": 0.19940463350446525
+      },
+      "No charge": {
+        "real": 0.00010066583257833959,
+        "dataset": 0.0077368882753066715
+      },
+      "None": {
+        "real": 0.013733695730330616,
+        "dataset": 0.04521333966089995
+      },
+      "Other": {
+        "real": 0.02505141147878108,
+        "dataset": 0.0014524641557731855
+      },
+      "Private": {
+        "real": 0.2668507413319528,
+        "dataset": 0.5115549994966708
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 9.998072659809486,
+    "epsilon_add_remove": 4.384612178140965,
+    "runs": [
+      {
+        "q": 0.06826666666666667,
+        "sigma": 2.2471893310546873,
+        "steps": 2930,
+        "sigma_hist": null
+      }
+    ],
+    "epsilon_add_remove_exact": 4.384612178140965
+  },
+  "fit_seconds": 881.7094061374664,
+  "device": "mps",
+  "wall_seconds": 941.3905191421509
+}

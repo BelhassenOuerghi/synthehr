@@ -1,0 +1,81 @@
+{
+  "task": "los",
+  "seed": 46,
+  "arm": "dpctgan_r3",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 4.134684217486159,
+    "mae": 2.984621172255273,
+    "r2": -0.03060768300654182,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 4.213704231968605,
+            "mean_error": 0.42033541434997385
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 4.034007762173537,
+            "mean_error": 0.7791833687391517
+          }
+        },
+        "rmse_gap": 0.17969646979506848,
+        "bias_gap": 0.3588479543891779
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.49582776562499997,
+    "attack_auc_knn_classifier": 0.48934849999999996,
+    "syn_to_train_dcr_median": 5.024070739746094,
+    "syn_to_train_dcr_q05": 4.125174283981323,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.49582776562499997,
+    "tpr@fpr=0.01": 0.011,
+    "tpr@fpr=0.001": 0.001
+  },
+  "fidelity": {
+    "detection_auc": 0.9999997500000001,
+    "detection_auc_rounded": 0.9999982,
+    "precision": 0.2102,
+    "recall": 0.0044,
+    "marginal_w1": 0.8469189918457481,
+    "marginal_tvd": 0.1576752915837287,
+    "corr_error": 0.15685421957639933,
+    "target_assoc_error": 0.11760617920599994
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.3847012912049992
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.6152987087950008
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 9.990228903788106,
+    "epsilon_add_remove": 3.574713534752357,
+    "runs": [
+      {
+        "q": 0.016666666666666666,
+        "sigma": 1.0060852050781248,
+        "steps": 6000,
+        "sigma_hist": 32.0
+      }
+    ]
+  },
+  "fit_seconds": 2891.6808500289917,
+  "device": "cpu",
+  "wall_seconds": 2980.4318459033966
+}

@@ -1,0 +1,82 @@
+{
+  "task": "los",
+  "seed": 45,
+  "arm": "dpddpm_s2",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 12.617371854131354,
+    "mae": 12.166160507265127,
+    "r2": -8.597242935574142,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 13.28250499222864,
+            "mean_error": 12.594191264829409
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 11.73551832475759,
+            "mean_error": 11.03779219842604
+          }
+        },
+        "rmse_gap": 1.5469866674710495,
+        "bias_gap": 1.556399066403369
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.50564065625,
+    "attack_auc_knn_classifier": 0.5036350624999999,
+    "syn_to_train_dcr_median": 39.72079277038574,
+    "syn_to_train_dcr_q05": 28.94606304168701,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.50564065625,
+    "tpr@fpr=0.01": 0.00825,
+    "tpr@fpr=0.001": 0.001375
+  },
+  "fidelity": {
+    "detection_auc": 0.9999993,
+    "detection_auc_rounded": 0.9999993,
+    "precision": 0.0,
+    "recall": 0.999,
+    "marginal_w1": 6.904202100338359,
+    "marginal_tvd": 0.4210472481193526,
+    "corr_error": 0.1417020868841617,
+    "target_assoc_error": 0.09400990851585725
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.1753102530962569
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.8246897469037431
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 4.63002678661883,
+    "epsilon_add_remove": 2.1801877615111023,
+    "runs": [
+      {
+        "q": 0.06826666666666667,
+        "sigma": 4.284051513671875,
+        "steps": 2930,
+        "sigma_hist": null
+      }
+    ],
+    "epsilon_add_remove_exact": 2.1801877615111023
+  },
+  "fit_seconds": 716.2624468803406,
+  "device": "mps",
+  "wall_seconds": 763.0729200839996
+}

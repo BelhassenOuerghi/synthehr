@@ -1,0 +1,82 @@
+{
+  "task": "los",
+  "seed": 43,
+  "arm": "dpddpm_s3",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 8.164358807091526,
+    "mae": 7.720456848585644,
+    "r2": -3.01839707216267,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 8.956309495085693,
+            "mean_error": 7.920626542386708
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 7.0536458891158835,
+            "mean_error": 5.846514412502794
+          }
+        },
+        "rmse_gap": 1.902663605969809,
+        "bias_gap": 2.0741121298839147
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.4933670390625,
+    "attack_auc_knn_classifier": 0.5056584375000001,
+    "syn_to_train_dcr_median": 45.97012710571289,
+    "syn_to_train_dcr_q05": 25.695310592651367,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.4933670390625,
+    "tpr@fpr=0.01": 0.008875,
+    "tpr@fpr=0.001": 0.001125
+  },
+  "fidelity": {
+    "detection_auc": 1.0,
+    "detection_auc_rounded": 1.0,
+    "precision": 0.0,
+    "recall": 1.0,
+    "marginal_w1": 7.743902736107391,
+    "marginal_tvd": 0.3361168487752499,
+    "corr_error": 0.12843543682062245,
+    "target_assoc_error": 0.15509888132432642
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.7192476127137891
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.2807523872862108
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 4.63002678661883,
+    "epsilon_add_remove": 2.1801877615111023,
+    "runs": [
+      {
+        "q": 0.06826666666666667,
+        "sigma": 4.284051513671875,
+        "steps": 2930,
+        "sigma_hist": null
+      }
+    ],
+    "epsilon_add_remove_exact": 2.1801877615111023
+  },
+  "fit_seconds": 724.4942960739136,
+  "device": "mps",
+  "wall_seconds": 773.4957990646362
+}

@@ -1,0 +1,82 @@
+{
+  "task": "los",
+  "seed": 45,
+  "arm": "dpddpm_patient",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 4.851317337709675,
+    "mae": 4.013984001993015,
+    "r2": -0.4188224474669162,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 4.923193647237237,
+            "mean_error": 2.204944891833665
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 4.760193959589237,
+            "mean_error": 2.4607041626373896
+          }
+        },
+        "rmse_gap": 0.162999687648,
+        "bias_gap": 0.2557592708037246
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.50434571875,
+    "attack_auc_knn_classifier": 0.5149369375,
+    "syn_to_train_dcr_median": 45.86081123352051,
+    "syn_to_train_dcr_q05": 31.819288730621338,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.50434571875,
+    "tpr@fpr=0.01": 0.014625,
+    "tpr@fpr=0.001": 0.00225
+  },
+  "fidelity": {
+    "detection_auc": 1.0,
+    "detection_auc_rounded": 1.0,
+    "precision": 0.0002,
+    "recall": 0.9998,
+    "marginal_w1": 7.654716697871726,
+    "marginal_tvd": 0.2972909603270261,
+    "corr_error": 0.16922332251204472,
+    "target_assoc_error": 0.18537157569088408
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.46483379970637323
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.5351662002936268
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 9.996688605554198,
+    "epsilon_add_remove": 4.414312684015581,
+    "runs": [
+      {
+        "q": 0.08144436490893184,
+        "sigma": 2.4352584838867193,
+        "steps": 2456,
+        "sigma_hist": null
+      }
+    ],
+    "epsilon_add_remove_exact": 4.414312684015581
+  },
+  "fit_seconds": 738.9054200649261,
+  "device": "mps",
+  "wall_seconds": 791.8334171772003
+}

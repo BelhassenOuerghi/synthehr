@@ -1,0 +1,82 @@
+{
+  "task": "los",
+  "seed": 42,
+  "arm": "dpddpm_L",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 14.533726325140595,
+    "mae": 14.034461760799287,
+    "r2": -11.733935305646561,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 14.240005533309752,
+            "mean_error": 13.560962353857445
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 14.891779580910354,
+            "mean_error": 14.299525039568609
+          }
+        },
+        "rmse_gap": 0.6517740476006022,
+        "bias_gap": 0.7385626857111642
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.4983461015624999,
+    "attack_auc_knn_classifier": 0.5015359375,
+    "syn_to_train_dcr_median": 43.78215789794922,
+    "syn_to_train_dcr_q05": 29.40126428604126,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.4983461015624999,
+    "tpr@fpr=0.01": 0.01125,
+    "tpr@fpr=0.001": 0.0005
+  },
+  "fidelity": {
+    "detection_auc": 1.0,
+    "detection_auc_rounded": 1.0,
+    "precision": 0.0,
+    "recall": 0.9968,
+    "marginal_w1": 7.168107358246379,
+    "marginal_tvd": 0.2560041957430628,
+    "corr_error": 0.1357689864327111,
+    "target_assoc_error": 0.14814852153047867
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.47255091413298533
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.5274490858670147
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 9.998072659809486,
+    "epsilon_add_remove": 4.384612178140965,
+    "runs": [
+      {
+        "q": 0.06826666666666667,
+        "sigma": 2.2471893310546873,
+        "steps": 2930,
+        "sigma_hist": null
+      }
+    ],
+    "epsilon_add_remove_exact": 4.384612178140965
+  },
+  "fit_seconds": 2690.0646369457245,
+  "device": "mps",
+  "wall_seconds": 2770.854367017746
+}

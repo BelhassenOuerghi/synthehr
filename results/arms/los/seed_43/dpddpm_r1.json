@@ -1,0 +1,82 @@
+{
+  "task": "los",
+  "seed": 43,
+  "arm": "dpddpm_r1",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 4.108167254342321,
+    "mae": 2.325739961258141,
+    "r2": -0.0174308833639798,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 4.219663047609829,
+            "mean_error": -1.106307573734787
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 3.9647839098498965,
+            "mean_error": -0.841340552290888
+          }
+        },
+        "rmse_gap": 0.2548791377599322,
+        "bias_gap": 0.26496702144389894
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.492550515625,
+    "attack_auc_knn_classifier": 0.5013140625,
+    "syn_to_train_dcr_median": 47.94731903076172,
+    "syn_to_train_dcr_q05": 29.45013208389282,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.492550515625,
+    "tpr@fpr=0.01": 0.009625,
+    "tpr@fpr=0.001": 0.000875
+  },
+  "fidelity": {
+    "detection_auc": 0.9995787,
+    "detection_auc_rounded": 0.9995735,
+    "precision": 0.0012,
+    "recall": 0.9824,
+    "marginal_w1": 7.307825978361944,
+    "marginal_tvd": 0.43468404568082963,
+    "corr_error": 0.1533870599660112,
+    "target_assoc_error": 0.11101883859756803
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.8445911184169249
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.15540888158307506
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 9.998072659809486,
+    "epsilon_add_remove": 4.384612178140965,
+    "runs": [
+      {
+        "q": 0.06826666666666667,
+        "sigma": 2.2471893310546873,
+        "steps": 2930,
+        "sigma_hist": null
+      }
+    ],
+    "epsilon_add_remove_exact": 4.384612178140965
+  },
+  "fit_seconds": 737.9701099395752,
+  "device": "mps",
+  "wall_seconds": 797.5108840465546
+}

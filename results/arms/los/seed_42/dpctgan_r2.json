@@ -1,0 +1,81 @@
+{
+  "task": "los",
+  "seed": 42,
+  "arm": "dpctgan_r2",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 4.135226730081339,
+    "mae": 2.454556142773553,
+    "r2": -0.030878153156264077,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 4.264513406096991,
+            "mean_error": -0.903281687084886
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 3.9681585212096446,
+            "mean_error": -0.5667285762107468
+          }
+        },
+        "rmse_gap": 0.29635488488734607,
+        "bias_gap": 0.3365531108741392
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.49496915625000004,
+    "attack_auc_knn_classifier": 0.49525725,
+    "syn_to_train_dcr_median": 4.5837438106536865,
+    "syn_to_train_dcr_q05": 3.6372621178627016,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.49496915625000004,
+    "tpr@fpr=0.01": 0.01175,
+    "tpr@fpr=0.001": 0.001375
+  },
+  "fidelity": {
+    "detection_auc": 0.99999985,
+    "detection_auc_rounded": 0.9999992499999999,
+    "precision": 0.045,
+    "recall": 0.0026,
+    "marginal_w1": 0.7393568822812662,
+    "marginal_tvd": 0.23930829625296754,
+    "corr_error": 0.1525299043595358,
+    "target_assoc_error": 0.10074543608630389
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.5479904132106961
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.452009586789304
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 9.990228903788106,
+    "epsilon_add_remove": 3.574713534752357,
+    "runs": [
+      {
+        "q": 0.016666666666666666,
+        "sigma": 1.0060852050781248,
+        "steps": 6000,
+        "sigma_hist": 32.0
+      }
+    ]
+  },
+  "fit_seconds": 2343.184782266617,
+  "device": "cpu",
+  "wall_seconds": 2452.0513730049133
+}

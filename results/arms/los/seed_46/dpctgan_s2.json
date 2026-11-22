@@ -1,0 +1,81 @@
+{
+  "task": "los",
+  "seed": 46,
+  "arm": "dpctgan_s2",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 12.217759212051547,
+    "mae": 11.789866754838298,
+    "r2": -7.998949333883385,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 12.144249212779215,
+            "mean_error": 11.368812713707161
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 12.308784871156199,
+            "mean_error": 11.634852463994944
+          }
+        },
+        "rmse_gap": 0.16453565837698392,
+        "bias_gap": 0.26603975028778315
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.495192296875,
+    "attack_auc_knn_classifier": 0.5022485,
+    "syn_to_train_dcr_median": 7.798303127288818,
+    "syn_to_train_dcr_q05": 6.775839757919312,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.495192296875,
+    "tpr@fpr=0.01": 0.007125,
+    "tpr@fpr=0.001": 0.000375
+  },
+  "fidelity": {
+    "detection_auc": 1.0,
+    "detection_auc_rounded": 1.0,
+    "precision": 0.0198,
+    "recall": 0.0,
+    "marginal_w1": 1.3163076180922777,
+    "marginal_tvd": 0.2064580139695881,
+    "corr_error": 0.22947594637447047,
+    "target_assoc_error": 0.10900756538516686
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.483944637546585
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.516055362453415
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 4.652836552949081,
+    "epsilon_add_remove": 2.0469154822115136,
+    "runs": [
+      {
+        "q": 0.016666666666666666,
+        "sigma": 1.6354881286621095,
+        "steps": 6000,
+        "sigma_hist": 32.0
+      }
+    ]
+  },
+  "fit_seconds": 1896.1873409748077,
+  "device": "cpu",
+  "wall_seconds": 2033.1450819969177
+}

@@ -1,0 +1,98 @@
+{
+  "task": "los",
+  "seed": 45,
+  "arm": "dpddpm_rake",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 4.451657615340352,
+    "mae": 3.2642802938875013,
+    "r2": -0.19468164776796515,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 4.473309999008788,
+            "mean_error": 0.8746371504169911
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 4.424516528686581,
+            "mean_error": 1.3403599764560334
+          }
+        },
+        "rmse_gap": 0.04879347032220682,
+        "bias_gap": 0.46572282603904236
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.5051010468749999,
+    "attack_auc_knn_classifier": 0.4940575625,
+    "syn_to_train_dcr_median": 43.85053825378418,
+    "syn_to_train_dcr_q05": 24.100208282470703,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.5051010468749999,
+    "tpr@fpr=0.01": 0.0115,
+    "tpr@fpr=0.001": 0.00125
+  },
+  "fidelity": {
+    "detection_auc": 0.99985535,
+    "detection_auc_rounded": 0.9998564,
+    "precision": 0.0,
+    "recall": 0.9988,
+    "marginal_w1": 6.849673584405469,
+    "marginal_tvd": 0.20396274252585597,
+    "corr_error": 0.14561855499749413,
+    "target_assoc_error": 0.22156215503616927
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.4999937259232304
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.5000062740767696
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 9.998072659809486,
+    "epsilon_add_remove": 4.384612178140965,
+    "runs": [
+      {
+        "q": 0.06826666666666667,
+        "sigma": 2.2471893310546873,
+        "steps": 2930,
+        "sigma_hist": null
+      }
+    ]
+  },
+  "parent": "dpddpm",
+  "resample": {
+    "targets": {
+      "gender": {
+        "F": 0.5,
+        "M": 0.5
+      }
+    },
+    "pool_rows": 159386,
+    "pool_sufficient": true,
+    "short_cells": [],
+    "duplicate_share": 0.0,
+    "achieved": {
+      "gender": {
+        "M": 0.5000062740767696,
+        "F": 0.4999937259232304
+      }
+    }
+  },
+  "wall_seconds": 18.669453144073486
+}

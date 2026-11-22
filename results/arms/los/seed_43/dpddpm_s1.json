@@ -1,0 +1,82 @@
+{
+  "task": "los",
+  "seed": 43,
+  "arm": "dpddpm_s1",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 8.762170460624926,
+    "mae": 8.28376109468115,
+    "r2": -3.62841272121209,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 9.239103908942186,
+            "mean_error": 8.091025515724562
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 8.128513090853945,
+            "mean_error": 7.022208060991695
+          }
+        },
+        "rmse_gap": 1.110590818088241,
+        "bias_gap": 1.0688174547328666
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.497855625,
+    "attack_auc_knn_classifier": 0.502548125,
+    "syn_to_train_dcr_median": 51.401119232177734,
+    "syn_to_train_dcr_q05": 26.811004352569583,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.497855625,
+    "tpr@fpr=0.01": 0.01225,
+    "tpr@fpr=0.001": 0.002
+  },
+  "fidelity": {
+    "detection_auc": 1.0,
+    "detection_auc_rounded": 1.0,
+    "precision": 0.0,
+    "recall": 0.9918,
+    "marginal_w1": 7.8468603817111875,
+    "marginal_tvd": 0.418546342208729,
+    "corr_error": 0.13488326949217957,
+    "target_assoc_error": 0.10108483459169976
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.17968955868144001
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.82031044131856
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 4.63002678661883,
+    "epsilon_add_remove": 2.1801877615111023,
+    "runs": [
+      {
+        "q": 0.06826666666666667,
+        "sigma": 4.284051513671875,
+        "steps": 2930,
+        "sigma_hist": null
+      }
+    ],
+    "epsilon_add_remove_exact": 2.1801877615111023
+  },
+  "fit_seconds": 728.6779069900513,
+  "device": "mps",
+  "wall_seconds": 782.4303159713745
+}

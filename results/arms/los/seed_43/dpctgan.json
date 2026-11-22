@@ -1,0 +1,81 @@
+{
+  "task": "los",
+  "seed": 43,
+  "arm": "dpctgan",
+  "n_train": 79693,
+  "n_test": 14037,
+  "n_fit": 30000,
+  "utility": {
+    "rmse": 4.93467643626545,
+    "mae": 4.337448653298206,
+    "r2": -0.46799996792266363,
+    "fairness": {
+      "gender": {
+        "per_group": {
+          "M": {
+            "n": 7789,
+            "rmse": 5.006513735633397,
+            "mean_error": 2.7337885693788713
+          },
+          "F": {
+            "n": 6248,
+            "rmse": 4.843629477860683,
+            "mean_error": 2.822977773679728
+          }
+        },
+        "rmse_gap": 0.16288425777271343,
+        "bias_gap": 0.08918920430085686
+      }
+    }
+  },
+  "mia": {
+    "attack_auc_dcr": 0.49182003906250005,
+    "attack_auc_knn_classifier": 0.5108293749999999,
+    "syn_to_train_dcr_median": 4.478345632553101,
+    "syn_to_train_dcr_q05": 3.619670879840851,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "mia_tail": {
+    "dcr_auc": 0.49182003906250005,
+    "tpr@fpr=0.01": 0.010125,
+    "tpr@fpr=0.001": 0.001125
+  },
+  "fidelity": {
+    "detection_auc": 0.9999999500000001,
+    "detection_auc_rounded": 1.0,
+    "precision": 0.1062,
+    "recall": 0.009,
+    "marginal_w1": 0.7143208784871908,
+    "marginal_tvd": 0.23278735331274888,
+    "corr_error": 0.12633007475803362,
+    "target_assoc_error": 0.08780368017979434
+  },
+  "representation": {
+    "gender": {
+      "F": {
+        "real": 0.4389971515691466,
+        "dataset": 0.6887555996135168
+      },
+      "M": {
+        "real": 0.5610028484308534,
+        "dataset": 0.31124440038648316
+      }
+    }
+  },
+  "privacy": {
+    "epsilon": 9.990228903788106,
+    "epsilon_add_remove": 3.574713534752357,
+    "runs": [
+      {
+        "q": 0.016666666666666666,
+        "sigma": 1.0060852050781248,
+        "steps": 6000,
+        "sigma_hist": 32.0
+      }
+    ]
+  },
+  "fit_seconds": 2076.8248920440674,
+  "device": "cpu",
+  "wall_seconds": 2210.0158960819244
+}
