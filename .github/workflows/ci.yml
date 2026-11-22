@@ -6,11 +6,16 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    name: test (Python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        python: ["3.9", "3.11"]
+        include:
+          # the oldest supported Python is no longer built for the newest runner image
+          - {python: "3.9",  os: ubuntu-24.04}
+          - {python: "3.11", os: ubuntu-latest}
+          - {python: "3.12", os: ubuntu-latest}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
