@@ -1,7 +1,7 @@
 PY ?= python
 SHELL := /bin/bash
 
-.PHONY: test pilot run run-seed aggregate plots verify-vendored
+.PHONY: test pilot run run-seed realism aggregate plots verify-vendored
 
 test:               ## unit tests on fabricated data (no MIMIC needed)
 	$(PY) tests/test_tabddpm.py && $(PY) tests/test_pooling.py
@@ -18,8 +18,8 @@ run:                ## every arm, every seed; resumable
 run-seed:           ## one seed end to end, e.g. make run-seed SEED=42
 	cd src && $(PY) -u run.py --seeds $(SEED)
 
-coverage:           ## density and coverage (added post hoc) -> results/coverage.json
-	cd src && $(PY) coverage.py
+realism:            ## realism vs a train-median-imputed test split (post hoc)
+	cd src && $(PY) realism_posthoc.py && $(PY) label_rate.py
 
 aggregate:          ## CIs and the pre-registered tests -> results/
 	cd src && $(PY) aggregate.py

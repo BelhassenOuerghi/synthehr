@@ -187,6 +187,9 @@ def main():
     rp = os.path.join(RES, "realism.json")
     real = json.load(open(rp)) if os.path.exists(rp) else {}
 
+    lp = os.path.join(RES, "label_rate.json")
+    lrate = json.load(open(lp)) if os.path.exists(lp) else {}
+
     def fid_series(task, arm, k):
         if real:
             return [real.get(f"{task}/{s}/{arm}", {}).get(k) for s in seeds]
@@ -222,6 +225,8 @@ def main():
                         data, task, arm, ("utility", "fairness", c, m), seeds))
             A["degeneracy"] = degenerate(runs, seeds, sens)
             if task == "readmission":
+                A["label_rate"] = ci([lrate.get(f"{task}/{s}/{arm}")
+                                      for s in seeds])
                 A["medicare_share"] = ci(series(
                     data, task, arm, ("representation", "insurance",
                                       "Medicare", "dataset"), seeds))
@@ -407,15 +412,18 @@ def table(a):
         if task == "readmission":
             L += ["**Fairness at restored utility** (readmission, "
                   "insurance):", "",
-                  "| Arm | AUC gap | DP diff | EO diff | degenerate cells | "
-                  "Medicare share |", "|---|---|---|---|---|---|"]
-            for arm in ("TRTR", "ctgan", "ddpm", "dpctgan", "dpctgan_rake",
-                        "dpddpm", "dpddpm_rake"):
+                  "| Arm | label rate (real ≈ 0.139) | AUC gap | DP diff | "
+                  "EO diff | degenerate cells | Medicare share |",
+                  "|---|---|---|---|---|---|---|"]
+            for arm in ("TRTR", "ctgan", "ddpm", "ddpm_S", "ddpm_L",
+                        "dpctgan", "dpctgan_rake", "dpddpm", "dpddpm_rake",
+                        "dpddpm_S", "dpddpm_L"):
                 A = T["arms"].get(arm)
                 if not A:
                     continue
                 dg = A["degeneracy"]
-                L += [f"| {arm} | {f(A['fairness'].get('insurance.auc_gap'))} "
+                L += [f"| {arm} | {f(A.get('label_rate'))} "
+                      f"| {f(A['fairness'].get('insurance.auc_gap'))} "
                       f"| {f(A['fairness'].get('insurance.dp_diff'))} "
                       f"| {f(A['fairness'].get('insurance.eo_diff'))} "
                       f"| {dg['degenerate_cells']}/{dg['cells']} "
