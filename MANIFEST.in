@@ -1,0 +1,6 @@
+# Source distribution: the package and its documentation. The tests compare the
+# package with research/, which is not distributed, so they live in the repository.
+include README.md LICENSE CHANGELOG.md CITATION.cff
+include examples/quickstart.py
+prune tests
+prune research
