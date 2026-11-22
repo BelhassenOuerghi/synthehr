@@ -23,8 +23,6 @@ import settings
 
 HERE = settings.HERE
 RES = os.environ.get("ENGD_RESULTS_DIR", os.path.join(HERE, "results"))
-EVIDENCE = os.path.join(os.path.dirname(HERE), "mimic-synthetic-evidence",
-                        "results", "seeds")
 KEY = {"los": "r2", "readmission": "roc_auc"}
 UNIT = {"los": "R²", "readmission": "ROC-AUC"}
 FID = ["detection_auc", "detection_auc_rounded", "precision", "recall",
@@ -160,8 +158,10 @@ def degenerate(arm_runs, seeds, cols):
     return {"degenerate_cells": bad, "cells": tot}
 
 
-def reproduction(data, task, seeds):
+def reproduction(data, task, seeds, cfg):
     out = {}
+    EVIDENCE = os.path.join(cfg["repos_root"], "mimic-synthetic-evidence",
+                            "results", "seeds")
     for mine, theirs in (("ctgan", "stage0"), ("dpctgan", "stage1"),
                          ("TRTR", "TRTR")):
         rows = []
@@ -181,8 +181,16 @@ def main():
     data = load()
     cfg = settings.load()
     seeds = cfg["seeds"]
-    cov_p = os.path.join(RES, "coverage.json")
-    cov = json.load(open(cov_p)) if os.path.exists(cov_p) else {}
+    # realism is reported from the post-hoc recomputation against the test
+    # split imputed with training medians (src/realism_posthoc.py); the
+    # in-job values stay in results/arms/ for audit
+    rp = os.path.join(RES, "realism.json")
+    real = json.load(open(rp)) if os.path.exists(rp) else {}
+
+    def fid_series(task, arm, k):
+        if real:
+            return [real.get(f"{task}/{s}/{arm}", {}).get(k) for s in seeds]
+        return series(data, task, arm, ("fidelity", k), seeds)
     agg = {"seeds": seeds, "tasks": {}, "primary": [], "secondary": []}
     prim = []
     for task in sorted(data):
@@ -193,13 +201,12 @@ def main():
                 v = series(data, task, arm, ("utility", k), seeds)
                 if any(x is not None for x in v):
                     A["utility"][k] = ci(v)
-            for k in FID:
-                A["fidelity"][k] = ci(series(data, task, arm,
-                                             ("fidelity", k), seeds))
-            # density and coverage: added post hoc (see src/coverage.py)
-            for k in ("density", "coverage"):
-                A["fidelity"][k] = ci([cov.get(f"{task}/{s}/{arm}", {}).get(k)
-                                       for s in seeds])
+            for k in FID + ["density", "coverage"]:
+                A["fidelity"][k] = ci(fid_series(task, arm, k))
+            A["fidelity_in_job"] = {k: ci(series(data, task, arm,
+                                                 ("fidelity", k), seeds))
+                                    for k in ("detection_auc", "precision",
+                                              "recall")}
             for grp, k in MIA:
                 A["mia"][k] = ci(series(data, task, arm, (grp, k), seeds))
             for k in ("epsilon", "epsilon_add_remove"):
@@ -223,8 +230,12 @@ def main():
         key = ("utility", KEY[task])
 
         def cmp(name, a, b, primary=True, path=key):
-            r = paired(series(data, task, a, path, seeds),
-                       series(data, task, b, path, seeds))
+            if path[0] == "fidelity":
+                r = paired(fid_series(task, a, path[1]),
+                           fid_series(task, b, path[1]))
+            else:
+                r = paired(series(data, task, a, path, seeds),
+                           series(data, task, b, path, seeds))
             if r is None:
                 return
             r.update(task=task, name=name, a=a, b=b, metric=path[-1])
@@ -291,21 +302,34 @@ def main():
                                       "ctgan" if fam == "ctgan" else "ddpm",
                                       key, seeds),
                                series(data, task, base, key, seeds))
-        T["reproduction"] = reproduction(data, task, seeds)
+        T["reproduction"] = reproduction(data, task, seeds, cfg)
         agg["tasks"][task] = T
 
     if prim:
         adj = holm([r["p"] for r in prim])
         for r, a in zip(prim, adj):
             r["p_holm"] = a
-            nf = agg["tasks"][r["task"]]["noise_floor"][
-                "ctgan" if "CTGAN" in r["name"] and "TabDDPM" not in r["name"]
-                else "ddpm"]["mean_abs_replicate_diff"]
+            # The pre-registered noise floor is defined for the DP recipes
+            # (independent replicates); it applies only to comparisons that
+            # involve a private arm, and a cross-family comparison takes the
+            # larger of the two floors.
+            floors = agg["tasks"][r["task"]]["noise_floor"]
+            arms = f"{r['a']} {r['b']}"
+            fams = [f for f, tag in (("ctgan", "dpctgan"), ("ddpm", "dpddpm"))
+                    if tag in arms]
+            vals = [floors[f]["mean_abs_replicate_diff"] for f in fams
+                    if floors[f]["mean_abs_replicate_diff"] is not None]
+            nf = max(vals) if vals else None
             r["noise_floor"] = nf
-            r["verdict"] = ("SIGNIFICANT" if r["p"] < 0.05 else
-                            "within noise")
+            if r["p_holm"] < 0.05:
+                v = "SIGNIFICANT (survives Holm)"
+            elif r["p"] < 0.05:
+                v = "significant at p < 0.05, not after Holm"
+            else:
+                v = "within noise"
             if r["p"] < 0.05 and nf is not None and abs(r["mean_diff"]) < nf:
-                r["verdict"] = "significant, below noise floor"
+                v += "; smaller than the noise floor"
+            r["verdict"] = v
     agg["primary"] = prim
     with open(os.path.join(RES, "metrics_ci.json"), "w") as f:
         json.dump(agg, f, indent=2)

@@ -59,6 +59,18 @@ def load_with_groups(task, cfg):
     assert not (set(g_tr) & set(g_te)), "train and test share a patient"
     train = D.clean_numeric(ds["train"], ds["discrete"])
     test = D.clean_numeric(ds["test"], ds["discrete"])
+    # The frozen harness imputes each split with its OWN median. On
+    # readmission, albumin_min is 72% missing, and when the two medians differ
+    # (seeds 43 and 46: 3.2 against 3.1) real training and test rows become
+    # separable by that one constant. Utility is scored on the frozen `test`
+    # (all arms alike, comparable with Stages 0-2); realism is scored on
+    # `test_fid`, the test split imputed with the TRAINING medians.
+    test_fid = ds["test"].copy()
+    for c in test_fid.columns:
+        if c not in ds["discrete"]:
+            col = pd.to_numeric(test_fid[c], errors="coerce")
+            med = pd.to_numeric(ds["train"][c], errors="coerce").median()
+            test_fid[c] = col.fillna(med)
 
     # the frozen harness fits generators on `train.sample(n, random_state=seed)`
     n = cfg["ctgan"]["max_train_rows"]
@@ -68,8 +80,8 @@ def load_with_groups(task, cfg):
         pos = np.arange(len(train))
     fit = train.loc[pos].reset_index(drop=True)
     out = dict(ds)
-    out.update(train=train, test=test, train_groups=g_tr, test_groups=g_te,
-               fit=fit, fit_groups=g_tr[pos])
+    out.update(train=train, test=test, test_fid=test_fid, train_groups=g_tr,
+               test_groups=g_te, fit=fit, fit_groups=g_tr[pos])
     return out
 
 
