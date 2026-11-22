@@ -1,0 +1,28 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.9", "3.11"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install CPU-only PyTorch
+        run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Install synthehr
+        run: pip install -e ".[dev]"
+      - name: Frozen research modules are unchanged
+        run: cd research/common && sha256sum -c FROZEN.sha256
+      - name: Tests (fabricated data only)
+        run: pytest -q tests
+      - name: Command line
+        run: synthehr demo --quick --out /tmp/demo --device cpu

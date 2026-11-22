@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "SynthEHR is free to use under the MIT licence. If it helps your work, please credit it as below."
+title: "SynthEHR: synthetic tabular health data with measured realism, formal privacy and release evidence"
+authors:
+  - family-names: Ouerghi
+    given-names: Belhassen
+version: 1.0.0
+date-released: 2026-11-22
+license: MIT
+repository-code: "https://github.com/BelhassenOuerghi/synthehr"
+keywords:
+  - synthetic data
+  - differential privacy
+  - diffusion models
+  - electronic health records
+  - fairness
