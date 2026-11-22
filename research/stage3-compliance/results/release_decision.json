@@ -1,0 +1,59 @@
+{
+  "candidate": {
+    "los_synthetic.parquet": "da93c20078b7258c11cdc2b8da64b5c22171be81773d341dd43f68994ee48d29",
+    "readmission_synthetic.parquet": "c6ce87ae04b07c60d7d7a23aed3b1af86c44455ba8128fb169feb49ba5481276",
+    "beddemand_synthetic.csv": "1e273688d4e2410a3714199f5ff89c457d19dfb2f390c11cf08fd23e22a52296"
+  },
+  "checks": [
+    {
+      "id": "formal_privacy_los",
+      "pass": true,
+      "evidence": "epsilon spent 9.990 <= 10.0 at delta 1e-05"
+    },
+    {
+      "id": "formal_privacy_readmission",
+      "pass": true,
+      "evidence": "epsilon spent 9.990 <= 10.0 at delta 1e-05"
+    },
+    {
+      "id": "empirical_privacy_los",
+      "pass": true,
+      "evidence": "attack AUCs ['0.497', '0.503'] in [0.45,0.55]; near-dup 0.000 <= 0.01"
+    },
+    {
+      "id": "empirical_privacy_readmission",
+      "pass": true,
+      "evidence": "attack AUCs ['0.499', '0.501'] in [0.45,0.55]; near-dup 0.000 <= 0.01"
+    },
+    {
+      "id": "fairness_evidence",
+      "pass": true,
+      "evidence": "representation audit + disparity metrics computed for the released arm (interpreted jointly with utility in the DPIA)"
+    },
+    {
+      "id": "utility_disclosure",
+      "pass": true,
+      "evidence": "TSTR published incl. negative results (LOS R2 -0.192, readmission AUC 0.451)"
+    },
+    {
+      "id": "provenance",
+      "pass": true,
+      "evidence": "stage 0/1/2 manifests + canonical candidate files present"
+    }
+  ],
+  "technical_pass": true,
+  "internal_promotion": "PASS",
+  "human_gates": [
+    {
+      "id": "dua",
+      "name": "PhysioNet DUA / contractual review of derived-data redistribution",
+      "status": "OPEN"
+    },
+    {
+      "id": "stakeholder",
+      "name": "Practitioner / governance review of the evidence package",
+      "status": "OPEN"
+    }
+  ],
+  "external_release": "HOLD (human gates open)"
+}

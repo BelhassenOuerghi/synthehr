@@ -1,0 +1,18 @@
+{
+  "los": {
+    "attack_auc_dcr": 0.49825846875,
+    "attack_auc_knn_classifier": 0.50684325,
+    "syn_to_train_dcr_median": 3.458791136741638,
+    "syn_to_train_dcr_q05": 2.5312353372573853,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  },
+  "readmission": {
+    "attack_auc_dcr": 0.502127796875,
+    "attack_auc_knn_classifier": 0.4951094375,
+    "syn_to_train_dcr_median": 6.983614206314087,
+    "syn_to_train_dcr_q05": 5.136264967918396,
+    "near_duplicate_share@0.1": 0.0,
+    "n_candidates_per_class": 8000
+  }
+}

@@ -1,0 +1,49 @@
+# =============================================================
+# Configuration: CTGAN synthetic-EHR generation & TSTR evaluation
+# =============================================================
+# The four-pillar EngD programme. This first stage generates the
+# *baseline* synthetic data (no privacy/bias/ethics/realism layer yet).
+
+# Monorepo layout: real-data inputs come from research/foundations/<task>/
+# (built there from MIMIC-IV, never committed); synthetic datasets are
+# written to ../synthehr-output/ NEXT TO the repository, never inside it.
+
+# Paths are relative to the repository root (sibling repositories and
+# dataset folders sit next to it). Run every target with `make` from the
+# repository root.
+
+# Where the upstream real feature matrices live (built by the three
+# prediction-model repositories; read-only, never copied into git).
+repos_root: ../foundations
+los_features:      length-of-stay/data/derived/features.parquet
+los_cohort:        length-of-stay/data/derived/cohort.parquet
+los_splits:        length-of-stay/data/derived/splits.parquet
+readmission_frame: readmission/data/processed/feature_frame.parquet
+beddemand_series:  bed-demand/data/derived/admissions_daily.csv
+
+# Where generated synthetic datasets are written (OUTSIDE the repo: synthetic
+# data is not privacy-vetted until pillar 1, so it is treated like real data).
+synthetic_root: ../../../synthehr-output/MIMIC-Synthetic
+
+# Reproducibility
+seed: 42
+test_size: 0.20          # readmission holdout (LOS uses the repo's saved split)
+
+# CTGAN hyper-parameters (kept modest for CPU; documented in the paper)
+ctgan:
+  embedding_dim: 128
+  generator_dim: [256, 256]
+  discriminator_dim: [256, 256]
+  batch_size: 500
+  epochs: 200
+  pac: 10
+  gp_lambda: 10.0
+  vgm_components: 10      # modes per continuous column (mode-specific normalisation)
+  max_train_rows: 30000  # subsample the real training split for GAN fitting (CPU budget)
+  d_steps: 1
+
+# Bed-demand temporal counterpart (iid tabular GANs do not fit a 1-D
+# autocorrelated count series; we sample from a generative Poisson-AR model).
+beddemand:
+  ar_window: 1
+  test_days: 364

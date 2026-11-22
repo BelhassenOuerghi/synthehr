@@ -1,0 +1,42 @@
+{
+  "cohort": {
+    "n_stays": 87041,
+    "n_patients": 60537,
+    "n_positive": 12072,
+    "positive_rate": 0.1387,
+    "n_readmit_within_30d": 4810,
+    "n_death_within_30d": 7851
+  },
+  "cv_roc_auc_mean": 0.778,
+  "cv_roc_auc_std": 0.0044,
+  "cv_roc_auc_folds": [
+    0.7751,
+    0.7766,
+    0.7723,
+    0.7846,
+    0.7815
+  ],
+  "cv_pr_auc_mean": 0.3821,
+  "cv_pr_auc_std": 0.0099,
+  "oof_roc_auc": 0.778,
+  "oof_pr_auc": 0.3816,
+  "threshold": 0.5,
+  "accuracy": 0.7142,
+  "precision": 0.285,
+  "recall": 0.7027,
+  "f1": 0.4055,
+  "confusion_matrix": {
+    "tn": 53682,
+    "fp": 21287,
+    "fn": 3589,
+    "tp": 8483
+  },
+  "best_params": {
+    "learning_rate": 0.1,
+    "max_depth": 3,
+    "min_child_weight": 1,
+    "n_estimators": 300
+  },
+  "tuning_best_cv_roc_auc": 0.7772,
+  "upstream_reference_auc": 0.82
+}

@@ -1,0 +1,71 @@
+# =============================================================
+# Configuration: cross-stage evidence hardening (multi-seed + CIs)
+# =============================================================
+# Re-runs Stages 0, 1 (release budget) and 2 (all arms) across N seeds on the
+# CORRECTED patient-level splits, and reports mean ± 95% CI for every headline
+# number. Single-seed results cannot distinguish a finding from run-to-run
+# variation: Stage 2 measured that variation at 0.05 ROC-AUC / 0.10 R².
+
+# Monorepo layout: real-data inputs come from research/foundations/<task>/
+# (built there from MIMIC-IV, never committed); synthetic datasets are
+# written to ../synthehr-output/ NEXT TO the repository, never inside it.
+
+# Paths are relative to the repository root (sibling repositories and
+# dataset folders sit next to it). Run every target with `make` from the
+# repository root.
+
+repos_root: ../foundations
+los_features:      length-of-stay/data/derived/features.parquet
+los_cohort:        length-of-stay/data/derived/cohort.parquet
+los_splits:        length-of-stay/data/derived/splits.parquet
+readmission_frame: readmission/data/processed/feature_frame.parquet
+beddemand_series:  bed-demand/data/derived/admissions_daily.csv
+
+# Seeds. The primary seed additionally REFRESHES the canonical dataset folders
+# (whose current contents came from the leaking split and are now stale).
+seeds: [42, 43, 44, 45, 46]
+primary_seed: 42
+test_size: 0.20
+
+# Canonical dataset roots refreshed by the primary seed
+stage0_root: ../../../synthehr-output/MIMIC-Synthetic
+stage1_root: ../../../synthehr-output/MIMIC-SyntheticPrivacy
+stage2_root: ../../../synthehr-output/MIMIC-SyntheticPrivacyBias
+
+# Differential privacy: the release budget only. The exploratory eps grid
+# {1, 5} stays single-seed (it establishes frontier SHAPE, not a headline).
+dp:
+  primary_epsilon: 10.0
+  delta: 1.0e-5
+  delta_beddemand: 1.0e-4
+  clip_norm: 1.0
+  hist_noise_multiplier: 32.0
+  beddemand_iters: 200
+
+fairness:
+  sensitive:
+    los: [gender]
+    readmission: [gender, insurance]
+  min_support: 0.02
+  min_group_n: 200
+
+mia:
+  n_candidates: 8000
+
+# Architecture: identical to Stages 0-2 (the frozen harness).
+ctgan:
+  embedding_dim: 128
+  generator_dim: [256, 256]
+  discriminator_dim: [256, 256]
+  batch_size: 500
+  pac: 10
+  gp_lambda: 10.0
+  vgm_components: 10
+  max_train_rows: 30000
+  d_steps: 1
+  epochs_stage0: 200      # non-private baseline (as re-run 2026-07-11)
+  epochs_dp: 100          # DP stages (every critic step spends budget)
+
+beddemand:
+  ar_window: 1
+  test_days: 364

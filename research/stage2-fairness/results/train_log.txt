@@ -1,0 +1,65 @@
+[los|standard-train] fitting on 30,000 rows (fair_train_cols=[])...
+  DP-SGD: n=30,000 q=0.0167 steps=6000 clip=1.0 sigma=1.006 (target eps=10.0, delta=1e-05)
+  epoch   0/100  lossG +1.721  lossD +6.376  eps 1.90
+  epoch  10/100  lossG -0.127  lossD +1.544  eps 3.46
+  epoch  20/100  lossG -0.124  lossD +0.250  eps 4.52
+  epoch  30/100  lossG +0.026  lossD +0.131  eps 5.40
+  epoch  40/100  lossG -0.120  lossD +0.233  eps 6.22
+  epoch  50/100  lossG -0.177  lossD +0.386  eps 6.98
+  epoch  60/100  lossG +0.030  lossD +0.103  eps 7.59
+  epoch  70/100  lossG +0.250  lossD -0.089  eps 8.21
+  epoch  80/100  lossG +0.129  lossD +0.037  eps 8.82
+  epoch  90/100  lossG +0.265  lossD -0.036  eps 9.44
+  epoch  99/100  lossG +0.161  lossD +0.062  eps 9.99
+[los|standard-train] fit in 1209s (eps spent 9.99)
+[los|dpbaseline] wrote 79,693 rows
+[los|fairsample] wrote 79,693 rows
+[los|fair-train] fitting on 30,000 rows (fair_train_cols=['gender'])...
+  DP-SGD: n=30,000 q=0.0167 steps=6000 clip=1.0 sigma=1.006 (target eps=10.0, delta=1e-05)
+  epoch   0/100  lossG +1.721  lossD +6.376  eps 1.90
+  epoch  10/100  lossG -0.128  lossD +1.516  eps 3.46
+  epoch  20/100  lossG -0.131  lossD +0.240  eps 4.52
+  epoch  30/100  lossG -0.060  lossD +0.202  eps 5.40
+  epoch  40/100  lossG -0.021  lossD +0.113  eps 6.22
+  epoch  50/100  lossG -0.062  lossD +0.207  eps 6.98
+  epoch  60/100  lossG +0.034  lossD +0.128  eps 7.59
+  epoch  70/100  lossG +0.141  lossD +0.068  eps 8.21
+  epoch  80/100  lossG +0.037  lossD +0.146  eps 8.82
+  epoch  90/100  lossG +0.169  lossD +0.152  eps 9.44
+  epoch  99/100  lossG +0.156  lossD +0.064  eps 9.99
+[los|fair-train] fit in 1217s (eps spent 9.99)
+[los|fairtrain] wrote 79,693 rows
+[readmission|standard-train] fitting on 30,000 rows (fair_train_cols=[])...
+  DP-SGD: n=30,000 q=0.0167 steps=6000 clip=1.0 sigma=1.006 (target eps=10.0, delta=1e-05)
+  epoch   0/100  lossG +1.478  lossD +6.168  eps 1.90
+  epoch  10/100  lossG -0.519  lossD +1.051  eps 3.46
+  epoch  20/100  lossG -0.453  lossD +0.171  eps 4.52
+  epoch  30/100  lossG -0.491  lossD +0.290  eps 5.40
+  epoch  40/100  lossG -0.620  lossD +0.477  eps 6.22
+  epoch  50/100  lossG -0.220  lossD +0.084  eps 6.98
+  epoch  60/100  lossG -0.101  lossD +0.032  eps 7.59
+  epoch  70/100  lossG -0.128  lossD +0.153  eps 8.21
+  epoch  80/100  lossG -0.138  lossD +0.172  eps 8.82
+  epoch  90/100  lossG +0.048  lossD +0.130  eps 9.44
+  epoch  99/100  lossG -0.037  lossD +0.102  eps 9.99
+[readmission|standard-train] fit in 1961s (eps spent 9.99)
+[readmission|dpbaseline] wrote 69,699 rows
+[readmission|fairsample] wrote 69,699 rows
+[readmission|fair-train] fitting on 30,000 rows (fair_train_cols=['gender', 'insurance'])...
+  DP-SGD: n=30,000 q=0.0167 steps=6000 clip=1.0 sigma=1.006 (target eps=10.0, delta=1e-05)
+  epoch   0/100  lossG +1.485  lossD +6.165  eps 1.90
+  epoch  10/100  lossG -0.523  lossD +1.064  eps 3.46
+  epoch  20/100  lossG -0.496  lossD +0.236  eps 4.52
+  epoch  30/100  lossG -0.251  lossD +0.016  eps 5.40
+  epoch  40/100  lossG -0.265  lossD +0.118  eps 6.22
+  epoch  50/100  lossG -0.406  lossD +0.341  eps 6.98
+  epoch  60/100  lossG -0.162  lossD +0.204  eps 7.59
+  epoch  70/100  lossG -0.286  lossD +0.221  eps 8.21
+  epoch  80/100  lossG -0.124  lossD +0.206  eps 8.82
+  epoch  90/100  lossG +0.062  lossD +0.168  eps 9.44
+  epoch  99/100  lossG +0.083  lossD +0.062  eps 9.99
+[readmission|fair-train] fit in 1936s (eps spent 9.99)
+[readmission|fairtrain] wrote 69,699 rows
+  DP Poisson-AR: n=3288 iters=200 sigma=7.458 eps=10.00 beta=[0.8789, 0.1844]
+[beddemand] wrote DP pass-through series
+generation complete; manifest written.

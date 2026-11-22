@@ -1,0 +1,37 @@
+
+=== NOISE CONTROL, data seed 42 (model seed 1042) ===
+    [los-replicate] fitting DP-CTGAN (eps=10.0, 100 ep)...
+    [los-replicate] done in 1200s (eps spent 9.99)
+    [readmission-replicate] fitting DP-CTGAN (eps=10.0, 100 ep)...
+    [readmission-replicate] done in 1899s (eps spent 9.99)
+=== noise control seed 42 complete in 53 min ===
+
+=== NOISE CONTROL, data seed 43 (model seed 1043) ===
+    [los-replicate] fitting DP-CTGAN (eps=10.0, 100 ep)...
+    [los-replicate] done in 1200s (eps spent 9.99)
+    [readmission-replicate] fitting DP-CTGAN (eps=10.0, 100 ep)...
+    [readmission-replicate] done in 1914s (eps spent 9.99)
+=== noise control seed 43 complete in 53 min ===
+
+=== NOISE CONTROL, data seed 44 (model seed 1044) ===
+    [los-replicate] fitting DP-CTGAN (eps=10.0, 100 ep)...
+    [los-replicate] done in 1193s (eps spent 9.99)
+    [readmission-replicate] fitting DP-CTGAN (eps=10.0, 100 ep)...
+    [readmission-replicate] done in 1896s (eps spent 9.99)
+=== noise control seed 44 complete in 52 min ===
+
+=== NOISE CONTROL, data seed 45 (model seed 1045) ===
+    [los-replicate] fitting DP-CTGAN (eps=10.0, 100 ep)...
+    [los-replicate] done in 1192s (eps spent 9.99)
+    [readmission-replicate] fitting DP-CTGAN (eps=10.0, 100 ep)...
+    [readmission-replicate] done in 1893s (eps spent 9.99)
+=== noise control seed 45 complete in 52 min ===
+
+=== NOISE CONTROL, data seed 46 (model seed 1046) ===
+    [los-replicate] fitting DP-CTGAN (eps=10.0, 100 ep)...
+    [los-replicate] done in 1203s (eps spent 9.99)
+    [readmission-replicate] fitting DP-CTGAN (eps=10.0, 100 ep)...
+    [readmission-replicate] done in 1884s (eps spent 9.99)
+=== noise control seed 46 complete in 52 min ===
+
+noise control complete.

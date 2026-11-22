@@ -1,7 +1,9 @@
-# MIMIC-derived data: never commit (PhysioNet Data Use Agreement).
-# Real feature matrices live in the sibling repositories; synthetic datasets are
-# written outside this repository.
+# MIMIC-derived data, real or synthetic, is never committed (PhysioNet
+# Credentialed Health Data Use Agreement). Research inputs are built under
+# research/foundations/*/data/; synthetic datasets go to ../synthehr-output/.
 data/
+/output/
+synthehr-output/
 *.csv
 *.parquet
 *.feather
@@ -9,20 +11,26 @@ data/
 *.db
 *.duckdb
 *.npz
+!examples/data/*.csv
 
-# Models and large artefacts
+# Trained models (a model fitted on patient data can memorise it)
 models/
 *.pt
 *.pkl
 *.joblib
+*.synthehr
 
 # Python
 __pycache__/
 *.pyc
+*.egg-info/
+build/
+dist/
 .venv/
+.pytest_cache/
 .ipynb_checkpoints/
 
-# OS and editor
+# OS, editors, local tooling
 .DS_Store
 Thumbs.db
 .vscode/

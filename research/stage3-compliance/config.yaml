@@ -1,0 +1,47 @@
+# =============================================================
+# Configuration: Stage-3 compliance framework (evidence compiler + gate)
+# =============================================================
+# Pillar 3 (ethical/regulatory compliance) of the four-pillar EngD programme.
+# No model is trained here: this stage compiles the audit evidence produced by
+# Stages 0-2 into a DPIA / data-card / model-card / risk-register package and
+# runs a programmatic release gate over it.
+
+# Monorepo layout: real-data inputs come from research/foundations/<task>/
+# (built there from MIMIC-IV, never committed); synthetic datasets are
+# written to ../synthehr-output/ NEXT TO the repository, never inside it.
+
+# Paths are relative to the repository root (sibling repositories and
+# dataset folders sit next to it). Run every target with `make` from the
+# repository root.
+
+# Upstream artefacts (read-only)
+stage0_manifest: ../../../synthehr-output/MIMIC-Synthetic/manifest.json
+stage1_manifest: ../../../synthehr-output/MIMIC-SyntheticPrivacy/manifest.json
+stage2_manifest: ../../../synthehr-output/MIMIC-SyntheticPrivacyBias/manifest.json
+stage0_metrics:  ../stage0-synthesis/results/metrics.json
+stage1_metrics:  ../stage1-privacy/results/metrics.json
+stage2_metrics:  ../stage2-fairness/results/metrics.json
+
+# Five-seed context (the authoritative numbers): means, intervals, noise floor
+multiseed_metrics: ../evidence/results/metrics_ci.json
+multiseed_seeds:   ../evidence/results/seeds
+
+# Stage-2 canonical release candidates (read-only inputs to the gate)
+stage2_root: ../../../synthehr-output/MIMIC-SyntheticPrivacyBias
+
+# Stage-3 output: the compliance-vetted dataset generation (OUTSIDE the repo)
+release_root: ../../../synthehr-output/MIMIC-SyntheticPrivacyBiasEthic
+
+# Gate thresholds: the technical criteria a release candidate must meet.
+gate:
+  max_epsilon: 10.0          # formal budget ceiling for the release
+  max_delta: 1.0e-5          # tabular δ ceiling (≤ 1/n for n ≈ 7e4)
+  mia_auc_band: [0.45, 0.55] # empirical attacks must sit in this chance band
+  max_near_duplicate: 0.01   # share of synthetic rows within 0.1 of a train row
+  require_negative_results_disclosed: true   # honesty is a gate criterion
+  # Human gates, cannot be closed by code; HOLD external release until signed.
+  human_gates:
+    - id: dua
+      name: PhysioNet DUA / contractual review of derived-data redistribution
+    - id: stakeholder
+      name: Practitioner / governance review of the evidence package

@@ -1,0 +1,66 @@
+# =============================================================
+# Configuration: DP-CTGAN synthetic-EHR generation & evaluation
+# =============================================================
+# Pillar 1 (privacy) of the four-pillar EngD programme: the Stage-0 CTGAN
+# trained under (ε, δ)-differential privacy, evaluated for utility (TSTR vs
+# TRTR) and empirical leakage (membership inference).
+
+# Monorepo layout: real-data inputs come from research/foundations/<task>/
+# (built there from MIMIC-IV, never committed); synthetic datasets are
+# written to ../synthehr-output/ NEXT TO the repository, never inside it.
+
+# Paths are relative to the repository root (sibling repositories and
+# dataset folders sit next to it). Run every target with `make` from the
+# repository root.
+
+# Real feature matrices (built by the three prediction repos; read-only).
+repos_root: ../foundations
+los_features:      length-of-stay/data/derived/features.parquet
+los_cohort:        length-of-stay/data/derived/cohort.parquet
+los_splits:        length-of-stay/data/derived/splits.parquet
+readmission_frame: readmission/data/processed/feature_frame.parquet
+beddemand_series:  bed-demand/data/derived/admissions_daily.csv
+
+# Stage-1 synthetic output (OUTSIDE the repo).
+synthetic_root: ../../../synthehr-output/MIMIC-SyntheticPrivacy
+
+# Stage-0 baseline metrics, for side-by-side reporting (read-only).
+stage0_metrics: ../stage0-synthesis/results/metrics.json
+
+# Reproducibility
+seed: 42
+test_size: 0.20          # readmission holdout (LOS uses the repo's saved split)
+
+# Differential privacy
+dp:
+  epsilon_grid: [1.0, 5.0, 10.0]   # (ε, δ)-DP budgets to sweep
+  primary_epsilon: 10.0            # the ε whose dataset becomes THE Stage-1 release
+  delta: 1.0e-5                    # δ for the tabular tasks (n ≈ 70 to 80k)
+  delta_beddemand: 1.0e-4          # δ for the daily series (n ≈ 3.3k)
+  clip_norm: 1.0                   # per-group / per-row gradient clip C
+  hist_noise_multiplier: 32.0      # σ for the one-off conditional-frequency release
+  beddemand_iters: 200             # DP gradient steps for the Poisson-AR fit
+
+# Membership-inference evaluation
+mia:
+  n_candidates: 8000               # members + as many non-members per attack
+
+# CTGAN architecture: matched to Stage 0 for comparability; epochs are kept
+# moderate because every critic step spends privacy budget (and microbatched
+# DP-SGD costs ~pac× more compute per step).
+ctgan:
+  embedding_dim: 128
+  generator_dim: [256, 256]
+  discriminator_dim: [256, 256]
+  batch_size: 500
+  epochs: 100
+  pac: 10
+  gp_lambda: 10.0
+  vgm_components: 10
+  max_train_rows: 30000            # matches the Stage-0 fitting subsample
+  d_steps: 1
+
+# Bed-demand temporal counterpart
+beddemand:
+  ar_window: 1
+  test_days: 364

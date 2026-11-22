@@ -1,0 +1,165 @@
+{
+  "protocol": "TRTR vs TSTR(eps) grid; identical model per task, real test set; MIA (DCR + kNN classifier) per eps",
+  "stage0_reference": {
+    "protocol": "TRTR vs TSTR; identical model per task, real test set",
+    "los": {
+      "TRTR": {
+        "rmse": 3.6749133987233034,
+        "mae": 2.3589121867868243,
+        "r2": 0.18585286038457305
+      },
+      "TSTR": {
+        "rmse": 3.9615370005981116,
+        "mae": 2.3865452979286705,
+        "r2": 0.05390201785753579
+      },
+      "delta_r2_tstr_minus_trtr": -0.13195084252703726
+    },
+    "readmission": {
+      "TRTR": {
+        "roc_auc": 0.7813837612339621,
+        "pr_auc": 0.3956496315334638,
+        "accuracy": 0.7180194152449882
+      },
+      "TSTR": {
+        "roc_auc": 0.7071693135501267,
+        "pr_auc": 0.2622965857728744,
+        "accuracy": 0.6163478660462979
+      },
+      "delta_auc_tstr_minus_trtr": -0.07421444768383545
+    },
+    "beddemand": {
+      "TRTR": {
+        "mae": 1.4748235861561718,
+        "rmse": 1.8261135029901063
+      },
+      "TSTR": {
+        "mae": 1.4717749867755157,
+        "rmse": 1.827305982436549
+      },
+      "delta_mae_tstr_minus_trtr": -0.0030485993806561584,
+      "real_train_mean": 3.2702949224688354,
+      "synthetic_mean": 3.247187595013682
+    }
+  },
+  "los": {
+    "TRTR": {
+      "rmse": 3.6749133987233034,
+      "mae": 2.3589121867868243,
+      "r2": 0.18585286038457305
+    },
+    "TSTR_by_epsilon": {
+      "1.0": {
+        "rmse": 5.038095734081616,
+        "mae": 2.973051254947368,
+        "r2": -0.5301764527534569
+      },
+      "5.0": {
+        "rmse": 4.6254410256892555,
+        "mae": 3.833157310588529,
+        "r2": -0.2897780427728589
+      },
+      "10.0": {
+        "rmse": 4.2279528028858415,
+        "mae": 3.1075661840506927,
+        "r2": -0.0776281913077459
+      }
+    },
+    "MIA_by_epsilon": {
+      "1.0": {
+        "attack_auc_dcr": 0.5009794140624999,
+        "attack_auc_knn_classifier": 0.49957356249999996,
+        "syn_to_train_dcr_median": 9.660131454467773,
+        "syn_to_train_dcr_q05": 7.676194858551026,
+        "near_duplicate_share@0.1": 0.0,
+        "n_candidates_per_class": 8000
+      },
+      "5.0": {
+        "attack_auc_dcr": 0.4968713515625,
+        "attack_auc_knn_classifier": 0.49233193750000004,
+        "syn_to_train_dcr_median": 5.14883279800415,
+        "syn_to_train_dcr_q05": 4.105611371994018,
+        "near_duplicate_share@0.1": 0.0,
+        "n_candidates_per_class": 8000
+      },
+      "10.0": {
+        "attack_auc_dcr": 0.496837859375,
+        "attack_auc_knn_classifier": 0.496692375,
+        "syn_to_train_dcr_median": 5.78792142868042,
+        "syn_to_train_dcr_q05": 4.425261926651001,
+        "near_duplicate_share@0.1": 0.0,
+        "n_candidates_per_class": 8000
+      }
+    }
+  },
+  "readmission": {
+    "TRTR": {
+      "roc_auc": 0.7698782634264898,
+      "pr_auc": 0.36080333792665303,
+      "accuracy": 0.7183715834390497
+    },
+    "TSTR_by_epsilon": {
+      "1.0": {
+        "roc_auc": 0.49659795540250906,
+        "pr_auc": 0.13405920901468743,
+        "accuracy": 0.6553454042209664
+      },
+      "5.0": {
+        "roc_auc": 0.515328732646389,
+        "pr_auc": 0.13980193162451143,
+        "accuracy": 0.383462115096298
+      },
+      "10.0": {
+        "roc_auc": 0.5025795248991742,
+        "pr_auc": 0.13911194260115609,
+        "accuracy": 0.7988121323953408
+      }
+    },
+    "MIA_by_epsilon": {
+      "1.0": {
+        "attack_auc_dcr": 0.49304059375,
+        "attack_auc_knn_classifier": 0.50465825,
+        "syn_to_train_dcr_median": 14.707550525665283,
+        "syn_to_train_dcr_q05": 14.298456573486328,
+        "near_duplicate_share@0.1": 0.0,
+        "n_candidates_per_class": 8000
+      },
+      "5.0": {
+        "attack_auc_dcr": 0.49670215624999997,
+        "attack_auc_knn_classifier": 0.5063798749999999,
+        "syn_to_train_dcr_median": 9.70428991317749,
+        "syn_to_train_dcr_q05": 8.541626167297364,
+        "near_duplicate_share@0.1": 0.0,
+        "n_candidates_per_class": 8000
+      },
+      "10.0": {
+        "attack_auc_dcr": 0.49753236718750005,
+        "attack_auc_knn_classifier": 0.5072708125000001,
+        "syn_to_train_dcr_median": 10.701360702514648,
+        "syn_to_train_dcr_q05": 9.542539072036742,
+        "near_duplicate_share@0.1": 0.0,
+        "n_candidates_per_class": 8000
+      }
+    }
+  },
+  "beddemand": {
+    "TRTR": {
+      "mae": 1.4748235861561718,
+      "rmse": 1.8261135029901063
+    },
+    "TSTR_by_epsilon": {
+      "1.0": {
+        "mae": 1.4568448710000146,
+        "rmse": 1.8407955004302743
+      },
+      "5.0": {
+        "mae": 1.4581891643950016,
+        "rmse": 1.8392456586073413
+      },
+      "10.0": {
+        "mae": 1.458445894676251,
+        "rmse": 1.8389677760932108
+      }
+    }
+  }
+}

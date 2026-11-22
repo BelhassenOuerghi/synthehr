@@ -1,0 +1,50 @@
+# =============================================================
+# Configuration: ICU LOS Prediction (MIMIC-IV v3.1 Replication)
+# =============================================================
+# NOTE: This project was originally scaffolded against MIMIC-III and has
+# since been ADAPTED to MIMIC-IV v3.1 (lowercase schema, `los` precomputed,
+# `stay_id`/`anchor_age`, chartevents MetaVision-only). Point `mimic_dir`
+# at a local MIMIC-IV v3.1 root that contains the `hosp/` and `icu/` subdirs.
+
+# ── Data paths ───────────────────────────────────────────────
+mimic_dir: /path/to/mimic-iv-3.1   # SET THIS: your MIMIC-IV v3.1 root (hosp/ and icu/)
+derived_dir: data/derived
+models_dir: models
+results_dir: results
+
+# ── DuckDB resource limits (protects host memory) ────────────
+duckdb:
+  memory_limit: 6GB
+  threads: 4
+
+# ── Cohort definition ────────────────────────────────────────
+cohort:
+  min_age: 18            # adults only (patients.anchor_age >= 18)
+  min_icu_hours: 4       # exclude very short stays (transfer artefacts)
+  los_clip_days: 21      # UnitLengthStay_trunc = clip(los, 0, 21)
+  obs_window_hours: 24   # first-24h window for physiology aggregates
+  sample_n: null         # null = full cohort; else cap to N stays (seed below)
+
+# ── Train / val / test split (patient-level to avoid leakage) ─
+split:
+  train: 0.70
+  val:   0.15
+  test:  0.15
+  random_state: 42
+
+# ── Model hyperparameters (mirrors upstream R tuning grids) ──
+model:
+  cv_folds: 5
+  random_state: 42
+
+  base_rf:
+    n_estimators: 200
+    max_features: [5, 6, 7, 8, 9, 10]   # mtry grid (upstream: 5:10)
+    min_samples_leaf: 5                  # min.node.size = 5
+    tune_estimators: 120                 # lighter forest used only for mtry search
+    tune_folds: 3
+
+  meta_rf:
+    n_estimators: 200
+    max_features: 2                      # mtry fixed at 2 (upstream)
+    min_samples_leaf: 10                 # midpoint of upstream grid {5,10,15,20}

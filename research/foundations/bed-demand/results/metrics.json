@@ -1,0 +1,191 @@
+{
+  "protocol": {
+    "horizon_days": 14,
+    "test_days": 364,
+    "val_days": 364,
+    "origin_stride": 14,
+    "n_forecast_samples": 500,
+    "param_uncertainty": true,
+    "seed": 42,
+    "window": [
+      "2140-01-01",
+      "2149-12-31"
+    ]
+  },
+  "targets": {
+    "admissions": {
+      "series": {
+        "n_days": 3653,
+        "start": "2140-01-01",
+        "end": "2149-12-31",
+        "mean": 3.2778538187790858,
+        "variance": 3.213849499983359,
+        "dispersion_ratio_var_over_mean": 0.9804737116618681,
+        "zero_days_fraction": 0.03777716944976731,
+        "max": 11
+      },
+      "marginal_fit_pre_test": {
+        "poisson": {
+          "mu": 3.2702949224688354,
+          "loglik_per_day": -1.969043480102422
+        },
+        "genpoisson": {
+          "theta": 3.3060710267367277,
+          "lambda": -0.010939729119233948,
+          "implied_dispersion": 0.9784744085012892,
+          "loglik_per_day": -1.9689247875579525
+        }
+      },
+      "selected_window": {
+        "gp_ar": 1,
+        "poisson_ar": 1
+      },
+      "conditional_dispersion_pearson_poisson_ar": 0.9780223942880321,
+      "fixed_fit_params": {
+        "gp_ar": {
+          "beta": [
+            1.129384957892959,
+            0.040976554612033686
+          ],
+          "lambda": -0.011081958247843636,
+          "implied_conditional_dispersion": 0.9781991434290829
+        },
+        "poisson_ar": {
+          "beta": [
+            1.1289186712629788,
+            0.04131897678114321
+          ]
+        }
+      },
+      "models": {
+        "gp_ar": {
+          "mae_median": 1.445054945054945,
+          "rmse_mean": 1.8224720381038304,
+          "coverage_95": 0.9752747252747253,
+          "coverage_50": 0.6043956043956044,
+          "mean_width_95": 6.959409340659341,
+          "heldout_loglik_per_day_joint": -1.9951259694062586,
+          "heldout_loglik_per_day_rb": -1.995179032717492,
+          "one_step_loglik_test": -1.994300787563335,
+          "pit_mace_10bin": 0.01175824175824176
+        },
+        "poisson_ar": {
+          "mae_median": 1.445054945054945,
+          "rmse_mean": 1.83789573596103,
+          "coverage_95": 0.967032967032967,
+          "coverage_50": 0.6016483516483516,
+          "mean_width_95": 7.090796703296703,
+          "heldout_loglik_per_day_joint": -1.9948843625716903,
+          "heldout_loglik_per_day_rb": -1.9949618464962409,
+          "one_step_loglik_test": -1.994221974970146,
+          "pit_mace_10bin": 0.014285714285714285
+        },
+        "seasonal_naive": {
+          "mae_median": 2.0576923076923075,
+          "rmse_mean": 2.46464235641907,
+          "coverage_95": 0.967032967032967,
+          "coverage_50": 0.6043956043956044,
+          "mean_width_95": 7.966620879120877
+        },
+        "moving_average": {
+          "mae_median": 1.6126373626373627,
+          "rmse_mean": 1.9654958745739035,
+          "coverage_95": 0.9697802197802198,
+          "coverage_50": 0.5851648351648352,
+          "mean_width_95": 7.098901098901097
+        }
+      }
+    },
+    "census": {
+      "series": {
+        "n_days": 3653,
+        "start": "2140-01-01",
+        "end": "2149-12-31",
+        "mean": 11.589378592937312,
+        "variance": 12.417324175631427,
+        "dispersion_ratio_var_over_mean": 1.0714400324447657,
+        "zero_days_fraction": 0.0,
+        "max": 26
+      },
+      "marginal_fit_pre_test": {
+        "poisson": {
+          "mu": 11.466099118273032,
+          "loglik_per_day": -2.656038929223166
+        },
+        "genpoisson": {
+          "theta": 11.178142270938938,
+          "lambda": 0.025113759940177505,
+          "implied_dispersion": 1.0521850304486686,
+          "loglik_per_day": -2.655385003925597
+        }
+      },
+      "selected_window": {
+        "gp_ar": 5,
+        "poisson_ar": 5
+      },
+      "conditional_dispersion_pearson_poisson_ar": 0.42979718390775756,
+      "fixed_fit_params": {
+        "gp_ar": {
+          "beta": [
+            0.2651600511988641,
+            0.770365877761178,
+            0.02354723834700221,
+            0.005211457394737173,
+            0.0603726755149494,
+            0.005137679594790563
+          ],
+          "lambda": -0.5046370817535949,
+          "implied_conditional_dispersion": 0.44170923406495727
+        },
+        "poisson_ar": {
+          "beta": [
+            0.2516703154399411,
+            0.7739742444678874,
+            0.027731711282506517,
+            0.0029224445320002717,
+            0.06404683728530987,
+            0.001241834317065074
+          ]
+        }
+      },
+      "models": {
+        "gp_ar": {
+          "mae_median": 2.848901098901099,
+          "rmse_mean": 3.5547686822936013,
+          "coverage_95": 0.9560439560439561,
+          "coverage_50": 0.5302197802197802,
+          "mean_width_95": 12.6606456043956,
+          "heldout_loglik_per_day_joint": -2.421274633143344,
+          "heldout_loglik_per_day_rb": -2.682378796368465,
+          "one_step_loglik_test": -2.2983904437606277,
+          "pit_mace_10bin": 0.011318681318681318
+        },
+        "poisson_ar": {
+          "mae_median": 3.0288461538461537,
+          "rmse_mean": 3.625269855813844,
+          "coverage_95": 1.0,
+          "coverage_50": 0.6868131868131868,
+          "mean_width_95": 18.859752747252745,
+          "heldout_loglik_per_day_joint": -2.6039540710653246,
+          "heldout_loglik_per_day_rb": -2.806198276673818,
+          "one_step_loglik_test": -2.405994247279909,
+          "pit_mace_10bin": 0.04065934065934067
+        },
+        "seasonal_naive": {
+          "mae_median": 3.4574175824175826,
+          "rmse_mean": 4.363983832475768,
+          "coverage_95": 0.9395604395604396,
+          "coverage_50": 0.5659340659340659,
+          "mean_width_95": 16.61833791208791
+        },
+        "moving_average": {
+          "mae_median": 3.0549450549450547,
+          "rmse_mean": 3.788388579985827,
+          "coverage_95": 0.9587912087912088,
+          "coverage_50": 0.5576923076923077,
+          "mean_width_95": 14.596703296703295
+        }
+      }
+    }
+  }
+}

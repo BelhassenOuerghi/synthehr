@@ -1,0 +1,72 @@
+# =============================================================
+# Configuration: Fair-DP-CTGAN generation & fairness evaluation
+# =============================================================
+# Pillar 2 (bias mitigation) of the four-pillar EngD programme, layered on the
+# Stage-1 privacy mechanism at the fixed release budget.
+
+# Monorepo layout: real-data inputs come from research/foundations/<task>/
+# (built there from MIMIC-IV, never committed); synthetic datasets are
+# written to ../synthehr-output/ NEXT TO the repository, never inside it.
+
+# Paths are relative to the repository root (sibling repositories and
+# dataset folders sit next to it). Run every target with `make` from the
+# repository root.
+
+# Real feature matrices (read-only, built by research/foundations).
+repos_root: ../foundations
+los_features:      length-of-stay/data/derived/features.parquet
+los_cohort:        length-of-stay/data/derived/cohort.parquet
+los_splits:        length-of-stay/data/derived/splits.parquet
+readmission_frame: readmission/data/processed/feature_frame.parquet
+beddemand_series:  bed-demand/data/derived/admissions_daily.csv
+
+# Stage-2 synthetic output (OUTSIDE the repo).
+synthetic_root: ../../../synthehr-output/MIMIC-SyntheticPrivacyBias
+
+# Prior-stage releases, for the reference arms (read-only).
+stage0_root: ../../../synthehr-output/MIMIC-Synthetic
+stage1_root: ../../../synthehr-output/MIMIC-SyntheticPrivacy
+
+# Reproducibility
+seed: 42
+test_size: 0.20
+
+# Differential privacy: the Stage-1 release budget, unchanged. Fairness
+# interventions are data-independent re-weightings, so they cost no extra ε.
+dp:
+  primary_epsilon: 10.0
+  delta: 1.0e-5
+  delta_beddemand: 1.0e-4
+  clip_norm: 1.0
+  hist_noise_multiplier: 32.0
+  beddemand_iters: 200
+
+# Fairness design
+fairness:
+  sensitive:
+    los: [gender]
+    readmission: [gender, insurance]
+  min_support: 0.02        # noisy-share floor for a category to be balanced
+  min_group_n: 200         # smallest test subgroup reported in metrics
+canonical_arm: fairsample  # zero-extra-privacy-cost arm is the release
+
+# Membership inference (canonical arm)
+mia:
+  n_candidates: 8000
+
+# CTGAN architecture: matched to Stages 0/1 for attributability.
+ctgan:
+  embedding_dim: 128
+  generator_dim: [256, 256]
+  discriminator_dim: [256, 256]
+  batch_size: 500
+  epochs: 100
+  pac: 10
+  gp_lambda: 10.0
+  vgm_components: 10
+  max_train_rows: 30000
+  d_steps: 1
+
+beddemand:
+  ar_window: 1
+  test_days: 364

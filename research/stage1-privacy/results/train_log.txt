@@ -1,0 +1,97 @@
+[los|eps=1.0] fitting DP-CTGAN on 30,000 rows, 30 cols (3 discrete)...
+  DP-SGD: n=30,000 q=0.0167 steps=6000 clip=1.0 sigma=6.471 (target eps=1.0, delta=1e-05)
+  epoch   0/100  lossG +1.724  lossD +6.561  eps 0.18
+  epoch  10/100  lossG -0.145  lossD +5.380  eps 0.36
+  epoch  20/100  lossG -0.179  lossD +4.087  eps 0.48
+  epoch  30/100  lossG -0.157  lossD +3.132  eps 0.57
+  epoch  40/100  lossG -0.002  lossD +1.775  eps 0.65
+  epoch  50/100  lossG -0.238  lossD +1.304  eps 0.72
+  epoch  60/100  lossG -0.276  lossD +0.682  eps 0.78
+  epoch  70/100  lossG -0.186  lossD +0.440  eps 0.84
+  epoch  80/100  lossG -0.332  lossD +0.515  eps 0.90
+  epoch  90/100  lossG -0.445  lossD +0.644  eps 0.95
+  epoch  99/100  lossG -0.329  lossD +0.521  eps 1.00
+[los|eps=1.0] fit in 1263s (eps spent 1.00); sampling 79,693 rows
+[los|eps=1.0] wrote 79,693 rows -> <local>/MIMIC-SyntheticPrivacy/los_synthetic_eps1.parquet
+[los|eps=5.0] fitting DP-CTGAN on 30,000 rows, 30 cols (3 discrete)...
+  DP-SGD: n=30,000 q=0.0167 steps=6000 clip=1.0 sigma=1.549 (target eps=5.0, delta=1e-05)
+  epoch   0/100  lossG +1.721  lossD +6.446  eps 0.76
+  epoch  10/100  lossG -0.002  lossD +2.743  eps 1.65
+  epoch  20/100  lossG -0.082  lossD +0.607  eps 2.25
+  epoch  30/100  lossG -0.106  lossD +0.247  eps 2.74
+  epoch  40/100  lossG -0.134  lossD +0.261  eps 3.15
+  epoch  50/100  lossG -0.214  lossD +0.296  eps 3.52
+  epoch  60/100  lossG -0.002  lossD +0.177  eps 3.86
+  epoch  70/100  lossG +0.027  lossD +0.152  eps 4.18
+  epoch  80/100  lossG +0.122  lossD +0.140  eps 4.49
+  epoch  90/100  lossG +0.153  lossD +0.179  eps 4.76
+  epoch  99/100  lossG -0.031  lossD +0.304  eps 5.00
+[los|eps=5.0] fit in 1269s (eps spent 5.00); sampling 79,693 rows
+[los|eps=5.0] wrote 79,693 rows -> <local>/MIMIC-SyntheticPrivacy/los_synthetic_eps5.parquet
+[los|eps=10.0] fitting DP-CTGAN on 30,000 rows, 30 cols (3 discrete)...
+  DP-SGD: n=30,000 q=0.0167 steps=6000 clip=1.0 sigma=1.006 (target eps=10.0, delta=1e-05)
+  epoch   0/100  lossG +1.721  lossD +6.378  eps 1.90
+  epoch  10/100  lossG -0.147  lossD +1.535  eps 3.46
+  epoch  20/100  lossG -0.110  lossD +0.211  eps 4.52
+  epoch  30/100  lossG -0.254  lossD +0.386  eps 5.40
+  epoch  40/100  lossG +0.121  lossD +0.057  eps 6.22
+  epoch  50/100  lossG -0.017  lossD +0.218  eps 6.98
+  epoch  60/100  lossG +0.122  lossD -0.025  eps 7.59
+  epoch  70/100  lossG +0.082  lossD +0.048  eps 8.21
+  epoch  80/100  lossG +0.194  lossD +0.050  eps 8.82
+  epoch  90/100  lossG +0.228  lossD +0.007  eps 9.44
+  epoch  99/100  lossG +0.115  lossD +0.081  eps 9.99
+[los|eps=10.0] fit in 1265s (eps spent 9.99); sampling 79,693 rows
+[los|eps=10.0] wrote 79,693 rows -> <local>/MIMIC-SyntheticPrivacy/los_synthetic_eps10.parquet
+[readmission|eps=1.0] fitting DP-CTGAN on 30,000 rows, 73 cols (6 discrete)...
+  DP-SGD: n=30,000 q=0.0167 steps=6000 clip=1.0 sigma=6.471 (target eps=1.0, delta=1e-05)
+  epoch   0/100  lossG +1.502  lossD +6.571  eps 0.18
+  epoch  10/100  lossG -0.331  lossD +5.064  eps 0.36
+  epoch  20/100  lossG -0.329  lossD +3.583  eps 0.48
+  epoch  30/100  lossG -0.288  lossD +2.247  eps 0.57
+  epoch  40/100  lossG -0.309  lossD +1.267  eps 0.65
+  epoch  50/100  lossG -0.420  lossD +0.675  eps 0.72
+  epoch  60/100  lossG -0.500  lossD +0.500  eps 0.78
+  epoch  70/100  lossG -0.787  lossD +0.713  eps 0.84
+  epoch  80/100  lossG -0.950  lossD +0.807  eps 0.90
+  epoch  90/100  lossG -0.939  lossD +0.874  eps 0.95
+  epoch  99/100  lossG -0.584  lossD +0.512  eps 1.00
+[readmission|eps=1.0] fit in 2031s (eps spent 1.00); sampling 69,632 rows
+[readmission|eps=1.0] wrote 69,632 rows -> <local>/MIMIC-SyntheticPrivacy/readmission_synthetic_eps1.parquet
+[readmission|eps=5.0] fitting DP-CTGAN on 30,000 rows, 73 cols (6 discrete)...
+  DP-SGD: n=30,000 q=0.0167 steps=6000 clip=1.0 sigma=1.549 (target eps=5.0, delta=1e-05)
+  epoch   0/100  lossG +1.500  lossD +6.461  eps 0.76
+  epoch  10/100  lossG -0.309  lossD +2.607  eps 1.65
+  epoch  20/100  lossG -0.313  lossD +0.440  eps 2.25
+  epoch  30/100  lossG -0.242  lossD +0.085  eps 2.74
+  epoch  40/100  lossG -0.565  lossD +0.395  eps 3.15
+  epoch  50/100  lossG -0.456  lossD +0.389  eps 3.52
+  epoch  60/100  lossG -0.304  lossD +0.265  eps 3.86
+  epoch  70/100  lossG -0.159  lossD +0.241  eps 4.18
+  epoch  80/100  lossG -0.042  lossD +0.170  eps 4.49
+  epoch  90/100  lossG -0.205  lossD +0.272  eps 4.76
+  epoch  99/100  lossG -0.198  lossD +0.227  eps 5.00
+[readmission|eps=5.0] fit in 1967s (eps spent 5.00); sampling 69,632 rows
+[readmission|eps=5.0] wrote 69,632 rows -> <local>/MIMIC-SyntheticPrivacy/readmission_synthetic_eps5.parquet
+[readmission|eps=10.0] fitting DP-CTGAN on 30,000 rows, 73 cols (6 discrete)...
+  DP-SGD: n=30,000 q=0.0167 steps=6000 clip=1.0 sigma=1.006 (target eps=10.0, delta=1e-05)
+  epoch   0/100  lossG +1.501  lossD +6.395  eps 1.90
+  epoch  10/100  lossG -0.292  lossD +1.320  eps 3.46
+  epoch  20/100  lossG -0.472  lossD +0.348  eps 4.52
+  epoch  30/100  lossG -0.560  lossD +0.333  eps 5.40
+  epoch  40/100  lossG -0.380  lossD +0.211  eps 6.22
+  epoch  50/100  lossG -0.298  lossD +0.275  eps 6.98
+  epoch  60/100  lossG -0.178  lossD +0.186  eps 7.59
+  epoch  70/100  lossG -0.382  lossD +0.394  eps 8.21
+  epoch  80/100  lossG -0.172  lossD +0.161  eps 8.82
+  epoch  90/100  lossG -0.031  lossD +0.063  eps 9.44
+  epoch  99/100  lossG -0.149  lossD +0.256  eps 9.99
+[readmission|eps=10.0] fit in 1970s (eps spent 9.99); sampling 69,632 rows
+[readmission|eps=10.0] wrote 69,632 rows -> <local>/MIMIC-SyntheticPrivacy/readmission_synthetic_eps10.parquet
+  DP Poisson-AR: n=3288 iters=200 sigma=62.303 eps=1.00 beta=[0.9025, 0.1647]
+[beddemand|eps=1.0] wrote series -> <local>/MIMIC-SyntheticPrivacy/beddemand_synthetic_eps1.csv
+  DP Poisson-AR: n=3288 iters=200 sigma=13.615 eps=5.00 beta=[0.8815, 0.1822]
+[beddemand|eps=5.0] wrote series -> <local>/MIMIC-SyntheticPrivacy/beddemand_synthetic_eps5.csv
+  DP Poisson-AR: n=3288 iters=200 sigma=7.458 eps=10.00 beta=[0.8789, 0.1844]
+[beddemand|eps=10.0] wrote series -> <local>/MIMIC-SyntheticPrivacy/beddemand_synthetic_eps10.csv
+generation complete; manifest written.

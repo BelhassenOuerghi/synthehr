@@ -1,0 +1,89 @@
+# Configuration for the 30-day ICU readmission replication experiment (MIMIC-IV v3.1)
+# All paths are resolved relative to the repository root unless absolute.
+
+paths:
+  # READ-ONLY MIMIC-IV v3.1 root (gzipped CSVs). Never committed.
+  mimic_root: /path/to/mimic-iv-3.1   # SET THIS: your MIMIC-IV v3.1 root (hosp/ and icu/)
+  # Local working directory for derived per-patient artefacts (gitignored).
+  work_dir: data/processed
+  results_dir: results
+  figures_dir: figures
+
+duckdb:
+  memory_limit: "6GB"
+  threads: 4
+
+cohort:
+  # 30-day horizon for the readmission / competing-death outcome.
+  horizon_days: 30
+  # Feature aggregation window measured from ICU intime (hours).
+  feature_window_hours: 24
+  # Small look-back grace so labs drawn just before ICU intime are captured (hours).
+  lab_lookback_hours: 6
+
+# Laboratory itemids (hosp/labevents, shared between MIMIC-III and MIMIC-IV).
+labs:
+  creatinine:  [50912]
+  bun:         [51006]          # Urea Nitrogen
+  wbc:         [51301, 51300]   # White Blood Cells / WBC Count
+  hemoglobin:  [51222, 50811]
+  platelets:   [51265]
+  sodium:      [50983]
+  potassium:   [50971]
+  bicarbonate: [50882]
+  glucose_lab: [50931]
+  albumin:     [50862]
+  magnesium:   [50960]
+  calcium:     [50893]
+
+# Chart (vitals) itemids (icu/chartevents, MetaVision-era MIMIC-IV codes only).
+vitals:
+  heart_rate:  [220045]
+  resp_rate:   [220210]
+  spo2:        [220277]
+  sysbp:       [220050, 220179] # arterial + non-invasive systolic
+  diasbp:      [220051, 220180] # arterial + non-invasive diastolic
+  map:         [220052, 220181] # arterial + non-invasive mean
+  glucose_vit: [220621, 226537]
+  temp_f:      [223761]
+  temp_c:      [223762]
+  gcs_eye:     [220739]
+  gcs_verbal:  [223900]
+  gcs_motor:   [223901]
+
+# Physiologically plausible bounds used to discard obvious artefacts before aggregation.
+vital_bounds:
+  heart_rate:  [0, 300]
+  resp_rate:   [0, 70]
+  spo2:        [0, 100]
+  sysbp:       [0, 400]
+  diasbp:      [0, 300]
+  map:         [0, 300]
+  glucose_vit: [0, 2000]
+  temp_c:      [10, 50]   # Fahrenheit converted to Celsius before bounding
+
+model:
+  random_state: 42
+  n_splits: 5
+  # Light hyperparameter search grid (mirrors upstream staged GridSearchCV, kept compact).
+  tuning:
+    enabled: true
+    param_grid:
+      max_depth: [3, 5, 7]
+      min_child_weight: [1, 3]
+      n_estimators: [150, 300]
+      learning_rate: [0.05, 0.1]
+    scoring: roc_auc
+    cv: 3
+  # Fallback / base parameters.
+  base_params:
+    objective: "binary:logistic"
+    eval_metric: "auc"
+    tree_method: "hist"
+    subsample: 0.9
+    colsample_bytree: 0.8
+    n_jobs: 4
+
+upstream:
+  reference_auc: 0.82
+  citation: "Blinder, Y. (2019). Predicting 30-day ICU readmissions from the MIMIC-III database. Udacity ML Engineer Nanodegree Capstone. https://github.com/YaronBlinder/MIMIC-III_readmission"

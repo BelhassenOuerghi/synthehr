@@ -1,0 +1,22 @@
+{
+  "cohort_n_total": 93730,
+  "test_n_stays": 14037,
+  "test_n_patients": 9786,
+  "patient_level": {
+    "rmse": 3.708014858548669,
+    "mae": 2.343417773815796,
+    "r2": 0.17112008802284973
+  },
+  "unit_level": {
+    "overall_slos": 1.0011155316760187,
+    "r2": 0.9942327635820771,
+    "n_units": 13
+  },
+  "upstream_benchmark": {
+    "rmse": 4.02,
+    "mae": 2.67,
+    "r2_patient": 0.17,
+    "r2_unit": 0.91
+  },
+  "base_rf_max_features": 10
+}

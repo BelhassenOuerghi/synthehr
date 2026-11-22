@@ -1,0 +1,38 @@
+# ------------------------------------------------------------------
+# Configuration for the MIMIC-IV bed-demand forecasting replication.
+# All paths are local; the MIMIC-IV directory is read-only and its
+# contents are never copied into this repository (see .gitignore).
+# ------------------------------------------------------------------
+
+mimic_root: /path/to/mimic-iv-3.1   # SET THIS: your MIMIC-IV v3.1 root (hosp/ and icu/)
+
+# Derived (aggregate, patient-free) series are written here; the whole
+# directory is git-ignored so nothing derived from MIMIC is committed.
+derived_dir: data/derived
+results_dir: results
+
+# Analysis window: a dense, stable span of the de-identified calendar.
+# MIMIC-IV shifts dates independently per patient into 2110-2214; the
+# aggregate daily rate is stable (~3.2-3.5 admissions/day) on the
+# plateau 2130-2189. We take ten contiguous years well inside it.
+window_start: "2140-01-01"
+window_end: "2149-12-31"
+
+targets:
+  admissions:            # daily number of new ICU admissions (count of icustays by date(intime))
+    label: "daily ICU admissions"
+  census:                # daily ICU census: stays with date(intime) <= d < date(outtime)
+    label: "daily ICU census (occupancy)"
+
+# Forecasting protocol (mirrors upstream: F = 14-day-ahead forecasts)
+horizon: 14              # F, days ahead per forecast
+test_days: 364           # final 52 weeks held out for rolling-origin backtest
+val_days: 364            # 52 weeks before the test span, used only for window-size selection
+origin_stride: 14        # spacing of rolling forecast origins (=> 26 origins tiling the test year)
+
+# Model / estimation
+ar_window_grid: [1, 2, 3, 5, 7]   # W candidates, selected on validation one-step log-lik
+n_forecast_samples: 500          # Monte Carlo trajectories per forecast origin
+param_uncertainty: true           # sample parameters from asymptotic N(MLE, I^-1) (approximates posterior)
+baseline_ma_window: 7             # moving-average baseline window
+seed: 42
